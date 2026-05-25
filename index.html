@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arnt Academy — English for Travellers</title>
+<style>
+@font-face{font-family:'Cormorant Garamond';src:url('cormorant-garamond-v21-latin-regular.woff2') format('woff2');font-weight:200 900;font-style:normal;font-display:swap;unicode-range:U+0000-024F,U+1E00-1EFF,U+2000-206F,U+20AC,U+FEFF;}
+@font-face{font-family:'Jost';src:url('jost-v20-latin-regular.woff2') format('woff2');font-weight:200 900;font-style:normal;font-display:swap;unicode-range:U+0000-024F,U+1E00-1EFF,U+2000-206F,U+20AC,U+FEFF;}
+:root{--white:#FDFDFD;--cream:#F2EBD6;--brown:#251802;--green:#1A2E22;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--white);color:var(--brown);overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:22px 60px;transition:background .4s,box-shadow .4s;}
+nav.scrolled{background:var(--brown);box-shadow:0 2px 30px rgba(0,0,0,.35);}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.nav-logo img{width:36px;height:36px;object-fit:contain;filter:brightness(0) invert(1);opacity:.85;}
+.nav-logo span{font-family:'Jost',sans-serif;font-size:12px;font-weight:500;letter-spacing:3px;color:var(--cream);text-transform:uppercase;}
+.nav-logo-sep{opacity:.28;margin:0 9px;font-weight:300;letter-spacing:0;}
+.nav-links{display:flex;gap:34px;list-style:none;}
+.nav-links a{font-size:10px;font-weight:400;letter-spacing:2.5px;text-transform:uppercase;color:var(--cream);text-decoration:none;opacity:.7;transition:opacity .2s;}
+.nav-links a:hover{opacity:1;}
+.nav-cta{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--brown);background:var(--cream);padding:11px 24px;text-decoration:none;transition:background .2s;}
+.nav-cta:hover{background:var(--white);}
+
+/* HERO */
+.hero{min-height:100vh;background:var(--brown) url('обложка-desktop.jpg') center center / cover no-repeat;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:140px 40px 180px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:transparent;pointer-events:none;}
+.hero-tear{position:absolute;bottom:-1px;left:0;right:0;z-index:2;line-height:0;pointer-events:none;}
+.hero-crest{width:120px;height:120px;object-fit:contain;margin-bottom:44px;animation:fadeDown .9s ease both;opacity:.88;position:relative;z-index:1;}
+.hero-tag{font-size:10px;font-weight:300;letter-spacing:5px;text-transform:uppercase;color:var(--cream);opacity:.5;margin-bottom:18px;animation:fadeUp .9s .2s ease both;position:relative;z-index:1;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,6vw,76px);font-weight:300;line-height:.95;color:var(--cream);letter-spacing:8px;text-transform:uppercase;margin-bottom:10px;animation:fadeUp .9s .35s ease both;position:relative;z-index:1;}
+.hero-title em{font-style:italic;font-weight:300;}
+.hero-ru{font-family:'Jost',sans-serif;font-size:clamp(38px,6vw,76px);font-weight:200;letter-spacing:8px;text-transform:uppercase;color:var(--cream);opacity:.28;line-height:.95;margin-bottom:36px;animation:fadeUp .9s .45s ease both;position:relative;z-index:1;}
+.hero-sub{font-size:13px;font-weight:300;letter-spacing:1px;color:var(--cream);opacity:.62;max-width:480px;line-height:2.1;margin-bottom:52px;animation:fadeUp .9s .5s ease both;position:relative;z-index:1;}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;animation:fadeUp .9s .65s ease both;position:relative;z-index:1;}
+.btn-p{font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--brown);background:var(--cream);padding:15px 36px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:background .2s,transform .2s;}
+.btn-p:hover{background:var(--white);transform:translateY(-1px);}
+.btn-o{font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--cream);background:transparent;padding:15px 36px;border:1px solid rgba(242,235,214,.35);cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s,transform .2s;}
+.btn-o:hover{border-color:var(--cream);transform:translateY(-1px);}
+.hero-scroll{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--cream);opacity:.5;font-size:8px;letter-spacing:3px;text-transform:uppercase;animation:fadeUp 1s 1.1s ease both;z-index:1;}
+.hero-scroll::after{content:'';width:1px;height:36px;background:var(--cream);animation:scrollPulse 2s 1.5s infinite;}
+
+/* SHARED */
+.sec-tag{font-size:10px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--green);margin-bottom:22px;}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4vw,54px);font-weight:400;line-height:1.08;color:var(--brown);margin-bottom:28px;}
+.sec-title em{font-style:italic;}
+.body-text{font-size:13.5px;font-weight:300;line-height:1.95;color:var(--brown);opacity:.78;margin-bottom:18px;}
+
+/* TEST */
+#test{background:var(--white);padding:130px 60px;}
+.test-inner{max-width:760px;margin:0 auto;}
+.test-head{text-align:center;margin-bottom:64px;}
+.test-head-ornament{display:block;margin:0 auto 28px;opacity:.35;}
+.prog-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--brown);opacity:.35;text-align:right;margin-bottom:7px;}
+.prog-bar-bg{background:rgba(37,24,2,.1);height:1px;margin-bottom:52px;}
+.diff-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.diff-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--brown);opacity:.35;}
+.diff-dots{display:flex;gap:5px;align-items:center;}
+.diff-dot{width:7px;height:7px;border-radius:50%;border:1.5px solid rgba(37,24,2,.2);background:transparent;transition:all .35s;}
+.diff-dot.active{background:var(--brown);border-color:var(--brown);transform:scale(1.25);}
+.prog-bar{height:100%;background:var(--brown);transition:width .4s ease;}
+.q-block{display:none;animation:fadeUp .4s ease both;}
+.q-block.active{display:block;}
+.q-cat{font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:12px;}
+.q-text{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,3vw,30px);font-weight:400;color:var(--brown);line-height:1.4;margin-bottom:36px;}
+.q-blank{display:inline-block;width:90px;height:1.15em;border-bottom:2px solid var(--brown);border-left:1px solid rgba(37,24,2,.3);border-right:1px solid rgba(37,24,2,.3);vertical-align:bottom;margin:0 4px;background:rgba(242,235,214,.35);}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.opt{padding:18px 22px;border:1.5px solid rgba(37,24,2,.22);background:var(--white);color:var(--brown);font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:400;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;letter-spacing:.5px;position:relative;}
+.opt:hover{border-color:var(--brown);background:var(--cream);}
+.opt.sel{border-color:var(--brown);border-width:2px;background:var(--cream);}
+.opt.correct{background:var(--green);color:var(--cream);border-color:var(--green);}
+.opt.wrong{background:#6B2E2E;color:var(--cream);border-color:#6B2E2E;}
+.opt:disabled{cursor:default;}
+.rule-box{display:none;margin-top:20px;padding:18px 24px;background:rgba(242,235,214,.6);border-left:3px solid var(--brown);}
+.rule-box p{font-size:13px;font-weight:300;line-height:1.8;color:var(--brown);}
+.rule-box strong{font-weight:500;}
+.test-nav{display:flex;justify-content:flex-end;margin-top:36px;}
+.btn-next{font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--cream);background:var(--brown);padding:14px 32px;border:none;cursor:pointer;transition:background .2s;}
+.btn-next:hover{background:var(--green);}
+.btn-next:disabled{opacity:.25;cursor:default;}
+
+/* Skip-to-A1 */
+.skip-divider{display:flex;align-items:center;gap:18px;margin:36px auto;max-width:380px;}
+.skip-divider::before,.skip-divider::after{content:'';flex:1;height:1px;background:rgba(37,24,2,.12);}
+.skip-divider span{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--brown);opacity:.35;white-space:nowrap;}
+.skip-a1-btn{display:block;margin:0 auto;background:transparent;border:1px solid rgba(37,24,2,.2);padding:14px 28px;font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:var(--brown);opacity:.6;cursor:pointer;font-family:'Jost',sans-serif;transition:all .25s;}
+.skip-a1-btn:hover{opacity:1;border-color:var(--brown);background:rgba(37,24,2,.04);}
+
+/* RESULTS */
+#results{display:none;background:var(--brown);padding:130px 60px;text-align:center;}
+.res-tag{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--cream);opacity:.4;margin-bottom:14px;}
+.res-level{font-family:'Cormorant Garamond',serif;font-size:clamp(70px,12vw,130px);font-weight:300;color:var(--cream);line-height:1;margin-bottom:8px;}
+.res-name{font-family:'Cormorant Garamond',serif;font-size:26px;font-style:italic;font-weight:300;color:var(--cream);opacity:.65;margin-bottom:36px;}
+.res-score{font-size:11px;letter-spacing:3px;color:var(--cream);opacity:.4;margin-bottom:40px;}
+.res-desc{font-size:14px;font-weight:300;line-height:1.9;color:var(--cream);opacity:.72;max-width:540px;margin:0 auto 50px;}
+.level-line-wrap{max-width:640px;margin:0 auto 56px;padding:0 20px;}
+.level-line{display:flex;align-items:center;position:relative;}
+.level-point{display:flex;flex-direction:column;align-items:center;flex:1;position:relative;z-index:1;}
+.lp-dot{width:10px;height:10px;border-radius:50%;border:1.5px solid rgba(242,235,214,.35);background:transparent;margin-bottom:10px;transition:all .3s;}
+.lp-dot.active{background:var(--cream);border-color:var(--cream);width:14px;height:14px;}
+.lp-code{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--cream);opacity:.4;margin-bottom:4px;transition:opacity .3s;}
+.lp-code.active{opacity:1;}
+.lp-name{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--cream);opacity:.3;transition:opacity .3s;}
+.lp-name.active{opacity:.7;}
+.lp-connector{flex:1;height:1px;background:rgba(242,235,214,.18);margin-bottom:24px;max-width:60px;}
+.lp-connector.filled{background:rgba(242,235,214,.45);}
+.btn-plan{font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--brown);background:var(--cream);padding:15px 40px;border:none;cursor:pointer;transition:background .2s;}
+.btn-plan:hover{background:var(--white);}
+
+/* TEACHER */
+#teacher{background:var(--cream);padding:130px 60px;}
+.teacher-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:5fr 7fr;gap:80px;align-items:start;}
+.photo-col{position:sticky;top:110px;}
+.photo-placeholder{width:100%;aspect-ratio:3/4;background:var(--brown);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;}
+.photo-person{opacity:.2;}
+.photo-lbl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--cream);opacity:.4;}
+.teacher-bio{}
+.years-band{display:flex;align-items:baseline;gap:10px;margin-bottom:36px;border-top:1px solid rgba(37,24,2,.15);padding-top:22px;}
+.years-num{font-family:'Cormorant Garamond',serif;font-size:80px;font-weight:300;color:var(--brown);line-height:1;}
+.years-text{font-size:10px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:var(--brown);opacity:.55;line-height:1.5;}
+.teacher-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:40px;}
+.tstat{border-top:1px solid rgba(37,24,2,.15);padding-top:16px;}
+.tstat-n{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;color:var(--brown);line-height:1;margin-bottom:5px;}
+.tstat-l{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--brown);opacity:.45;}
+
+/* BANNER */
+.banner{background:var(--green);padding:52px 60px;text-align:center;}
+.banner-t{font-family:'Cormorant Garamond',serif;font-size:clamp(18px,2.5vw,28px);font-weight:300;font-style:italic;color:var(--cream);letter-spacing:2px;opacity:.9;}
+
+/* SPEAKING */
+#speaking{background:var(--green);padding:130px 60px;text-align:center;}
+.sp-inner{max-width:680px;margin:0 auto;}
+.sp-main-tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:14px;}
+.spt{padding:10px 20px;font-size:9px;letter-spacing:2px;text-transform:uppercase;background:transparent;border:1px solid rgba(242,235,214,.22);color:var(--cream);cursor:pointer;font-family:'Jost',sans-serif;transition:all .2s;display:flex;align-items:center;gap:8px;}
+.spt svg{flex-shrink:0;}
+.spt.active,.spt:hover{background:rgba(242,235,214,.12);border-color:var(--cream);}
+.sp-sub-tabs{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:36px;min-height:34px;}
+.sp-sub{padding:7px 14px;font-size:8px;letter-spacing:2px;text-transform:uppercase;background:transparent;border:1px solid rgba(242,235,214,.14);color:var(--cream);cursor:pointer;font-family:'Jost',sans-serif;transition:all .2s;opacity:.55;}
+.sp-sub.active,.sp-sub:hover{opacity:1;border-color:rgba(242,235,214,.45);}
+
+/* Speaking card with integrated timer */
+.sp-layout{display:grid;grid-template-columns:1fr auto;gap:32px;align-items:start;margin-bottom:32px;}
+.prompt-card{border:1px solid rgba(242,235,214,.18);background:rgba(242,235,214,.05);padding:0;display:flex;flex-direction:column;min-height:200px;}
+.prompt-card-body{flex:1;display:flex;align-items:center;justify-content:center;padding:36px 32px;}
+.prompt-text{font-family:'Cormorant Garamond',serif;font-size:clamp(18px,2.5vw,26px);font-weight:300;font-style:italic;color:var(--cream);line-height:1.5;opacity:0;transition:opacity .5s;text-align:left;}
+.prompt-text.vis{opacity:1;}
+.prompt-idle{font-size:12px;font-weight:300;letter-spacing:1px;color:var(--cream);opacity:.35;text-align:center;}
+.prompt-card-footer{border-top:1px solid rgba(242,235,214,.1);display:flex;align-items:center;justify-content:space-between;padding:12px 20px;}
+.change-q-badge{display:inline-flex;align-items:center;gap:8px;font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--cream);opacity:.5;background:transparent;border:none;cursor:pointer;font-family:'Jost',sans-serif;transition:opacity .2s;padding:4px 0;}
+.change-q-badge:hover{opacity:1;}
+.q-counter-badge{font-size:8px;letter-spacing:1.5px;color:var(--cream);opacity:.28;text-transform:uppercase;}
+.prompt-ru{font-size:13px;font-weight:300;color:var(--cream);opacity:0;transition:opacity .5s .15s;margin-top:10px;line-height:1.7;}
+.prompt-ru.vis{opacity:.42;}
+.prompt-keys{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px;opacity:0;transition:opacity .5s .25s;}
+.prompt-keys.vis{opacity:1;}
+.sp-key{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--cream);border:1px solid rgba(242,235,214,.22);padding:5px 13px;font-family:'Jost',sans-serif;}
+
+.timer-col{display:flex;flex-direction:column;align-items:center;gap:8px;}
+.timer-wrap{display:inline-flex;flex-direction:column;align-items:center;gap:4px;position:relative;}
+.timer-num{font-family:'Cormorant Garamond',serif;font-size:60px;font-weight:300;color:var(--cream);line-height:1;}
+.timer-lbl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--cream);opacity:.35;}
+.timer-svg{position:absolute;top:-10px;left:50%;transform:translateX(-50%) rotate(-90deg);width:110px;height:110px;pointer-events:none;}
+.t-bg{fill:none;stroke:rgba(242,235,214,.12);stroke-width:1.5;}
+.t-prog{fill:none;stroke:var(--cream);stroke-width:1.5;stroke-dasharray:302;stroke-dashoffset:0;transition:stroke-dashoffset 1s linear;}
+
+.sp-ctrls{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;}
+.sp-start{background:var(--cream);color:var(--brown);border:none;padding:14px 32px;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;font-family:'Jost',sans-serif;transition:background .2s;}
+.sp-start:hover{background:var(--white);}
+
+/* FOOTER */
+footer{background:var(--brown);padding:80px 60px 48px;}
+.footer-inner{max-width:1100px;margin:0 auto;}
+.footer-top{display:grid;grid-template-columns:1.4fr 1fr;gap:60px;margin-bottom:56px;padding-bottom:56px;border-bottom:1px solid rgba(242,235,214,.1);}
+.f-brand{font-family:'Jost',sans-serif;font-size:12px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--cream);margin-bottom:14px;display:flex;align-items:center;gap:0;flex-wrap:wrap;}
+.f-tag{font-size:12px;font-weight:300;line-height:1.85;color:var(--cream);opacity:.45;}
+.f-col-t{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--cream);opacity:.35;margin-bottom:18px;}
+.f-links{list-style:none;display:flex;flex-direction:column;gap:11px;}
+.f-links a{font-size:13px;font-weight:300;color:var(--cream);text-decoration:none;opacity:.6;transition:opacity .2s;}
+.f-links a:hover{opacity:1;}
+.f-form input{width:100%;background:rgba(242,235,214,.07);border:1px solid rgba(242,235,214,.14);color:var(--cream);padding:12px 15px;font-family:'Jost',sans-serif;font-size:12px;margin-bottom:9px;outline:none;}
+.f-form input::placeholder{opacity:.35;color:var(--cream);}
+.f-form input:focus{border-color:rgba(242,235,214,.35);}
+.f-submit{width:100%;background:var(--cream);color:var(--brown);border:none;padding:12px;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;transition:background .2s;}
+.f-submit:hover{background:var(--white);}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;}
+.f-copy{font-size:10px;color:var(--cream);opacity:.25;letter-spacing:.5px;}
+.f-crest{width:44px;opacity:.22;object-fit:contain;}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:none;}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-22px);}to{opacity:.88;transform:none;}}
+@keyframes scrollPulse{0%,100%{opacity:0;transform:scaleY(0);transform-origin:top;}50%{opacity:1;transform:scaleY(1);transform-origin:top;}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.vis{opacity:1;transform:none;}
+
+/* Cookie banner */
+.cookie-banner{position:fixed;bottom:0;left:0;right:0;background:var(--brown);padding:18px 40px;display:flex;align-items:center;justify-content:space-between;gap:20px;z-index:9999;transform:translateY(100%);transition:transform .45s cubic-bezier(.22,.61,.36,1);}
+.cookie-banner.vis{transform:translateY(0);}
+.cookie-text{font-size:11px;font-weight:300;color:var(--cream);opacity:.65;line-height:1.65;max-width:640px;}
+.cookie-btns{display:flex;gap:10px;flex-shrink:0;}
+.cookie-accept{background:var(--cream);color:var(--brown);border:none;padding:10px 26px;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Jost',sans-serif;transition:background .2s;}
+.cookie-accept:hover{background:var(--white);}
+.cookie-decline{background:transparent;color:var(--cream);border:1px solid rgba(242,235,214,.28);padding:10px 26px;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Jost',sans-serif;opacity:.55;transition:opacity .2s,border-color .2s;}
+.cookie-decline:hover{opacity:1;border-color:rgba(242,235,214,.65);}
+@media(max-width:600px){
+  .cookie-banner{flex-direction:column;align-items:flex-start;padding:20px 20px 24px;gap:14px;}
+  .cookie-btns{width:100%;}
+  .cookie-accept,.cookie-decline{flex:1;text-align:center;}
+}
+
+@media(max-width:900px){
+  nav{padding:18px 24px;}
+  .nav-links{display:none;}
+  .teacher-inner{grid-template-columns:1fr;}
+  .photo-col{position:static;}
+  .footer-top{grid-template-columns:1fr;gap:36px;}
+  footer{padding:50px 24px 36px;}
+  #test,#results,#teacher,#speaking,footer{padding-left:24px;padding-right:24px;}
+  .opts{grid-template-columns:1fr;}
+  .sp-layout{grid-template-columns:1fr;}
+  .teacher-stats{grid-template-columns:1fr 1fr;}
+  .hero{background-image:url('обложка-mobile.jpg');}
+}
+@media(max-width:480px){
+  nav{padding:14px 16px;}
+  .hero{padding:110px 16px 130px;}
+  #test,#results,#teacher,#speaking{padding-top:70px;padding-bottom:70px;padding-left:16px;padding-right:16px;}
+  footer{padding:40px 16px 28px;}
+  .footer-top{gap:24px;margin-bottom:32px;padding-bottom:32px;}
+  .footer-bottom{flex-direction:column;gap:14px;text-align:center;}
+  .teacher-stats{grid-template-columns:1fr;}
+  .timer-num{font-size:44px;}
+  .timer-svg{width:90px;height:90px;}
+}
+</style>
+</head>
+<body>
+
+<!-- SVG ICON DEFS -->
+<svg style="display:none">
+  <symbol id="ico-travel" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="20" cy="20" r="15"/>
+    <path d="M20 5 C15 10 13 15 13 20 C13 25 15 30 20 35"/>
+    <path d="M20 5 C25 10 27 15 27 20 C27 25 25 30 20 35"/>
+    <path d="M5 17 C11 18.5 15 19 20 19 C25 19 29 18.5 35 17"/>
+    <path d="M5.5 24 C11 22 15 21 20 21 C25 21 29 22 34.5 24"/>
+  </symbol>
+  <symbol id="ico-sports" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="16" cy="15" rx="10" ry="12" transform="rotate(-20 16 15)"/>
+    <line x1="8" y1="8" x2="23" y2="20" stroke-width="0.9"/>
+    <line x1="6" y1="14" x2="22" y2="22" stroke-width="0.9"/>
+    <line x1="9" y1="5" x2="23" y2="16" stroke-width="0.9"/>
+    <line x1="9" y1="18" x2="21" y2="10" stroke-width="0.9" transform="rotate(85 15 14)"/>
+    <path d="M23 25 L34 37" stroke-width="2"/>
+  </symbol>
+  <symbol id="ico-business" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="4" y="15" width="32" height="20" rx="1"/>
+    <path d="M14 15 V11 A1.5 1.5 0 0 1 15.5 9.5 H24.5 A1.5 1.5 0 0 1 26 11 V15"/>
+    <line x1="4" y1="24" x2="36" y2="24"/>
+    <rect x="17" y="22" width="6" height="4" rx="0.5"/>
+  </symbol>
+  <symbol id="ico-health" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="16" y="5" width="8" height="30" rx="1.5"/>
+    <rect x="5" y="16" width="30" height="8" rx="1.5"/>
+  </symbol>
+</svg>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">
+    <img src="Frame 24.png" alt="Arnt Academy">
+    <span>Arnt Academy<span class="nav-logo-sep">·</span>Арнт Академия</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#test">Тест на уровень</a></li>
+    <li><a href="#teacher">Об академии</a></li>
+    <li><a href="#speaking">Speaking тренажёр</a></li>
+  </ul>
+  <a href="#test" class="nav-cta">Узнать уровень</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <img src="Frame 24.png" alt="Arnt Academy" class="hero-crest">
+  <p class="hero-tag">Академия английского языка</p>
+  <h1 class="hero-title">Arnt<br><em>Academy</em></h1>
+  <p class="hero-ru">Арнт Академия</p>
+  <p class="hero-sub">Английский для тех, кто путешествует по миру, ценит детали и не тратит время впустую.</p>
+  <div class="hero-btns">
+    <a href="#test" class="btn-p">Определить уровень</a>
+    <a href="#teacher" class="btn-o">Об академии</a>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- TEST -->
+<section id="test">
+  <div style="background:var(--white);padding:80px 60px 130px;">
+    <div class="test-inner">
+      <div class="test-head reveal">
+        <svg class="test-head-ornament" width="80" height="32" viewBox="0 0 80 32" fill="none" stroke="#251802" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity=".3">
+          <path d="M2 16 C10 8 18 6 26 10 C32 13 36 13 40 10 C44 7 48 7 54 10 C60 13 66 13 72 10 C76 8 78 10 78 16"/>
+          <path d="M12 16 C18 22 22 24 28 22 C33 20 35 20 40 22 C45 24 50 22 55 20 C60 18 64 20 68 16"/>
+          <circle cx="40" cy="8" r="2"/>
+          <line x1="40" y1="2" x2="40" y2="6"/>
+        </svg>
+        <p class="sec-tag">Узнай уровень и получи персональную программу</p>
+        <h2 class="sec-title">Определи свой<br><em>уровень английского</em></h2>
+        <p class="body-text" style="max-width:480px;margin:0 auto;text-align:center;">12 вопросов · адаптивный тест. Сложность меняется под ваш уровень. Займёт 3–4 минуты.</p>
+        <div class="skip-divider"><span>или</span></div>
+        <button class="skip-a1-btn" onclick="skipToA1()">Я не знаю английский — хочу программу для старта</button>
+      </div>
+      <div id="testArea" style="margin-top:56px;">
+        <div class="diff-row">
+          <div class="diff-dots">
+            <span class="diff-dot" id="diffDot1"></span>
+            <span class="diff-dot active" id="diffDot2"></span>
+            <span class="diff-dot" id="diffDot3"></span>
+          </div>
+          <p class="prog-label" id="progLabel" style="margin-bottom:0">Вопрос 1 / 15</p>
+        </div>
+        <div class="prog-bar-bg"><div class="prog-bar" id="progBar" style="width:0%"></div></div>
+        <div id="questionsWrap"></div>
+        <div class="rule-box" id="ruleBox"><p id="ruleText"></p></div>
+        <div class="test-nav">
+          <button class="btn-next" id="btnNext" disabled>Следующий →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results">
+  <div style="max-width:700px;margin:0 auto;text-align:center;">
+    <p class="res-tag">Ваш уровень</p>
+    <div class="res-level" id="resLevel">B1</div>
+    <div class="res-name" id="resName">Pre-Intermediate</div>
+    <div class="res-score" id="resScore">9 / 12 правильных ответов</div>
+    <p class="res-desc" id="resDesc"></p>
+    <div class="level-line-wrap">
+      <div class="level-line" id="levelLine">
+        <div class="level-point" data-lvl="A1"><div class="lp-dot"></div><div class="lp-code">A1</div><div class="lp-name">Начальный</div></div>
+        <div class="lp-connector"></div>
+        <div class="level-point" data-lvl="A2"><div class="lp-dot"></div><div class="lp-code">A2</div><div class="lp-name">Элементарный</div></div>
+        <div class="lp-connector"></div>
+        <div class="level-point" data-lvl="B1"><div class="lp-dot"></div><div class="lp-code">B1</div><div class="lp-name">Средний</div></div>
+        <div class="lp-connector"></div>
+        <div class="level-point" data-lvl="B2"><div class="lp-dot"></div><div class="lp-code">B2</div><div class="lp-name">Выше среднего</div></div>
+        <div class="lp-connector"></div>
+        <div class="level-point" data-lvl="C1"><div class="lp-dot"></div><div class="lp-code">C1</div><div class="lp-name">Продвинутый</div></div>
+      </div>
+    </div>
+    <button class="btn-plan" onclick="openPlan()">Получить план на месяц →</button>
+  </div>
+</section>
+
+<!-- TEACHER -->
+<section id="teacher">
+  <div style="background:var(--cream);padding:130px 60px;">
+    <div class="teacher-inner">
+      <div class="photo-col reveal">
+        <img src="препод.png" alt="Преподаватель" style="width:100%;aspect-ratio:3/4;object-fit:cover;display:block;">
+      </div>
+      <div class="reveal" style="transition-delay:.15s">
+        <p class="sec-tag">Об академии</p>
+        <h2 class="sec-title">Arnt Academy —<br><em>это один человек</em></h2>
+        <div class="years-band">
+          <span class="years-num">8</span>
+          <span class="years-text">лет<br>опыта<br>преподавания</span>
+        </div>
+        <p class="body-text">Меня зовут Арина. Я основала академию и веду все курсы сама — от первого урока до финального занятия. Не команда методистов, не сменяющиеся преподаватели. Только я.</p>
+        <p class="body-text">Это осознанный выбор. Я убеждена, что язык передаётся через отношения, а не через контент. Когда один человек ведёт вас весь путь — он знает вашу скорость, ваши слабые места и то, что вас по-настоящему мотивирует. Программа подстраивается под вас, а не наоборот.</p>
+        <p class="body-text">Педагогический факультет, бизнес-школа Vlerick Business School (Бельгия), НИУ ВШЭ, американская школа предпринимательства. Подтверждённый уровень C1. Я знаю язык изнутри и понимаю, как устроено мышление делового человека — это чувствуется в каждом уроке.</p>
+        <div class="teacher-stats">
+          <div class="tstat"><div class="tstat-n">200+</div><div class="tstat-l">учеников</div></div>
+          <div class="tstat"><div class="tstat-n">1</div><div class="tstat-l">преподаватель<br>на весь путь</div></div>
+          <div class="tstat"><div class="tstat-n">12</div><div class="tstat-l">стран студентов</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BANNER -->
+<div class="banner reveal">
+  <p class="banner-t">"The world belongs to those who speak its language."</p>
+</div>
+
+<!-- SPEAKING -->
+<section id="speaking">
+  <div class="sp-inner">
+    <div class="reveal">
+      <p class="sec-tag" style="color:var(--cream);opacity:.5;">Тренажёр говорения</p>
+      <h2 class="sec-title" style="color:var(--cream);margin-bottom:16px;">1 минута —<br><em>говори по-английски</em></h2>
+      <p style="font-size:13px;font-weight:300;color:var(--cream);opacity:.55;max-width:440px;margin:0 auto 44px;line-height:1.9;text-align:center;">Случайный вопрос по вашей теме. Таймер 60 секунд. Говорите вслух — не думайте о грамматике.</p>
+    </div>
+
+    <div class="sp-main-tabs">
+      <button class="spt active" onclick="setSpTopic(this,'travel')">
+        <svg width="14" height="14" stroke="currentColor"><use href="#ico-travel"/></svg>Путешествия
+      </button>
+      <button class="spt" onclick="setSpTopic(this,'sports')">
+        <svg width="14" height="14" stroke="currentColor"><use href="#ico-sports"/></svg>Спорт
+      </button>
+      <button class="spt" onclick="setSpTopic(this,'business')">
+        <svg width="14" height="14" stroke="currentColor"><use href="#ico-business"/></svg>Деловые поездки
+      </button>
+      <button class="spt" onclick="setSpTopic(this,'health')">
+        <svg width="14" height="14" stroke="currentColor"><use href="#ico-health"/></svg>Здоровье
+      </button>
+    </div>
+    <div class="sp-sub-tabs" id="spSubTabs"></div>
+
+    <div class="sp-layout">
+      <div class="prompt-card">
+        <div class="prompt-card-body" style="flex-direction:column;align-items:flex-start;">
+          <p class="prompt-idle" id="spIdle" style="align-self:center;">Нажмите «Старт» чтобы начать</p>
+          <p class="prompt-text" id="spPrompt"></p>
+          <p class="prompt-ru" id="spRu"></p>
+          <div class="prompt-keys" id="spKeys"></div>
+        </div>
+        <div class="prompt-card-footer">
+          <button class="change-q-badge" onclick="nextPrompt()">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+              <path d="M10 3 A5 5 0 1 0 11 6"/>
+              <path d="M10 1 L10 4 L7 4"/>
+            </svg>
+            Сменить вопрос
+          </button>
+          <span class="q-counter-badge" id="spQCounter">1 / 5</span>
+        </div>
+      </div>
+
+      <div class="timer-col">
+        <div class="timer-wrap">
+          <svg class="timer-svg" viewBox="0 0 110 110">
+            <circle class="t-bg" cx="55" cy="55" r="48"/>
+            <circle class="t-prog" id="timerCircle" cx="55" cy="55" r="48"/>
+          </svg>
+          <div class="timer-num" id="timerNum">60</div>
+          <div class="timer-lbl">секунд</div>
+        </div>
+        <button class="sp-start" id="spStartBtn" onclick="startSpeaking()">Старт</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="f-brand">Arnt Academy<span class="nav-logo-sep">·</span>Арнт Академия</div>
+        <p class="f-tag">Английский для тех, кто путешествует по миру, выбирает детали и не тратит время впустую.</p>
+      </div>
+      <div>
+        <p class="f-col-t">Навигация</p>
+        <ul class="f-links">
+          <li><a href="#test">Тест на уровень</a></li>
+          <li><a href="#teacher">Преподаватель</a></li>
+          <li><a href="#speaking">Speaking тренажёр</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="f-copy">© 2026 Arnt Academy. Все права защищены. <a href="privacy.html" style="color:var(--cream);opacity:.5;text-decoration:underline;text-underline-offset:2px;transition:opacity .2s;">Политика конфиденциальности</a></p>
+      <img src="Frame 24.png" alt="crest" class="f-crest">
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── ADAPTIVE QUESTION POOL ────────────────────────────────────────────────────
+const QUESTION_POOL = {
+  1: [
+    {type:'grammar',text:'She ___ English every morning before breakfast.',opts:['studies','study','is study','studying'],ans:0,
+     rule:'<strong>Present Simple (she/he/it):</strong> для третьего лица единственного числа добавляем -s/-es. "She studies" — правильная форма.'},
+    {type:'grammar',text:'We ___ to Barcelona last summer.',opts:['travelled','travel','have travel','are travelling'],ans:0,
+     rule:'<strong>Past Simple:</strong> для завершённых действий в прошлом используем форму V2. "Last summer" — маркер прошедшего времени.'},
+    {type:'grammar',text:'There ___ a lot of tourists at the airport today.',opts:['are','is','were','am'],ans:0,
+     rule:'<strong>There are:</strong> "there are" используется с существительными во множественном числе. "There is" — только с единственным.'},
+    {type:'grammar',text:'This hotel is ___ than the one we stayed in before.',opts:['more comfortable','comfortabler','most comfortable','the most comfortable'],ans:0,
+     rule:'<strong>Сравнительная степень:</strong> для длинных прилагательных (3+ слога) используем "more + adjective". "Comfortabler" — не существует.'},
+    {type:'grammar',text:'___ you help me carry these bags, please?',opts:['Could','Would have','Should have','Might have'],ans:0,
+     rule:'<strong>Could для просьб:</strong> "Could you...?" — стандартная вежливая форма просьбы. Гораздо вежливее, чем "Can you...?"'},
+    {type:'vocabulary',text:'Что означает слово "accommodation"?',opts:['место для проживания','завтрак','транспорт','страховка'],ans:0,
+     rule:'<strong>Accommodation</strong> [əˌkɒməˈdeɪʃn] — место для проживания (отель, квартира и т.д.). "What accommodation did you book for the trip?"'},
+    {type:'vocabulary',text:'Что означает слово "departure"?',opts:['отправление / вылет','прибытие','задержка','регистрация'],ans:0,
+     rule:'<strong>Departure</strong> [dɪˈpɑːtʃə] — отправление или вылет. Антоним — "arrival" (прибытие). "Departure gate 14 — посадочный выход 14."'},
+    {type:'grammar',text:'Please ___ quiet in the hotel lobby.',opts:['be','are','is','being'],ans:0,
+     rule:'<strong>Imperative (повелительное наклонение):</strong> "Please be quiet" — вежливое требование. В повелительном используем базовую форму глагола.'},
+    {type:'vocabulary',text:'"Please ___ your seatbelt before takeoff."',opts:['fasten','put','wear','tie'],ans:0,
+     rule:'<strong>Fasten your seatbelt</strong> — устойчивое выражение. "Fasten" — для ремня. "Put on" — для одежды. "Wear" — состояние ношения.'},
+    {type:'grammar',text:'I ___ at this hotel last week and it was wonderful.',opts:['stayed','stay','am staying','have stay'],ans:0,
+     rule:'<strong>Past Simple:</strong> "last week" — чёткий маркер прошедшего. Используем stayed (V2), а не Present Perfect.'},
+    {type:'grammar',text:'Look! The children ___ in the hotel pool.',opts:['are swimming','swim','swam','have swum'],ans:0,
+     rule:'<strong>Present Continuous:</strong> маркер "Look!" указывает на действие прямо сейчас. "Are swimming" — действие в момент речи, а не привычка.'},
+    {type:'grammar',text:'___ you ever been to Dubai?',opts:['Have','Did','Are','Do'],ans:0,
+     rule:'<strong>Present Perfect для опыта:</strong> "Have you ever been...?" — вопрос о жизненном опыте без привязки к дате. "Did you go?" — если важна конкретная дата.'},
+    {type:'grammar',text:'She ___ to the airport when she realised she had forgotten her passport.',opts:['was driving','drove','had driven','is driving'],ans:0,
+     rule:'<strong>Past Continuous + Past Simple:</strong> "was driving" — длительное фоновое действие, которое прервалось. "When she realised" — момент прерывания.'},
+    {type:'grammar',text:'I am going to ___ the hotel room for one more night.',opts:['extend','extending','extended','extends'],ans:0,
+     rule:'<strong>Going to + базовая форма:</strong> "be going to + infinitive" — запланированное намерение. Не "extending" (это герундий) и не "extended".'},
+    {type:'spelling',text:'Как правильно пишется слово «место назначения»?',opts:['destination','distination','destinasion','destanation'],ans:0,
+     rule:'<strong>Destination</strong> [ˌdestɪˈneɪʃn] — место назначения, пункт прибытия. Запомните: des-ti-na-tion. "What is your final destination?"'},
+    {type:'spelling',text:'Как правильно пишется слово «паспорт»?',opts:['passport','pasport','passaport','passeport'],ans:0,
+     rule:'<strong>Passport</strong> [ˈpɑːspɔːt] — два s в середине: pass-port. "Don\'t forget your passport at check-in."'},
+    {type:'spelling',text:'Как правильно пишется слово «багаж»?',opts:['luggage','lugage','lugagge','luggaje'],ans:0,
+     rule:'<strong>Luggage</strong> [ˈlʌɡɪdʒ] — двойное g: lug-gage. "Please collect your luggage at belt 4."'},
+    {type:'spelling',text:'Как правильно пишется слово «ресторан»?',opts:['restaurant','restarant','resturant','restaurent'],ans:0,
+     rule:'<strong>Restaurant</strong> [ˈrestrɒnt] — сложное написание! Запомните: res-tau-rant. "We have a reservation at the restaurant."'},
+  ],
+  2: [
+    {type:'grammar',text:'If I ___ you, I would call her right away.',opts:['were','was','am','be'],ans:0,
+     rule:'<strong>Условное II (Unreal Conditional):</strong> для нереальных ситуаций используем «If + were» для всех лиц. "If I were you" — стандартная форма.'},
+    {type:'grammar',text:'She has been living in London ___ five years.',opts:['since','for','during','from'],ans:1,
+     rule:'<strong>For vs Since:</strong> «For» + период времени (for five years). «Since» + момент начала (since 2020). Здесь "five years" — период.'},
+    {type:'grammar',text:'By the time we arrive, they ___ already left.',opts:['will have','would have','have','had'],ans:0,
+     rule:'<strong>Future Perfect:</strong> "will have + V3" — действие завершится до определённого момента в будущем. "By the time we arrive" — маркер.'},
+    {type:'grammar',text:'Neither the pilot nor the crew ___ aware of the delay.',opts:['is','are','was','were'],ans:1,
+     rule:'<strong>Neither... nor:</strong> глагол согласуется с ближайшим подлежащим. "the crew" (мн.ч.) стоит ближе, поэтому "are".'},
+    {type:'grammar',text:'I wish I ___ speak three languages fluently.',opts:['could','can','would','should'],ans:0,
+     rule:'<strong>Wish + could:</strong> "I wish I could" — сожаление о том, что вы не умеете делать что-то сейчас. "Can" нельзя использовать после "wish".'},
+    {type:'grammar',text:'The reservation ___ by the travel agent this morning.',opts:['was confirmed','confirmed','has confirm','is confirming'],ans:0,
+     rule:'<strong>Passive Voice (Past Simple):</strong> "was/were + Past Participle" — акцент на действии. "The reservation was confirmed" = было подтверждено.'},
+    {type:'grammar',text:'She suggested ___ the scenic route through the Alps.',opts:['taking','to take','take','took'],ans:0,
+     rule:'<strong>Gerund после suggest:</strong> после глаголов suggest, recommend, enjoy, avoid, mind всегда герундий (-ing), не инфинитив.'},
+    {type:'vocabulary',text:'Что означает слово "itinerary"?',opts:['маршрут поездки','авиабилет','виза','страховка'],ans:0,
+     rule:'<strong>Itinerary</strong> [aɪˈtɪnərəri] — подробный план путешествия с маршрутами и датами. "What is the itinerary for our trip?"'},
+    {type:'vocabulary',text:'Что означает слово "layover"?',opts:['пересадка','посадка','вылет','регистрация'],ans:0,
+     rule:'<strong>Layover</strong> [ˈleɪˌəʊvə] (также "stopover") — остановка в промежуточном аэропорту. "We have a 3-hour layover in Dubai."'},
+    {type:'grammar',text:'The more you travel, ___ you become at navigating new places.',opts:['the better','better','the best','best'],ans:0,
+     rule:'<strong>The more... the better:</strong> параллельная сравнительная конструкция. Обе части начинаются с "the" + сравнительная степень.'},
+    {type:'grammar',text:'She ___ to travel business class, but now she always books economy.',opts:['used','would use','was used','had used'],ans:0,
+     rule:'<strong>Used to:</strong> "used to + infinitive" — привычка или состояние в прошлом, которое изменилось. Отличие от "would": "used to" может описывать состояния.'},
+    {type:'grammar',text:'My assistant ___ the details as soon as she ___ back from the conference.',opts:['will confirm / gets','will confirm / will get','confirms / will get','would confirm / gets'],ans:0,
+     rule:'<strong>Time clause (as soon as):</strong> в придаточных времени с "as soon as / when / after" используем Present Simple, а не Future. "As soon as she gets back."'},
+    {type:'grammar',text:'When I arrived at the hotel, the room ___ already ___.',opts:['had / been cleaned','was / cleaned','has / been cleaned','had / cleaned'],ans:0,
+     rule:'<strong>Past Perfect Passive:</strong> "had been + V3" — действие завершилось до другого прошедшего момента. "When I arrived" — маркер Past Perfect.'},
+    {type:'grammar',text:'He ___ at the airport for two hours by the time the flight was announced.',opts:['had been waiting','was waiting','has been waiting','waited'],ans:0,
+     rule:'<strong>Past Perfect Continuous:</strong> "had been waiting" — длительное действие, начавшееся до определённого момента в прошлом и продолжавшееся до него.'},
+    {type:'spelling',text:'Как правильно пишется слово «размещение / проживание»?',opts:['accommodation','accomodation','accommondation','acomodation'],ans:0,
+     rule:'<strong>Accommodation</strong> [əˌkɒməˈdeɪʃn] — двойное c и двойное m: ac-com-mo-da-tion. Одно из самых часто неправильно написанных слов в английском.'},
+    {type:'spelling',text:'Как правильно пишется слово «бронирование»?',opts:['reservation','reservasion','reservetion','rezervation'],ans:0,
+     rule:'<strong>Reservation</strong> [ˌrezəˈveɪʃn] — обратите внимание: re-ser-va-tion, не "reservasion". "I have a reservation for two nights."'},
+    {type:'spelling',text:'Как правильно пишется слово «конференция»?',opts:['conference','conferance','confrence','conferrence'],ans:0,
+     rule:'<strong>Conference</strong> [ˈkɒnfərəns] — три слога: con-fer-ence. Не "conferance" и не "confrence". "The conference starts at 9 AM."'},
+    {type:'spelling',text:'Как правильно пишется слово «пересадка / стыковка рейсов»?',opts:['connection','conection','connextion','connrction'],ans:0,
+     rule:'<strong>Connection</strong> [kəˈnekʃn] — двойное n: con-nec-tion. "We almost missed our connection in Frankfurt."'},
+  ],
+  3: [
+    {type:'grammar',text:'Despite ___ jet-lagged, he attended every business session.',opts:['being','to be','been','be'],ans:0,
+     rule:'<strong>Despite + Gerund:</strong> после "despite" и "in spite of" всегда герундий (-ing). "Despite being tired" — хотя и устал.'},
+    {type:'grammar',text:'If she ___ about the cancellation earlier, she would have taken a different route.',opts:['had known','knew','has known','would know'],ans:0,
+     rule:'<strong>Третье условное (Third Conditional):</strong> "If + had + V3, would have + V3" — нереальное условие в прошлом. Нужен Past Perfect.'},
+    {type:'grammar',text:'Not until the last passenger ___ did the captain make an announcement.',opts:['had boarded','boarded','has boarded','was boarding'],ans:0,
+     rule:'<strong>Not until + инверсия:</strong> после "Not until" в придаточном используем Past Perfect, а в главном — вспомогательный глагол перед подлежащим.'},
+    {type:'grammar',text:'If she had studied harder last year, her English ___ much better now.',opts:['would be','would have been','had been','will be'],ans:0,
+     rule:'<strong>Смешанное условное (Mixed Conditional):</strong> прошлое условие + настоящий результат. "If + had V3, would + infinitive" (без "have").'},
+    {type:'grammar',text:'The flight ___ to have been delayed due to adverse weather conditions.',opts:['is reported','reports','was reporting','reported'],ans:0,
+     rule:'<strong>Passive reporting verb:</strong> "is reported/said/believed to have been + V3" — формальный стиль для передачи чужих слов.'},
+    {type:'grammar',text:'It was the concierge ___ arranged the private transfer to the villa.',opts:['who','which','what','whose'],ans:0,
+     rule:'<strong>Cleft sentence (расщеплённое предложение):</strong> "It was + noun + who/that + verb" — выделение подлежащего. Для людей — "who".'},
+    {type:'vocabulary',text:'"He gave a perfunctory apology." Что означает "perfunctory"?',opts:['формальный, небрежный','искренний и подробный','неожиданный','официальный и торжественный'],ans:0,
+     rule:'<strong>Perfunctory</strong> [pəˈfʌŋktʃəri] — выполненный формально, без должного внимания. "A perfunctory apology" — отписка, а не настоящее извинение.'},
+    {type:'grammar',text:'___ the flight been on time, we would have made the connection.',opts:['Had','Have','Having','Should'],ans:0,
+     rule:'<strong>Инверсия в условном предложении:</strong> "Had + subject + V3" = "If + subject + had + V3". Формальная альтернатива Third Conditional.'},
+    {type:'grammar',text:'The board insisted that the upgrade ___ complimentary for all loyalty members.',opts:['be','was','were','would be'],ans:0,
+     rule:'<strong>Subjunctive (сослагательное наклонение):</strong> после "insist/suggest/demand/recommend + that" используем базовую форму глагола (be, not was/were).'},
+    {type:'grammar',text:'Rarely ___ such exceptional service at any hotel.',opts:['have I encountered','I have encountered','I encountered','did I encounter'],ans:0,
+     rule:'<strong>Инверсия с наречием Rarely:</strong> "Rarely + вспомогательный глагол + подлежащее + V" — усиливает высказывание и характерна для C1+.'},
+    {type:'grammar',text:'___ it not been for the concierge, we would have missed the gala dinner entirely.',opts:['Had','Have','Were','Should'],ans:0,
+     rule:'<strong>Formal inversion (Third Conditional):</strong> "Had it not been for..." = "If it had not been for..." — формальная инверсия без "if". Характерна для C1+.'},
+    {type:'grammar',text:'No sooner ___ we checked in than the fire alarm went off.',opts:['had','have','did','were'],ans:0,
+     rule:'<strong>No sooner...than (инверсия):</strong> "No sooner had + subject + V3 + than" — как только... сразу. Требует Past Perfect и инверсии вспомогательного глагола.'},
+    {type:'grammar',text:'The hotel ___ to be the finest in the region, having won numerous international awards.',opts:['is considered','considers','has considered','is considering'],ans:0,
+     rule:'<strong>Passive + infinitive:</strong> "is considered to be" — безличная конструкция для официальных утверждений. Альтернатива: "It is considered that..."'},
+    {type:'grammar',text:'___ though the journey was, every detail of the destination made it worthwhile.',opts:['Exhausting','Exhausted','Being exhausted','To exhaust'],ans:0,
+     rule:'<strong>Adjective + though (инверсия):</strong> "Adjective + though + subject + verb" — формальная уступительная конструкция. = "Although the journey was exhausting."'},
+    {type:'spelling',text:'Как правильно пишется слово «рекомендация»?',opts:['recommendation','recomendation','recommandation','rekommendation'],ans:0,
+     rule:'<strong>Recommendation</strong> [ˌrekəmenˈdeɪʃn] — одно c, двойное m: rec-om-men-da-tion. "Do you have any restaurant recommendations?"'},
+    {type:'spelling',text:'Как правильно пишется слово «привилегия»?',opts:['privilege','priviledge','privilige','privilage'],ans:0,
+     rule:'<strong>Privilege</strong> [ˈprɪvɪlɪdʒ] — часто ошибочно пишут "priviledge". Правильно: priv-i-lege. "It\'s a privilege to fly in business class."'},
+    {type:'spelling',text:'Как правильно пишется слово «переговоры»?',opts:['negotiations','negociations','negotations','negotiaions'],ans:0,
+     rule:'<strong>Negotiations</strong> [nɪˌɡəʊʃɪˈeɪʃnz] — "ne-go-ti-a-tions", не "negociations". Корень от "negotiate". "The negotiations lasted three days."'},
+    {type:'spelling',text:'Как правильно пишется слово «консьерж»?',opts:['concierge','consierge','concierje','conciarge'],ans:0,
+     rule:'<strong>Concierge</strong> [ˌkɒnsiˈeɑːʒ] — слово французского происхождения: con-cierge. "Ask the concierge for restaurant recommendations."'},
+  ],
+};
+
+const LEVELS = [
+  {code:'A1',name:'Beginner',min:0,max:4,desc:'Вы только начинаете путь. Это отличная точка старта — самый быстрый прогресс именно здесь. Мы выстроим фундамент и научим говорить базовые фразы уже за первый месяц.'},
+  {code:'A2',name:'Elementary',min:5,max:7,desc:'У вас есть база, но её нужно укрепить. Вы можете объясниться в простых ситуациях — мы расширим словарный запас и добавим уверенности в разговоре.'},
+  {code:'B1',name:'Pre-Intermediate',min:8,max:9,desc:'Вы понимаете основные темы и можете говорить о знакомых вещах. Следующий шаг — беглость и точность. Именно здесь начинается настоящее удовольствие от языка.'},
+  {code:'B2',name:'Intermediate',min:10,max:11,desc:'Вы уже можете общаться свободно. Мы поработаем над сложными структурами, нюансами и профессиональной лексикой.'},
+  {code:'C1',name:'Advanced',min:12,max:12,desc:'Сильный уровень. Нас интересует точность, стиль и культурный контекст. Мы превратим ваш английский в настоящий инструмент влияния.'},
+];
+
+const TOPICS = {
+  travel:{name:'Путешествия',subs:[{k:'hotel',n:'В отеле'},{k:'plane',n:'В самолёте'},{k:'restaurant',n:'В ресторане'}]},
+  sports:{name:'Спорт',subs:[{k:'coach',n:'С тренером'},{k:'tournament',n:'На турнире'},{k:'club',n:'В клубе'}]},
+  business:{name:'Деловые поездки',subs:[{k:'meeting',n:'На встрече'},{k:'conference',n:'На конференции'},{k:'networking',n:'Нетворкинг'}]},
+  health:{name:'Здоровье',subs:[{k:'poisoning',n:'Отравление'},{k:'fracture',n:'Перелом'},{k:'cold',n:'Простуда'}]},
+};
+
+const SPEAKING = {
+  travel_hotel:[
+    {q:'Describe your ideal hotel room in detail.',ru:'Опишите вашу идеальную гостиничную комнату подробно.',keys:['a room with a view','high-quality bedding','spacious bathroom']},
+    {q:'What amenities are most important to you when choosing a hotel?',ru:'Какие удобства для вас наиболее важны при выборе отеля?',keys:['complimentary breakfast','fitness centre','24-hour concierge']},
+    {q:'How would you request a room upgrade in English?',ru:'Как вы попросили бы улучшение номера по-английски?',keys:['I was wondering if...','any availability','loyalty programme']},
+    {q:'Talk about the best hotel you have ever stayed in.',ru:'Расскажите о лучшем отеле, в котором вы когда-либо останавливались.',keys:['impeccable service','stunning views','attention to detail']},
+    {q:'Describe a time when you had an issue with your hotel room.',ru:'Опишите случай, когда у вас возникла проблема с гостиничным номером.',keys:['I would like to report...','could you send someone up?','compensation']},
+  ],
+  travel_plane:[
+    {q:'Describe your routine when boarding a long-haul flight.',ru:'Опишите ваш ритуал перед посадкой на дальний рейс.',keys:['carry-on luggage','overhead bin','aisle seat']},
+    {q:'What do you do to pass time on a long flight?',ru:'Чем вы занимаетесь, чтобы скоротать время в длительном перелёте?',keys:['noise-cancelling headphones','catch up on work','binge-watch']},
+    {q:'Talk about a time your flight was delayed or cancelled.',ru:'Расскажите о случае, когда ваш рейс задержали или отменили.',keys:['compensation','rebooking','I demand a voucher']},
+    {q:'How would you ask a flight attendant for help in English?',ru:'Как вы попросили бы стюарда о помощи по-английски?',keys:['Excuse me, could you...','I was wondering if...','motion sickness']},
+    {q:'Describe the perfect business class experience.',ru:'Опишите идеальный перелёт бизнес-классом.',keys:['lie-flat seat','premium dining','seamless experience']},
+  ],
+  travel_restaurant:[
+    {q:'How would you make a restaurant reservation in English?',ru:'Как вы забронировали бы столик в ресторане по-английски?',keys:['I would like to book...','for two people','dietary requirements']},
+    {q:'Describe your experience dining at a fine restaurant abroad.',ru:'Опишите опыт ужина в ресторане высокой кухни за рубежом.',keys:['tasting menu','sommelier','ambiance']},
+    {q:'How do you ask about ingredients or dietary restrictions?',ru:'Как вы спрашиваете о составе блюда или диетических ограничениях?',keys:['gluten-free','Does this contain...?','on the side']},
+    {q:'Talk about the best meal you have had while travelling.',ru:'Расскажите о лучшей еде, которую вы попробовали в путешествии.',keys:['local cuisine','melt in your mouth','authentic flavours']},
+    {q:'How would you politely complain about food in English?',ru:'Как вы вежливо пожаловались бы на блюдо по-английски?',keys:["I'm afraid this is...",'slightly undercooked','could you replace it?']},
+  ],
+  sports_coach:[
+    {q:'Describe your ideal training session with a coach.',ru:'Опишите вашу идеальную тренировку с тренером.',keys:['warm-up routine','technique drills','feedback session']},
+    {q:'How do you talk about your fitness goals in English?',ru:'Как вы говорите о ваших спортивных целях по-английски?',keys:['build endurance','track progress','personal best']},
+    {q:'What would you say to a coach to explain your weaknesses?',ru:'Что вы сказали бы тренеру, объясняя ваши слабые стороны?',keys:['I tend to struggle with...','stamina','room for improvement']},
+    {q:'Describe the progress you have made in a sport you practice.',ru:'Опишите прогресс, которого вы достигли в спорте, которым занимаетесь.',keys:["I've come a long way",'noticeable improvement','consistency']},
+    {q:'How would you ask for feedback after a session?',ru:'Как вы попросили бы обратную связь после тренировки?',keys:['What did I do well?','areas to focus on','constructive criticism']},
+  ],
+  sports_tournament:[
+    {q:'Describe the atmosphere at a major sports tournament.',ru:'Опишите атмосферу крупного спортивного турнира.',keys:['electric atmosphere','packed stadium','roaring crowd']},
+    {q:'Talk about a memorable match you have watched or played.',ru:'Расскажите о запоминающемся матче, который вы наблюдали или в котором участвовали.',keys:['nail-biting finish','turning point','went into overtime']},
+    {q:'How would you describe your game strategy in English?',ru:'Как вы описали бы вашу игровую стратегию по-английски?',keys:['aggressive play','hold back','exploit weaknesses']},
+    {q:'What do you say to your opponent before and after a match?',ru:'Что вы говорите сопернику до и после матча?',keys:['Good luck!','Well played','It was a tough match']},
+    {q:'Describe the feeling of winning an important game.',ru:'Опишите ощущение победы в важной игре.',keys:['overwhelming joy','sense of achievement','adrenaline rush']},
+  ],
+  sports_club:[
+    {q:'Describe your sports club or gym membership experience.',ru:'Опишите ваш опыт членства в спортивном клубе или зале.',keys:['annual membership','state-of-the-art facilities','personal trainer']},
+    {q:'How would you book a court or training session in English?',ru:'Как вы забронировали бы корт или тренировку по-английски?',keys:['I would like to book...','available slots','cancel in advance']},
+    {q:'Talk about choosing a new sports club when you travel.',ru:'Расскажите о выборе нового спортивного клуба во время путешествия.',keys:['day pass','reciprocal membership','within walking distance']},
+    {q:'Describe the equipment you use in your favourite sport.',ru:'Опишите снаряжение, которое вы используете в вашем любимом виде спорта.',keys:['high-performance','gear','custom-fitted']},
+    {q:'How do you introduce yourself to a new training partner?',ru:'Как вы знакомитесь с новым партнёром по тренировке?',keys:["I've been playing for...",'level of experience','happy to practice together']},
+  ],
+  business_meeting:[
+    {q:'How do you prepare for an important business meeting abroad?',ru:'Как вы готовитесь к важной деловой встрече за рубежом?',keys:['briefing documents','cultural etiquette','set an agenda']},
+    {q:'Describe a successful negotiation you have been part of.',ru:'Опишите успешные переговоры, в которых вы участвовали.',keys:['common ground','mutual benefit','reach an agreement']},
+    {q:'How would you present a proposal to an international client?',ru:'Как вы представили бы предложение международному клиенту?',keys:['key deliverables','return on investment','walk you through']},
+    {q:'Talk about cultural differences in business meetings.',ru:'Расскажите о культурных различиях на деловых встречах.',keys:['small talk','direct approach','hierarchy']},
+    {q:'How do you follow up after a business meeting in English?',ru:'Как вы пишете follow-up после деловой встречи по-английски?',keys:['as discussed','next steps','please find attached']},
+  ],
+  business_conference:[
+    {q:'Describe the ideal international business conference.',ru:'Опишите идеальную международную деловую конференцию.',keys:['keynote speakers','panel discussion','networking opportunities']},
+    {q:'How do you introduce yourself as a keynote speaker?',ru:'Как вы представляетесь в качестве основного докладчика?',keys:["It's a pleasure to be here","I'd like to start by...",'thought leadership']},
+    {q:'What questions would you ask during a panel discussion?',ru:'Какие вопросы вы задали бы во время панельной дискуссии?',keys:['Could you elaborate on...','following up on that','in your experience']},
+    {q:'Talk about the most valuable conference you have attended.',ru:'Расскажите о самой ценной конференции, которую вы посетили.',keys:['key takeaways','eye-opening','valuable connections']},
+    {q:'How do you manage networking during conference breaks?',ru:'Как вы выстраиваете нетворкинг во время перерывов на конференции?',keys:['break the ice','exchange business cards','follow up on LinkedIn']},
+  ],
+  business_networking:[
+    {q:'How do you introduce yourself in a professional networking setting?',ru:'Как вы представляетесь в профессиональной нетворкинг-среде?',keys:['I work in...','I specialise in','great to meet you']},
+    {q:'Describe your elevator pitch in 60 seconds.',ru:'Опишите вашу elevator pitch за 60 секунд.',keys:['the problem we solve','unique approach','what sets us apart']},
+    {q:'How do you follow up with a new contact after an event?',ru:'Как вы поддерживаете связь с новым контактом после мероприятия?',keys:['It was great meeting you','as promised','keep in touch']},
+    {q:'Talk about an industry connection that led to something valuable.',ru:'Расскажите о знакомстве в профессиональной сфере, которое переросло во что-то ценное.',keys:['serendipitous meeting','opened doors','collaboration']},
+    {q:'How do you find common ground with someone from a different field?',ru:'Как вы находите общий язык с человеком из другой сферы?',keys:['shared interests','What brought you here?','cross-industry perspective']},
+  ],
+  health_poisoning:[
+    {q:'How would you describe food poisoning symptoms to a doctor?',ru:'Как вы описали бы симптомы пищевого отравления врачу?',keys:['nausea','I have been feeling...','it started around...']},
+    {q:'What would you say at a pharmacy when you need medication?',ru:'Что вы сказали бы в аптеке, когда вам нужно лекарство?',keys:['Do you have anything for...?','prescription','side effects']},
+    {q:'Talk about a time you felt unwell while travelling abroad.',ru:'Расскажите о случае, когда вам стало плохо во время путешествия за рубежом.',keys:['out of the blue','seek medical attention','travel insurance']},
+    {q:'How do you ask for emergency medical help in English?',ru:'Как вы просите экстренную медицинскую помощь по-английски?',keys:['Call an ambulance!','I need urgent help','allergic to...']},
+    {q:'Describe the recovery process after being unwell abroad.',ru:'Опишите процесс восстановления после болезни за рубежом.',keys:['bed rest','stay hydrated','back on my feet']},
+  ],
+  health_fracture:[
+    {q:'How would you describe a fracture or injury to a doctor?',ru:'Как вы описали бы перелом или травму врачу?',keys:['sharp pain',"I can't put weight on...",'swelling']},
+    {q:'What would you say in an emergency room abroad?',ru:'Что вы сказали бы в приёмном покое за рубежом?',keys:['I was in an accident','my travel insurance covers...','I need an interpreter']},
+    {q:'Talk about the process of getting an X-ray and diagnosis.',ru:'Расскажите о процессе получения рентгена и постановки диагноза.',keys:['hairline fracture','immobilise','cast or splint']},
+    {q:'How do you explain your pain level and symptoms in English?',ru:'Как вы описываете уровень боли и симптомы по-английски?',keys:['on a scale of one to ten','throbbing','constant vs intermittent']},
+    {q:'Describe the experience of recovering from an injury abroad.',ru:'Опишите опыт восстановления от травмы за рубежом.',keys:['physiotherapy','follow-up appointment','cleared to fly']},
+  ],
+  health_cold:[
+    {q:'How would you describe cold symptoms to a doctor?',ru:'Как вы описали бы симптомы простуды врачу?',keys:['runny nose','sore throat','it came on suddenly']},
+    {q:'What would you say at a pharmacy when buying cold medicine?',ru:'Что вы сказали бы в аптеке при покупке средства от простуды?',keys:['something for a cold','non-drowsy formula','over-the-counter']},
+    {q:'How do you explain that you need to rest and recover?',ru:'Как вы объясняете, что вам нужно отдохнуть и восстановиться?',keys:['under the weather','take a few days off','rest is the best medicine']},
+    {q:'Talk about how you maintain your health while travelling frequently.',ru:'Расскажите, как вы поддерживаете здоровье во время частых поездок.',keys:['immune system','sleep routine','stay hydrated']},
+    {q:'How would you cancel a meeting because you are unwell?',ru:'Как вы отменили бы встречу из-за плохого самочувствия?',keys:["I'm afraid I won't be able to...",'under the circumstances','reschedule at your convenience']},
+  ],
+};
+
+// ── ADAPTIVE QUIZ ─────────────────────────────────────────────────────────────
+const AD_MAX = 15;
+let adDiff = 2;       // current difficulty: 1 | 2 | 3
+let adStreak = 0;     // consecutive correct answers at current difficulty
+let adQCount = 0;     // total questions answered
+let adAnswers = [];   // [{correct, diff}]
+let adUsed = {1:new Set(), 2:new Set(), 3:new Set()};
+let adCurrent = null; // {q, shuffledOpts, correctIdx}
+let adSelOpt = null;
+let adAnswered = false;
+let userLevel = null;
+
+function adShuffleOpts(q){
+  const idx=[0,1,2,3];
+  for(let i=3;i>0;i--){const j=Math.floor(Math.random()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]];}
+  return{shuffledOpts:idx.map(i=>q.opts[i]),correctIdx:idx.indexOf(q.ans)};
+}
+
+function adPickQuestion(){
+  const pool=QUESTION_POOL[adDiff];
+  let avail=pool.map((_,i)=>i).filter(i=>!adUsed[adDiff].has(i));
+  if(!avail.length){adUsed[adDiff].clear();avail=pool.map((_,i)=>i);}
+  const pick=avail[Math.floor(Math.random()*avail.length)];
+  adUsed[adDiff].add(pick);
+  const q=pool[pick];
+  const{shuffledOpts,correctIdx}=adShuffleOpts(q);
+  return{q,shuffledOpts,correctIdx};
+}
+
+function adRenderQ(){
+  const{q,shuffledOpts}=adCurrent;
+  const cat={grammar:'Грамматика',vocabulary:'Лексика',spelling:'Правописание'}[q.type]||'Лексика';
+  const qText=q.text.replace(/___/g,'<span class="q-blank"></span>');
+  const optsHtml=shuffledOpts.map((o,j)=>`<button class="opt" onclick="adSelectOpt(this,${j})">${o}</button>`).join('');
+  document.getElementById('questionsWrap').innerHTML=
+    `<div class="q-block active" id="qCurrent"><p class="q-cat">${cat}</p><p class="q-text">${qText}</p><div class="opts">${optsHtml}</div></div>`;
+}
+
+function adUpdateProgress(){
+  document.getElementById('progBar').style.width=(adQCount/AD_MAX*100)+'%';
+  document.getElementById('progLabel').textContent=`Вопрос ${adQCount+1} / ${AD_MAX}`;
+  [1,2,3].forEach(d=>{
+    const dot=document.getElementById('diffDot'+d);
+    if(dot)dot.classList.toggle('active',d===adDiff);
+  });
+}
+
+function adSelectOpt(btn,idx){
+  if(adAnswered)return;
+  document.querySelectorAll('#qCurrent .opt').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  adSelOpt=idx;
+  document.getElementById('btnNext').disabled=false;
+}
+
+function adNext(){
+  if(adSelOpt===null||adAnswered)return;
+  adAnswered=true;
+  const{correctIdx,q}=adCurrent;
+  const correct=adSelOpt===correctIdx;
+
+  const opts=document.querySelectorAll('#qCurrent .opt');
+  opts.forEach(b=>b.disabled=true);
+  opts[correctIdx].classList.add('correct');
+  const ruleBox=document.getElementById('ruleBox');
+  if(!correct){
+    opts[adSelOpt].classList.add('wrong');
+    document.getElementById('ruleText').innerHTML=q.rule;
+    ruleBox.style.display='block';
+  } else {ruleBox.style.display='none';}
+
+  document.getElementById('btnNext').disabled=true;
+  adAnswers.push({correct,diff:adDiff});
+  adQCount++;
+
+  // adjust difficulty
+  if(correct){
+    adStreak++;
+    if(adStreak>=2&&adDiff<3){adDiff++;adStreak=0;}
+  } else {
+    adStreak=0;
+    if(adDiff>1)adDiff--;
+  }
+
+  setTimeout(()=>{
+    ruleBox.style.display='none';
+    if(adQCount>=AD_MAX){adShowResults();}
+    else{adCurrent=adPickQuestion();adSelOpt=null;adAnswered=false;document.getElementById('btnNext').disabled=true;adRenderQ();adUpdateProgress();}
+  },correct?800:3200);
+}
+
+function adShowResults(){
+  const stats={1:{c:0,t:0},2:{c:0,t:0},3:{c:0,t:0}};
+  adAnswers.forEach(a=>{stats[a.diff].t++;if(a.correct)stats[a.diff].c++;});
+  const acc=d=>stats[d].t>0?stats[d].c/stats[d].t:0;
+  const lastDiff=adAnswers[adAnswers.length-1]?.diff||2;
+
+  let code;
+  if(stats[3].t>=4&&acc(3)>=0.6)code='C1';
+  else if(stats[3].t>=3&&acc(3)>=0.4)code='B2';
+  else if(stats[2].t>=4&&acc(2)>=0.65)code='B2';
+  else if(stats[2].t>=3&&acc(2)>=0.45)code='B1';
+  else if(lastDiff===1&&acc(1)>=0.6)code='A2';
+  else if(lastDiff===1)code='A1';
+  else if(acc(2)>=0.3)code='A2';
+  else code='A1';
+
+  const lvl=LEVELS.find(l=>l.code===code)||LEVELS[0];
+  userLevel=lvl;
+  const correct=adAnswers.filter(a=>a.correct).length;
+  document.getElementById('resLevel').textContent=lvl.code;
+  document.getElementById('resName').textContent=lvl.name;
+  document.getElementById('resScore').textContent=correct+' из '+AD_MAX+' правильных ответов';
+  document.getElementById('resDesc').textContent=lvl.desc;
+  document.getElementById('results').style.display='block';
+  buildLevelLine(lvl.code);
+  document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+document.getElementById('btnNext').addEventListener('click',adNext);
+
+function buildLevelLine(code){
+  const order=['A1','A2','B1','B2','C1'];
+  const userIdx=order.indexOf(code);
+  document.querySelectorAll('.level-point').forEach((p,i)=>{
+    p.querySelector('.lp-dot').classList.toggle('active',order[i]===code);
+    p.querySelector('.lp-code').classList.toggle('active',i<=userIdx);
+    p.querySelector('.lp-name').classList.toggle('active',i<=userIdx);
+  });
+  document.querySelectorAll('.lp-connector').forEach((c,i)=>c.classList.toggle('filled',i<userIdx));
+}
+
+function openPlan(){
+  if(userLevel)localStorage.setItem('arntLevel',JSON.stringify(userLevel));
+  window.open('plan.html','_blank');
+}
+
+function skipToA1(){
+  const lvl = LEVELS.find(l=>l.code==='A1') || LEVELS[0];
+  userLevel = lvl;
+  localStorage.setItem('arntLevel', JSON.stringify(lvl));
+  window.open('plan.html','_blank');
+}
+
+// ── SPEAKING ─────────────────────────────────────────────────────────────────
+let spTopic='travel', spSub='travel_hotel', spPrompts=[], spPromptIdx=0;
+let spTimer=null, spTimeLeft=60, spRunning=false;
+
+function setSpTopic(btn,topic){
+  document.querySelectorAll('.spt').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSpSubTabs(topic);
+}
+
+function renderSpSubTabs(topic){
+  const subs=TOPICS[topic].subs;
+  const wrap=document.getElementById('spSubTabs');
+  wrap.innerHTML=subs.map((s,i)=>`<button class="sp-sub${i===0?' active':''}" onclick="setSpSub(this,'${topic}_${s.k}')">${s.n}</button>`).join('');
+  setSpSubDirect(topic+'_'+subs[0].k);
+}
+
+function setSpSub(btn,key){
+  document.querySelectorAll('.sp-sub').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  setSpSubDirect(key);
+}
+
+function setSpSubDirect(key){
+  spSub=key;
+  spPrompts=[...(SPEAKING[key]||[])];
+  spPromptIdx=0;
+  resetTimer();
+  document.getElementById('spPrompt').classList.remove('vis');
+  document.getElementById('spPrompt').textContent='';
+  document.getElementById('spIdle').style.display='block';
+  updateQCounter();
+}
+
+function nextPrompt(){
+  spPromptIdx=(spPromptIdx+1)%spPrompts.length;
+  showPrompt();
+  resetTimer();
+}
+
+function showPrompt(){
+  const el=document.getElementById('spPrompt');
+  const ruEl=document.getElementById('spRu');
+  const keysEl=document.getElementById('spKeys');
+  document.getElementById('spIdle').style.display='none';
+  el.classList.remove('vis');
+  ruEl.classList.remove('vis');
+  keysEl.classList.remove('vis');
+  const item=spPrompts[spPromptIdx];
+  setTimeout(()=>{
+    el.textContent=item.q;
+    ruEl.textContent=item.ru;
+    keysEl.innerHTML=item.keys.map(k=>`<span class="sp-key">${k}</span>`).join('');
+    el.classList.add('vis');
+    ruEl.classList.add('vis');
+    keysEl.classList.add('vis');
+  },150);
+  updateQCounter();
+}
+
+function updateQCounter(){
+  const el=document.getElementById('spQCounter');
+  if(el)el.textContent=(spPromptIdx+1)+' / '+spPrompts.length;
+}
+
+function startSpeaking(){
+  if(spRunning){stopTimer();return;}
+  showPrompt();
+  spRunning=true;
+  document.getElementById('spStartBtn').textContent='Стоп';
+  spTimeLeft=60; updateTimerDisplay();
+  spTimer=setInterval(()=>{
+    spTimeLeft--;
+    updateTimerDisplay();
+    if(spTimeLeft<=0){stopTimer();nextPrompt();}
+  },1000);
+}
+
+function stopTimer(){
+  clearInterval(spTimer);
+  spRunning=false;
+  document.getElementById('spStartBtn').textContent='Старт';
+}
+
+function resetTimer(){
+  stopTimer();
+  spTimeLeft=60;
+  updateTimerDisplay();
+}
+
+function updateTimerDisplay(){
+  document.getElementById('timerNum').textContent=spTimeLeft;
+  const r=48, c=2*Math.PI*r;
+  const offset=c*(1-(spTimeLeft/60));
+  document.getElementById('timerCircle').style.strokeDashoffset=offset;
+  document.getElementById('timerCircle').style.strokeDasharray=c;
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+(function adInit(){
+  [1,2,3].forEach(d=>{
+    const p=QUESTION_POOL[d];
+    for(let i=p.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[p[i],p[j]]=[p[j],p[i]];}
+  });
+  adDiff=2; adStreak=0; adQCount=0; adAnswers=[];
+  adUsed={1:new Set(),2:new Set(),3:new Set()};
+  adCurrent=adPickQuestion(); adSelOpt=null; adAnswered=false;
+  document.getElementById('btnNext').disabled=true;
+  adRenderQ(); adUpdateProgress();
+})();
+updateTimerDisplay();
+renderSpSubTabs('travel');
+
+const nav=document.getElementById('mainNav');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>60);});
+
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+
+<!-- COOKIE BANNER -->
+<div class="cookie-banner" id="cookieBanner">
+  <p class="cookie-text">Мы используем файлы cookie для корректной работы сайта. Продолжая использование, вы соглашаетесь с нашей <a href="privacy.html" style="color:var(--cream);opacity:.8;text-decoration:underline;text-underline-offset:2px;">политикой конфиденциальности</a>.</p>
+  <div class="cookie-btns">
+    <button class="cookie-accept" onclick="cookieChoice('accepted')">Принять</button>
+    <button class="cookie-decline" onclick="cookieChoice('declined')">Отклонить</button>
+  </div>
+</div>
+<script>
+(function(){
+  if(!localStorage.getItem('arntCookies')){
+    setTimeout(function(){
+      var b=document.getElementById('cookieBanner');
+      if(b) b.classList.add('vis');
+    },800);
+  }
+})();
+function cookieChoice(v){
+  localStorage.setItem('arntCookies',v);
+  var b=document.getElementById('cookieBanner');
+  b.classList.remove('vis');
+}
+</script>
+</body>
+</html>

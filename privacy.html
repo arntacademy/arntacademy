@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Политика конфиденциальности — Arnt Academy · Арнт Академия</title>
+<style>
+@font-face{font-family:'Cormorant Garamond';src:url('cormorant-garamond-v21-latin-regular.woff2') format('woff2');font-weight:200 900;font-style:normal;font-display:swap;unicode-range:U+0000-024F,U+1E00-1EFF,U+2000-206F,U+20AC,U+FEFF;}
+@font-face{font-family:'Jost';src:url('jost-v20-latin-regular.woff2') format('woff2');font-weight:200 900;font-style:normal;font-display:swap;unicode-range:U+0000-024F,U+1E00-1EFF,U+2000-206F,U+20AC,U+FEFF;}
+:root{--white:#FDFDFD;--cream:#F2EBD6;--brown:#251802;--green:#1A2E22;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--white);color:var(--brown);}
+
+/* NAV */
+nav{background:var(--brown);display:flex;align-items:center;justify-content:space-between;padding:22px 60px;}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.nav-logo img{width:32px;height:32px;object-fit:contain;filter:brightness(0) invert(1);opacity:.8;}
+.nav-logo span{font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:500;letter-spacing:3px;color:var(--cream);text-transform:uppercase;}
+.nav-logo-sep{opacity:.28;margin:0 9px;font-weight:300;letter-spacing:0;}
+.nav-back{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--cream);text-decoration:none;opacity:.6;transition:opacity .2s;}
+.nav-back:hover{opacity:1;}
+
+/* HERO */
+.priv-hero{background:var(--brown);padding:70px 60px 60px;text-align:center;}
+.priv-tag{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--cream);opacity:.4;margin-bottom:16px;}
+.priv-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,64px);font-weight:300;color:var(--cream);line-height:1;margin-bottom:14px;}
+.priv-date{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--cream);opacity:.3;}
+
+/* CONTENT */
+.priv-body{max-width:760px;margin:0 auto;padding:72px 40px 100px;}
+.priv-section{margin-bottom:52px;}
+.priv-section:last-child{margin-bottom:0;}
+.priv-h2{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;color:var(--brown);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(37,24,2,.1);}
+.priv-p{font-size:13px;font-weight:300;line-height:1.95;color:var(--brown);opacity:.8;margin-bottom:12px;}
+.priv-p:last-child{margin-bottom:0;}
+.priv-p a{color:var(--brown);opacity:1;text-decoration:underline;text-underline-offset:3px;}
+.priv-p a:hover{opacity:.6;}
+
+/* Services table */
+.services-list{width:100%;border-collapse:collapse;margin-top:4px;}
+.services-list th{font-size:8.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--brown);opacity:.4;font-weight:500;padding:10px 14px;text-align:left;border-bottom:1px solid rgba(37,24,2,.12);}
+.services-list td{font-size:12.5px;font-weight:300;color:var(--brown);padding:14px 14px;border-bottom:1px solid rgba(37,24,2,.06);vertical-align:top;line-height:1.6;}
+.services-list tr:last-child td{border-bottom:none;}
+.services-list td:first-child{font-weight:400;white-space:nowrap;}
+.services-list tr:hover td{background:rgba(37,24,2,.02);}
+
+/* localStorage note */
+.local-block{background:rgba(37,24,2,.03);border-left:2px solid rgba(37,24,2,.15);padding:16px 20px;margin-top:8px;}
+.local-block p{font-size:12.5px;font-weight:300;line-height:1.85;color:var(--brown);opacity:.75;}
+.local-block code{font-family:monospace;font-size:11px;background:rgba(37,24,2,.07);padding:2px 6px;border-radius:2px;}
+
+/* FOOTER */
+footer{background:var(--brown);padding:32px 60px;display:flex;justify-content:space-between;align-items:center;}
+.f-copy{font-size:10px;color:var(--cream);opacity:.25;letter-spacing:.5px;}
+.f-back{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--cream);text-decoration:none;opacity:.5;transition:opacity .2s;}
+.f-back:hover{opacity:1;}
+
+@media(max-width:900px){
+  nav,footer{padding:18px 24px;}
+  .priv-hero{padding:50px 24px 44px;}
+  .priv-body{padding:48px 24px 72px;}
+}
+@media(max-width:480px){
+  nav{padding:14px 16px;}
+  .priv-hero{padding:36px 16px 32px;}
+  .priv-body{padding:36px 16px 56px;}
+  footer{padding:24px 16px;flex-direction:column;gap:12px;text-align:center;}
+  .services-list td,.services-list th{padding:10px 8px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="Frame 24.png" alt="Arnt Academy">
+    <span>Arnt Academy<span class="nav-logo-sep">·</span>Арнт Академия</span>
+  </a>
+  <a href="index.html" class="nav-back">← На главную</a>
+</nav>
+
+<div class="priv-hero">
+  <p class="priv-tag">Юридический документ</p>
+  <h1 class="priv-title">Политика<br>конфиденциальности</h1>
+  <p class="priv-date">Редакция от 25 мая 2025 г.</p>
+</div>
+
+<div class="priv-body">
+
+  <div class="priv-section">
+    <h2 class="priv-h2">1. Кто мы</h2>
+    <p class="priv-p">Arnt Academy (Арнт Академия) — частная онлайн-школа английского языка. Настоящая политика описывает, какие данные собирает сайт и каким образом они используются.</p>
+    <p class="priv-p">По вопросам — свяжитесь с нами через форму на сайте.</p>
+  </div>
+
+  <div class="priv-section">
+    <h2 class="priv-h2">2. Сторонние сервисы</h2>
+    <p class="priv-p">Сайт подключает следующие внешние сервисы. При загрузке страницы ваш браузер автоматически обращается к их серверам, что может передавать технические данные (IP-адрес, параметры браузера).</p>
+    <table class="services-list">
+      <thead>
+        <tr>
+          <th>Сервис</th>
+          <th>Назначение</th>
+          <th>Передаваемые данные</th>
+          <th>Политика сервиса</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Google Fonts<br><small style="opacity:.45;font-size:11px">fonts.googleapis.com<br>fonts.gstatic.com</small></td>
+          <td>Загрузка шрифтов Cormorant Garamond и Jost</td>
+          <td>IP-адрес, заголовки браузера (User-Agent, Referer)</td>
+          <td><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="priv-p" style="margin-top:14px;font-size:11.5px;opacity:.55;">Аналитических систем, рекламных пикселей, встроенных видео и карт на сайте нет.</p>
+  </div>
+
+  <div class="priv-section">
+    <h2 class="priv-h2">3. Локальное хранилище (localStorage)</h2>
+    <p class="priv-p">Сайт использует <strong>localStorage</strong> вашего браузера — данные хранятся только на вашем устройстве и никуда не передаются.</p>
+    <div class="local-block">
+      <p><code>arntCookies</code> — ваш выбор в баннере cookie (значение <em>accepted</em> или <em>declined</em>). Нужно, чтобы баннер не показывался повторно.</p>
+      <p style="margin-top:8px;"><code>arntLevel</code> — результат теста на уровень английского (код уровня, описание). Используется для формирования персональной программы. Не покидает ваш браузер.</p>
+    </div>
+  </div>
+
+  <div class="priv-section">
+    <h2 class="priv-h2">4. Персональные данные</h2>
+    <p class="priv-p">Сайт <strong>не собирает</strong> личные данные пользователей: не требует регистрации, не сохраняет имена, email-адреса или номера телефонов в базе данных.</p>
+    <p class="priv-p">Форма подписки в футере (если она активирована) передаёт email непосредственно на указанный адрес — без промежуточного хранения на сервере.</p>
+  </div>
+
+  <div class="priv-section">
+    <h2 class="priv-h2">5. Cookie-файлы</h2>
+    <p class="priv-p">Сам сайт не устанавливает cookie-файлы. Google Fonts может устанавливать технические cookie в соответствии со своей политикой. Вы можете запретить сохранение cookie в настройках браузера — функциональность сайта от этого не пострадает.</p>
+  </div>
+
+  <div class="priv-section">
+    <h2 class="priv-h2">6. Ваши права</h2>
+    <p class="priv-p">Вы вправе в любой момент очистить localStorage через настройки браузера (Настройки → Конфиденциальность → Очистить данные сайта). Это сбросит результат теста и выбор cookie-баннера.</p>
+    <p class="priv-p">По вопросам, связанным с персональными данными, свяжитесь с нами через форму на сайте.</p>
+  </div>
+
+  <div class="priv-section">
+    <h2 class="priv-h2">7. Изменения политики</h2>
+    <p class="priv-p">Если состав подключённых сервисов изменится, мы обновим этот документ и проставим новую дату редакции вверху страницы.</p>
+  </div>
+
+</div>
+
+<footer>
+  <span class="f-copy">© 2026 Arnt Academy. Все права защищены.</span>
+  <a href="index.html" class="f-back">← На главную</a>
+</footer>
+
+</body>
+</html>
