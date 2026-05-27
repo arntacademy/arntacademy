@@ -4,13 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Arnt Academy — English for Travellers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 @font-face{font-family:'Cormorant Garamond';src:url('cormorant-garamond-v21-latin-regular.woff2') format('woff2');font-weight:200 900;font-style:normal;font-display:swap;unicode-range:U+0000-024F,U+1E00-1EFF,U+2000-206F,U+20AC,U+FEFF;}
 @font-face{font-family:'Jost';src:url('jost-v20-latin-regular.woff2') format('woff2');font-weight:200 900;font-style:normal;font-display:swap;unicode-range:U+0000-024F,U+1E00-1EFF,U+2000-206F,U+20AC,U+FEFF;}
 :root{--white:#FDFDFD;--cream:#F2EBD6;--brown:#251802;--green:#1A2E22;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:'Jost',sans-serif;background:var(--white);color:var(--brown);overflow-x:hidden;}
+body{font-family:'Inter','Jost',sans-serif;background:var(--white);color:var(--brown);overflow-x:hidden;}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:22px 60px;transition:background .4s,box-shadow .4s;}
@@ -50,7 +53,7 @@ nav.scrolled{background:var(--brown);box-shadow:0 2px 30px rgba(0,0,0,.35);}
 .body-text{font-size:13.5px;font-weight:300;line-height:1.95;color:var(--brown);opacity:.78;margin-bottom:18px;}
 
 /* TEST */
-#test{background:var(--white);padding:130px 60px;}
+#test{background:var(--cream);padding:130px 60px;border-top:1px solid rgba(37,24,2,.1);border-bottom:1px solid rgba(37,24,2,.1);}
 .test-inner{max-width:760px;margin:0 auto;}
 .test-head{text-align:center;margin-bottom:64px;}
 .test-head-ornament{display:block;margin:0 auto 28px;opacity:.35;}
@@ -272,7 +275,7 @@ footer{background:var(--brown);padding:80px 60px 48px;}
 <nav id="mainNav">
   <a href="#" class="nav-logo">
     <img src="Frame 24.png" alt="Arnt Academy">
-    <span>Arnt Academy<span class="nav-logo-sep">·</span>Арнт Академия</span>
+    <span>Arnt Academy</span>
   </a>
   <ul class="nav-links">
     <li><a href="#test">Тест на уровень</a></li>
@@ -287,7 +290,7 @@ footer{background:var(--brown);padding:80px 60px 48px;}
   <img src="Frame 24.png" alt="Arnt Academy" class="hero-crest">
   <p class="hero-tag">Академия английского языка</p>
   <h1 class="hero-title">Arnt<br><em>Academy</em></h1>
-  <p class="hero-ru">Арнт Академия</p>
+
   <p class="hero-sub">Английский для тех, кто путешествует по миру, ценит детали и не тратит время впустую.</p>
   <div class="hero-btns">
     <a href="#test" class="btn-p">Определить уровень</a>
