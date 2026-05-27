@@ -237,6 +237,13 @@ footer{background:var(--brown);padding:80px 60px 48px;}
   .teacher-stats{grid-template-columns:1fr;}
   .timer-num{font-size:44px;}
   .timer-svg{width:90px;height:90px;}
+  .body-text{font-size:15px;line-height:1.8;}
+  .q-text{font-size:20px;line-height:1.5;}
+  .opt{font-size:15px;padding:16px 18px;}
+  .rule-box{font-size:14px;line-height:1.7;}
+  .sec-title{font-size:28px;}
+  .hero-sub{font-size:14px;letter-spacing:.3px;}
+  .btn-p,.btn-o{padding:16px 28px;font-size:11px;}
 }
 </style>
 </head>
@@ -458,7 +465,7 @@ footer{background:var(--brown);padding:80px 60px 48px;}
   <div class="footer-inner">
     <div class="footer-top">
       <div>
-        <div class="f-brand">Arnt Academy<span class="nav-logo-sep">·</span>Арнт Академия</div>
+        <div class="f-brand">Arnt Academy</div>
         <p class="f-tag">Английский для тех, кто путешествует по миру, выбирает детали и не тратит время впустую.</p>
       </div>
       <div>
@@ -481,8 +488,8 @@ footer{background:var(--brown);padding:80px 60px 48px;}
 // ── ADAPTIVE QUESTION POOL ────────────────────────────────────────────────────
 const QUESTION_POOL = {
   1: [
-    {type:'grammar',text:'She ___ English every morning before breakfast.',opts:['studies','study','is study','studying'],ans:0,
-     rule:'<strong>Present Simple (she/he/it):</strong> для третьего лица единственного числа добавляем -s/-es. "She studies" — правильная форма.'},
+    {type:'vocabulary',text:'Вы приехали в отель. Как сказать «у меня есть бронь»?',opts:['I have a reservation','I have a book','I have a stay','I want a room'],ans:0,
+     rule:'<strong>Reservation</strong> — бронирование. "I have a reservation" — стандартная фраза при заезде. "I booked online" тоже подойдёт.'},
     {type:'grammar',text:'We ___ to Barcelona last summer.',opts:['travelled','travel','have travel','are travelling'],ans:0,
      rule:'<strong>Past Simple:</strong> для завершённых действий в прошлом используем форму V2. "Last summer" — маркер прошедшего времени.'},
     {type:'grammar',text:'There ___ a lot of tourists at the airport today.',opts:['are','is','were','am'],ans:0,
