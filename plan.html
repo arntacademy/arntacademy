@@ -356,7 +356,7 @@ footer{background:var(--brown);padding:50px 60px;display:flex;justify-content:sp
 </div>
 
 <!-- TOPIC SELECTOR + PLAN CONTENT -->
-<div class="topic-section">
+<div class="topic-section" id="topics">
   <div class="topic-inner">
     <p class="sec-tag">Шаг 1 — Выберите тему</p>
     <h2 class="sec-title">Что будем<br><em>прокачивать?</em></h2>
@@ -1426,6 +1426,9 @@ function selectSub(btn, key){
   currentSub = key;
   currentReadingIdx = 0;
   renderPlan();
+  setTimeout(()=>{
+    document.querySelector('.plan-tabs').scrollIntoView({behavior:'smooth',block:'start'});
+  }, 80);
 }
 
 function renderPlan(){
@@ -1846,6 +1849,9 @@ function switchTab(btn, id){
   document.querySelectorAll('.pcontent').forEach(c=>c.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById(id).classList.add('active');
+  setTimeout(()=>{
+    document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
+  }, 60);
 }
 </script>
 
