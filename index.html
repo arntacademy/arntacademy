@@ -388,8 +388,6 @@ footer{background:var(--brown);padding:80px 60px 48px;}
         <p class="sec-tag">Узнай уровень и получи персональную программу</p>
         <h2 class="sec-title">Определи свой<br><em>уровень английского</em></h2>
         <p class="body-text" style="max-width:480px;margin:0 auto;text-align:center;">12 вопросов · адаптивный тест. Сложность меняется под ваш уровень. Займёт 3–4 минуты.</p>
-        <div class="skip-divider"><span>или</span></div>
-        <button class="skip-a1-btn" onclick="skipToA1()">Я не знаю английский — хочу программу для старта</button>
       </div>
       <div id="testArea" style="margin-top:56px;">
         <div class="diff-row">
@@ -676,26 +674,26 @@ footer{background:var(--brown);padding:80px 60px 48px;}
 // ── ADAPTIVE QUESTION POOL ────────────────────────────────────────────────────
 const QUESTION_POOL = {
   1: [
-    {type:'vocabulary',text:'Вы приехали в отель. Как сказать «у меня есть бронь»?',opts:['I have a reservation','I have a book','I have a stay','I want a room'],ans:0,
-     rule:'<strong>Reservation</strong> — бронирование. "I have a reservation" — стандартная фраза при заезде. "I booked online" тоже подойдёт.'},
-    {type:'grammar',text:'We ___ to Barcelona last summer.',opts:['travelled','travel','have travel','are travelling'],ans:0,
-     rule:'<strong>Past Simple:</strong> для завершённых действий в прошлом используем форму V2. "Last summer" — маркер прошедшего времени.'},
-    {type:'grammar',text:'There ___ a lot of tourists at the airport today.',opts:['are','is','were','am'],ans:0,
-     rule:'<strong>There are:</strong> "there are" используется с существительными во множественном числе. "There is" — только с единственным.'},
-    {type:'grammar',text:'This hotel is ___ than the one we stayed in before.',opts:['more comfortable','comfortabler','most comfortable','the most comfortable'],ans:0,
-     rule:'<strong>Сравнительная степень:</strong> для длинных прилагательных (3+ слога) используем "more + adjective". "Comfortabler" — не существует.'},
+    {type:'vocabulary',text:'Что означает "I\'d like to make a reservation"?',opts:['Хочу забронировать столик или номер','Хочу получить разрешение','Хочу оставить замечание','Мне нужно уточнить детали'],ans:0,
+     rule:'<strong>Reservation</strong> [ˌrezəˈveɪʃn] — бронирование. "Make a reservation" = забронировать столик, номер, место. "Reservation" по-русски также значит «оговорка», но в контексте ресторана или отеля — всегда бронирование. "I\'d like to make a reservation for two" — Хочу забронировать на двоих.'},
+    {type:'grammar',text:'We ___ to Barcelona last summer.',opts:['travelled','travel','have travelled','were travelling'],ans:0,
+     rule:'<strong>Past Simple vs Present Perfect:</strong> "last summer" — конкретный момент в прошлом, поэтому нужен Past Simple (travelled). Present Perfect (have travelled) нельзя использовать с конкретным временным маркером: last summer, yesterday, in 2022.'},
+    {type:'grammar',text:'There ___ a lot of tourists at the airport today.',opts:['are','is','has been','were'],ans:0,
+     rule:'<strong>There are:</strong> "tourists" — множественное число, поэтому "there are". "There is" — с единственным числом. "Has been" — Present Perfect (неправильное время для описания ситуации прямо сейчас). "Were" — прошедшее время, противоречит "today".'},
+    {type:'grammar',text:'This hotel is ___ than the one we stayed in before.',opts:['more comfortable','most comfortable','more comfortably','as comfortable'],ans:0,
+     rule:'<strong>Сравнительная степень:</strong> при сравнении двух объектов с "than" — "more + adjective". "Most comfortable / the most comfortable" — превосходная степень (для трёх и более). "More comfortably" — наречие, а не прилагательное. "As comfortable" — используется в конструкции as...as (без than).'},
     {type:'grammar',text:'___ you help me carry these bags, please?',opts:['Could','Would have','Should have','Might have'],ans:0,
      rule:'<strong>Could для просьб:</strong> "Could you...?" — стандартная вежливая форма просьбы. Гораздо вежливее, чем "Can you...?"'},
     {type:'vocabulary',text:'Что означает слово "accommodation"?',opts:['место для проживания','завтрак','транспорт','страховка'],ans:0,
      rule:'<strong>Accommodation</strong> [əˌkɒməˈdeɪʃn] — место для проживания (отель, квартира и т.д.). "What accommodation did you book for the trip?"'},
     {type:'vocabulary',text:'Что означает слово "departure"?',opts:['отправление / вылет','прибытие','задержка','регистрация'],ans:0,
      rule:'<strong>Departure</strong> [dɪˈpɑːtʃə] — отправление или вылет. Антоним — "arrival" (прибытие). "Departure gate 14 — посадочный выход 14."'},
-    {type:'grammar',text:'Please ___ quiet in the hotel lobby.',opts:['be','are','is','being'],ans:0,
-     rule:'<strong>Imperative (повелительное наклонение):</strong> "Please be quiet" — вежливое требование. В повелительном используем базовую форму глагола.'},
+    {type:'grammar',text:'If it ___ tomorrow, we\'ll cancel the boat trip.',opts:['rains','will rain','rained','is raining'],ans:0,
+     rule:'<strong>First Conditional:</strong> "If + Present Simple, will + infinitive" — реальное условие в будущем. Самая частая ошибка: "If it will rain" — в придаточном с if нельзя использовать will. "If it rained" — второе условное (нереальная ситуация, другая структура). "Is raining" — описывает момент прямо сейчас, а не условие будущего.'},
     {type:'vocabulary',text:'"Please ___ your seatbelt before takeoff."',opts:['fasten','put','wear','tie'],ans:0,
      rule:'<strong>Fasten your seatbelt</strong> — устойчивое выражение. "Fasten" — для ремня. "Put on" — для одежды. "Wear" — состояние ношения.'},
-    {type:'grammar',text:'I ___ at this hotel last week and it was wonderful.',opts:['stayed','stay','am staying','have stay'],ans:0,
-     rule:'<strong>Past Simple:</strong> "last week" — чёткий маркер прошедшего. Используем stayed (V2), а не Present Perfect.'},
+    {type:'grammar',text:'I ___ at this hotel last week and it was wonderful.',opts:['stayed','stay','am staying','have stayed'],ans:0,
+     rule:'<strong>Past Simple vs Present Perfect:</strong> "last week" — конкретный момент в прошлом. Нужен Past Simple (stayed). "Have stayed" (Present Perfect) нельзя использовать с маркерами прошедшего времени: last week, yesterday, in 2023.'},
     {type:'grammar',text:'Look! The children ___ in the hotel pool.',opts:['are swimming','swim','swam','have swum'],ans:0,
      rule:'<strong>Present Continuous:</strong> маркер "Look!" указывает на действие прямо сейчас. "Are swimming" — действие в момент речи, а не привычка.'},
     {type:'grammar',text:'___ you ever been to Dubai?',opts:['Have','Did','Are','Do'],ans:0,
@@ -712,12 +710,16 @@ const QUESTION_POOL = {
      rule:'<strong>Much vs Many:</strong> "much" — с неисчисляемыми существительными (luggage, time, money). "many" — с исчисляемыми (bags, tickets). "Luggage" — неисчисляемое.'},
     {type:'grammar',text:'___ there a restaurant on the third floor?',opts:['Is','Are','Does','Has'],ans:0,
      rule:'<strong>There is / There are:</strong> "Is there + единственное число?" — существует ли что-то? "Are there + множественное число?". "A restaurant" — единственное число.'},
+    {type:'grammar',text:'I need ___ taxi to ___ airport, please.',opts:['a / the','the / a','a / a','the / the'],ans:0,
+     rule:'<strong>Артикли a / the:</strong> "a taxi" — любое такси (неконкретное, первое упоминание). "The airport" — конкретный аэропорт, известный обоим говорящим. Правило: a/an — при первом упоминании или когда объект неконкретен; the — когда оба понимают, о чём речь.'},
+    {type:'grammar',text:'The conference starts ___ Monday ___ 9 a.m.',opts:['on / at','at / on','in / at','on / in'],ans:0,
+     rule:'<strong>Предлоги времени:</strong> on + день недели (on Monday, on Friday). at + конкретное время (at 9 a.m., at noon). in + период (in the morning, in July). Запомните: on Monday at 9 — никогда "in Monday" или "at Monday".'},
   ],
   2: [
     {type:'grammar',text:'If I ___ you, I would call her right away.',opts:['were','was','am','be'],ans:0,
      rule:'<strong>Условное II (Unreal Conditional):</strong> для нереальных ситуаций используем «If + were» для всех лиц. "If I were you" — стандартная форма.'},
-    {type:'grammar',text:'She has been living in London ___ five years.',opts:['since','for','during','from'],ans:1,
-     rule:'<strong>For vs Since:</strong> «For» + период времени (for five years). «Since» + момент начала (since 2020). Здесь "five years" — период.'},
+    {type:'grammar',text:'She has been living in London ___ five years.',opts:['since','for','during','in'],ans:1,
+     rule:'<strong>For vs Since:</strong> «for» + период (for five years, for a month). «since» + момент начала (since 2020, since January). "During" — на протяжении чего-то конкретного (during the meeting). "In five years" = через пять лет (будущее значение).'},
     {type:'grammar',text:'By the time we arrive, they ___ already left.',opts:['will have','would have','have','had'],ans:0,
      rule:'<strong>Future Perfect:</strong> "will have + V3" — действие завершится до определённого момента в будущем. "By the time we arrive" — маркер.'},
     {type:'grammar',text:'Neither the pilot nor the crew ___ aware of the delay.',opts:['is','are','was','were'],ans:1,
@@ -750,6 +752,10 @@ const QUESTION_POOL = {
      rule:'<strong>Must have + V3:</strong> уверенный вывод о прошлом. "She must have left it" — очевидно, оставила. Используем когда логика указывает на единственное объяснение.'},
     {type:'grammar',text:'It is essential that every passenger ___ their boarding pass ready at the gate.',opts:['have','has','will have','had'],ans:0,
      rule:'<strong>Subjunctive после "essential that":</strong> после "it is essential / vital / important that" используем базовую форму глагола (Present Subjunctive). "have" без -s для всех лиц.'},
+    {type:'grammar',text:'She said she ___ at the airport by 6, but she never showed ___ .',opts:['would be / up','will be / up','would be / out','would be / in'],ans:0,
+     rule:'<strong>Reported Speech + Phrasal Verb:</strong> "will be" → "would be" (сдвиг времени в косвенной речи). "Show up" = appear, arrive — появиться, добраться. "Show out" = see someone to the door. "Show in" = провести внутрь.'},
+    {type:'grammar',text:'I ___ rather take a direct flight than have a long layover.',opts:['would','will','should','could'],ans:0,
+     rule:'<strong>Would rather:</strong> "would rather + infinitive" — предпочтение из двух вариантов. "I would rather take a taxi" = Я бы предпочёл взять такси. Не путайте с "would like to" (желание) и "should" (совет/долженствование).'},
   ],
   3: [
     {type:'grammar',text:'Despite ___ jet-lagged, he attended every business session.',opts:['being','to be','been','be'],ans:0,
@@ -981,7 +987,7 @@ function adNext(){
     ruleBox.style.display='none';
     if(adQCount>=AD_MAX){adShowResults();}
     else{adCurrent=adPickQuestion();adSelOpt=null;adAnswered=false;document.getElementById('btnNext').disabled=true;adRenderQ();adUpdateProgress();}
-  },correct?800:3200);
+  },correct?800:5500);
 }
 
 function adShowResults(){
