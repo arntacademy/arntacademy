@@ -113,6 +113,25 @@ nav.scrolled{background:var(--brown);box-shadow:0 2px 30px rgba(0,0,0,.35);}
 .btn-plan{font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--brown);background:var(--cream);padding:15px 40px;border:none;cursor:pointer;transition:background .2s;}
 .btn-plan:hover{background:var(--white);}
 
+/* ── FUNNEL ─────────────────────────────────────────────────────────────── */
+.fn-screen{display:none;}
+.fn-screen.fn-active{display:block;}
+.res-diagnosis{font-size:15px;font-weight:300;line-height:1.9;color:var(--cream);opacity:.75;max-width:520px;margin:0 auto 48px;}
+.fn-park-body{font-size:14px;font-weight:300;line-height:1.95;color:var(--cream);opacity:.72;max-width:480px;margin:0 auto 48px;}
+.fn-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,46px);font-weight:400;line-height:1.1;color:var(--brown);margin-bottom:40px;}
+.fn-h2 em{font-style:italic;}
+.fn-theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:720px;margin:0 auto;}
+.fn-theme-card{border:1px solid rgba(37,24,2,.2);background:var(--white);padding:36px 20px 30px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:12px;transition:all .22s;font-family:'Jost',sans-serif;text-align:center;}
+.fn-theme-card:hover{border-color:var(--brown);background:var(--cream);transform:translateY(-2px);}
+.fn-tc-icon{font-size:30px;line-height:1;margin-bottom:4px;}
+.fn-tc-label{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--brown);margin-bottom:6px;}
+.fn-tc-hint{font-size:9px;letter-spacing:1.8px;text-transform:uppercase;color:var(--brown);opacity:.42;line-height:1.6;}
+@media(max-width:600px){
+  .fn-theme-grid{grid-template-columns:1fr;max-width:340px;}
+  .fn-theme-card{flex-direction:row;text-align:left;padding:20px 22px;gap:18px;align-items:center;}
+  .fn-tc-icon{font-size:26px;flex-shrink:0;}
+}
+
 /* TEACHER */
 #teacher{background:var(--cream);padding:130px 60px;}
 .teacher-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:5fr 7fr;gap:80px;align-items:start;}
@@ -343,29 +362,67 @@ footer{background:var(--brown);padding:80px 60px 48px;}
   </div>
 </section>
 
-<!-- RESULTS -->
+<!-- RESULTS / FUNNEL -->
 <section id="results">
-  <div style="max-width:700px;margin:0 auto;text-align:center;">
-    <p class="res-tag">Ваш уровень</p>
-    <div class="res-level" id="resLevel">B1</div>
-    <div class="res-name" id="resName">Pre-Intermediate</div>
-    <div class="res-score" id="resScore">9 / 12 правильных ответов</div>
-    <p class="res-desc" id="resDesc"></p>
-    <div class="level-line-wrap">
-      <div class="level-line" id="levelLine">
-        <div class="level-point" data-lvl="A1"><div class="lp-dot"></div><div class="lp-code">A1</div><div class="lp-name">Начальный</div></div>
-        <div class="lp-connector"></div>
-        <div class="level-point" data-lvl="A2"><div class="lp-dot"></div><div class="lp-code">A2</div><div class="lp-name">Элементарный</div></div>
-        <div class="lp-connector"></div>
-        <div class="level-point" data-lvl="B1"><div class="lp-dot"></div><div class="lp-code">B1</div><div class="lp-name">Средний</div></div>
-        <div class="lp-connector"></div>
-        <div class="level-point" data-lvl="B2"><div class="lp-dot"></div><div class="lp-code">B2</div><div class="lp-name">Выше среднего</div></div>
-        <div class="lp-connector"></div>
-        <div class="level-point" data-lvl="C1"><div class="lp-dot"></div><div class="lp-code">C1</div><div class="lp-name">Продвинутый</div></div>
+
+  <!-- S1: Результат (B1+) -->
+  <div class="fn-screen fn-active" id="fn-s1">
+    <div style="max-width:700px;margin:0 auto;text-align:center;">
+      <p class="res-tag">Ваш уровень</p>
+      <div class="res-level" id="resLevel">B1</div>
+      <div class="res-name" id="resName">Pre-Intermediate</div>
+      <div class="res-score" id="resScore"></div>
+      <p class="res-diagnosis" id="resDiagnosis"></p>
+      <div class="level-line-wrap">
+        <div class="level-line" id="levelLine">
+          <div class="level-point" data-lvl="A1"><div class="lp-dot"></div><div class="lp-code">A1</div><div class="lp-name">Начальный</div></div>
+          <div class="lp-connector"></div>
+          <div class="level-point" data-lvl="A2"><div class="lp-dot"></div><div class="lp-code">A2</div><div class="lp-name">Элементарный</div></div>
+          <div class="lp-connector"></div>
+          <div class="level-point" data-lvl="B1"><div class="lp-dot"></div><div class="lp-code">B1</div><div class="lp-name">Средний</div></div>
+          <div class="lp-connector"></div>
+          <div class="level-point" data-lvl="B2"><div class="lp-dot"></div><div class="lp-code">B2</div><div class="lp-name">Выше среднего</div></div>
+          <div class="lp-connector"></div>
+          <div class="level-point" data-lvl="C1"><div class="lp-dot"></div><div class="lp-code">C1</div><div class="lp-name">Продвинутый</div></div>
+        </div>
+      </div>
+      <button class="btn-plan" onclick="fnNext('s2')">Что с этим делать →</button>
+    </div>
+  </div>
+
+  <!-- S1b: Парковка (A1/A2) -->
+  <div class="fn-screen" id="fn-s1b">
+    <div style="max-width:580px;margin:0 auto;text-align:center;">
+      <p class="res-tag">Ваш уровень</p>
+      <div class="res-level" id="fnS1bLevel"></div>
+      <div class="res-name" id="fnS1bName"></div>
+      <p class="fn-park-body" id="fnParkBody"></p>
+      <a href="#" class="btn-plan">Получить бесплатные материалы →</a>
+    </div>
+  </div>
+
+  <!-- S2: Выбор темы -->
+  <div class="fn-screen" id="fn-s2">
+    <div style="max-width:800px;margin:0 auto;text-align:center;">
+      <p class="sec-tag" style="color:var(--green);">Шаг 1 из 3</p>
+      <h2 class="fn-h2">На чём тебе важнее всего<br><em>заговорить?</em></h2>
+      <div class="fn-theme-grid">
+        <button class="fn-theme-card" onclick="fnSelectTheme('travel')">
+          <span class="fn-tc-icon">✈️</span>
+          <div><div class="fn-tc-label">Путешествия</div><div class="fn-tc-hint">аэропорт, отель, кафе</div></div>
+        </button>
+        <button class="fn-theme-card" onclick="fnSelectTheme('business')">
+          <span class="fn-tc-icon">💼</span>
+          <div><div class="fn-tc-label">Деловой</div><div class="fn-tc-hint">созвоны, письма, смолток</div></div>
+        </button>
+        <button class="fn-theme-card" onclick="fnSelectTheme('health')">
+          <span class="fn-tc-icon">🩺</span>
+          <div><div class="fn-tc-label">Здоровье</div><div class="fn-tc-hint">у врача, аптека, проблемы</div></div>
+        </button>
       </div>
     </div>
-    <button class="btn-plan" onclick="openPlan()">Получить план на месяц →</button>
   </div>
+
 </section>
 
 <!-- TEACHER -->
@@ -818,10 +875,9 @@ function adShowResults(){
   document.getElementById('resLevel').textContent=lvl.code;
   document.getElementById('resName').textContent=lvl.name;
   document.getElementById('resScore').textContent=correct+' из '+AD_MAX+' правильных ответов';
-  document.getElementById('resDesc').textContent=lvl.desc;
-  document.getElementById('results').style.display='block';
+  document.getElementById('resDiagnosis').textContent=FUNNEL_TEXTS.diagnosis[lvl.code]||lvl.desc;
   buildLevelLine(lvl.code);
-  document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+  fnStart(lvl);
 }
 
 document.getElementById('btnNext').addEventListener('click',adNext);
@@ -837,16 +893,71 @@ function buildLevelLine(code){
   document.querySelectorAll('.lp-connector').forEach((c,i)=>c.classList.toggle('filled',i<userIdx));
 }
 
+// ── FUNNEL DATA ──────────────────────────────────────────────────────────────
+const themes = {
+  travel:   {label:'Путешествия', hint:'аэропорт, отель, кафе',        icon:'✈️'},
+  business: {label:'Деловой',     hint:'созвоны, письма, смолток',      icon:'💼'},
+  health:   {label:'Здоровье',    hint:'у врача, аптека, проблемы',     icon:'🩺'},
+};
+
+const FUNNEL_TEXTS = {
+  diagnosis:{
+    B1:'У тебя уже есть база — ты понимаешь и читаешь. Но в разговоре фразы складываются медленнее, чем нужно. Это твоя точка роста прямо сейчас.',
+    B2:'Ты уже говоришь — но чувствуешь, что тебя что-то сдерживает. Точность, беглость, уверенность. Пора убрать этот потолок.',
+    C1:'Твой уровень уже высокий. Разрыв между тем, как ты думаешь, и тем, как говоришь — минимальный. Здесь работаем над нюансами, которые отличают хороший английский от отличного.',
+  },
+  park:{
+    A1:'Тебе сейчас рано бустить речь — сначала стоит собрать базу. Это честно: попытка заговорить без фундамента даёт медленный результат и много разочарований. Правильный путь — быстрее.',
+    A2:'У тебя уже есть начало. Но до уверенной речи нужно чуть укрепить фундамент — и это займёт меньше времени, чем кажется. Сейчас лучший момент для этого.',
+  },
+};
+
+// ── FUNNEL STATE ─────────────────────────────────────────────────────────────
+let fnLevel = null;
+let fnTheme = null;
+
+function fnShowScreen(id){
+  document.querySelectorAll('.fn-screen').forEach(s=>s.classList.remove('fn-active'));
+  document.getElementById('fn-'+id).classList.add('fn-active');
+  const sec = document.getElementById('results');
+  sec.style.background = (id==='fn-s2') ? 'var(--cream)' : 'var(--brown)';
+  sec.style.display = 'block';
+  sec.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function fnStart(lvl){
+  fnLevel = lvl;
+  if(lvl.code==='A1'||lvl.code==='A2'){
+    document.getElementById('fnS1bLevel').textContent = lvl.code;
+    document.getElementById('fnS1bName').textContent  = lvl.name;
+    document.getElementById('fnParkBody').textContent = FUNNEL_TEXTS.park[lvl.code]||'';
+    fnShowScreen('fn-s1b');
+  } else {
+    fnShowScreen('fn-s1');
+  }
+}
+
+function fnNext(target){
+  fnShowScreen('fn-'+target);
+}
+
+function fnSelectTheme(key){
+  fnTheme = key;
+  localStorage.setItem('arntTheme', key);
+  fnShowScreen('fn-s3'); // part 2
+}
+
 function openPlan(){
   if(userLevel)localStorage.setItem('arntLevel',JSON.stringify(userLevel));
   window.open('plan.html#topics','_blank');
 }
 
 function skipToA1(){
-  const lvl = LEVELS.find(l=>l.code==='A1') || LEVELS[0];
+  const lvl = LEVELS.find(l=>l.code==='A1')||LEVELS[0];
   userLevel = lvl;
-  localStorage.setItem('arntLevel', JSON.stringify(lvl));
-  window.open('plan.html#topics','_blank');
+  localStorage.setItem('arntLevel',JSON.stringify(lvl));
+  buildLevelLine(lvl.code);
+  fnStart(lvl);
 }
 
 // ── SPEAKING ─────────────────────────────────────────────────────────────────
