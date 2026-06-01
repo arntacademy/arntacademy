@@ -487,7 +487,7 @@ footer{background:var(--brown);padding:80px 60px 48px;}
         </div>
       </div>
       <p class="fn-park-body" id="fnParkBody"></p>
-      <a href="plan.html" class="btn-plan">Получить знания →</a>
+      <button class="btn-plan" onclick="fnNext('s2')">Давай прокачаем →</button>
     </div>
   </div>
 
@@ -1437,11 +1437,6 @@ function fnShowS6(){
   document.getElementById('fnS7Body').textContent =
     `Подпишись на канал — каждую неделю короткий урок по теме «${th.label}». Бесплатно, без спама, только практика.`;
   fnShowScreen('fn-s6');
-}
-
-function openPlan(){
-  if(userLevel)localStorage.setItem('arntLevel',JSON.stringify(userLevel));
-  window.open('plan.html#topics','_blank');
 }
 
 function skipToA1(){
