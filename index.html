@@ -473,6 +473,19 @@ footer{background:var(--brown);padding:80px 60px 48px;}
       <p class="res-tag">Ваш уровень</p>
       <div class="res-level" id="fnS1bLevel"></div>
       <div class="res-name" id="fnS1bName"></div>
+      <div class="level-line-wrap">
+        <div class="level-line">
+          <div class="level-point" data-lvl="A1"><div class="lp-dot"></div><div class="lp-code">A1</div><div class="lp-name">Начальный</div></div>
+          <div class="lp-connector"></div>
+          <div class="level-point" data-lvl="A2"><div class="lp-dot"></div><div class="lp-code">A2</div><div class="lp-name">Элементарный</div></div>
+          <div class="lp-connector"></div>
+          <div class="level-point" data-lvl="B1"><div class="lp-dot"></div><div class="lp-code">B1</div><div class="lp-name">Средний</div></div>
+          <div class="lp-connector"></div>
+          <div class="level-point" data-lvl="B2"><div class="lp-dot"></div><div class="lp-code">B2</div><div class="lp-name">Выше среднего</div></div>
+          <div class="lp-connector"></div>
+          <div class="level-point" data-lvl="C1"><div class="lp-dot"></div><div class="lp-code">C1</div><div class="lp-name">Продвинутый</div></div>
+        </div>
+      </div>
       <p class="fn-park-body" id="fnParkBody"></p>
       <a href="#" class="btn-plan">Получить бесплатные материалы →</a>
     </div>
@@ -1059,12 +1072,14 @@ document.getElementById('btnNext').addEventListener('click',adNext);
 function buildLevelLine(code){
   const order=['A1','A2','B1','B2','C1'];
   const userIdx=order.indexOf(code);
-  document.querySelectorAll('.level-point').forEach((p,i)=>{
-    p.querySelector('.lp-dot').classList.toggle('active',order[i]===code);
-    p.querySelector('.lp-code').classList.toggle('active',i<=userIdx);
-    p.querySelector('.lp-name').classList.toggle('active',i<=userIdx);
+  document.querySelectorAll('.level-line').forEach(line=>{
+    line.querySelectorAll('.level-point').forEach((p,i)=>{
+      p.querySelector('.lp-dot').classList.toggle('active',order[i]===code);
+      p.querySelector('.lp-code').classList.toggle('active',i<=userIdx);
+      p.querySelector('.lp-name').classList.toggle('active',i<=userIdx);
+    });
+    line.querySelectorAll('.lp-connector').forEach((c,i)=>c.classList.toggle('filled',i<userIdx));
   });
-  document.querySelectorAll('.lp-connector').forEach((c,i)=>c.classList.toggle('filled',i<userIdx));
 }
 
 // ── FUNNEL DATA ──────────────────────────────────────────────────────────────
