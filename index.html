@@ -1217,12 +1217,14 @@ function fnRenderVideo(){
   // examples + speaking trainer
   const exWrap  = document.getElementById('fnVidExamples');
   const spBlock = document.getElementById('fnSpBlock');
-  if(fnVidIdx === 0){
+  const stepData = FN_SP_DATA[fnVidIdx];
+  if(stepData){
     const code = (fnLevel && fnLevel.code) || 'B1';
-    const spData = FN_SP_DATA[code] || FN_SP_DATA.B1;
-    const hl = s => s.replace(/\b(clock(?:ed)?)\b/gi, '<mark>$1</mark>');
-    exWrap.innerHTML = '<p class="fn-vid-examples-label">Примеры — clock</p>' +
-      spData.examples.map(e=>
+    const lvData = stepData[code] || stepData.B1;
+    const pattern = new RegExp(`\\b(${stepData.word})\\b`, 'gi');
+    const hl = s => s.replace(pattern, '<mark>$1</mark>');
+    exWrap.innerHTML = `<p class="fn-vid-examples-label">${stepData.label}</p>` +
+      lvData.examples.map(e=>
         `<div class="fn-vid-example">
           <span class="fn-vid-ex-tag">${e.tag}</span>
           <div class="fn-vid-ex-en">${hl(e.en)}</div>
@@ -1234,12 +1236,7 @@ function fnRenderVideo(){
   } else {
     fnSpStop();
     spBlock.style.display = 'none';
-    if(step.examples && step.examples.length){
-      exWrap.innerHTML = '<p class="fn-vid-examples-label">Примеры</p>' +
-        step.examples.map(e=>`<div class="fn-vid-example">${e}</div>`).join('');
-    } else {
-      exWrap.innerHTML = '';
-    }
+    exWrap.innerHTML = '';
   }
 
   document.getElementById('fnVidTitle').textContent = step.title||'';
@@ -1261,70 +1258,205 @@ function fnVidNext(){
 
 // ── FUNNEL STEP-1 SPEAKING DATA ───────────────────────────────────────────────
 const FN_SP_DATA = {
-  A1:{
-    q:{
-      en:"Did you clock any new words today?",
-      ru:"Ты заметил(а) новые слова сегодня?",
-      keys:['clock = заметить','new words','today'],
+  // ── Шаг 1: Clock ─────────────────────────────────────────────────────────
+  0:{
+    label:'Примеры — clock',
+    word:'clock(?:ed)?',
+    A1:{
+      q:{en:"Did you clock any new words today?", ru:"Ты заметил(а) новые слова сегодня?", keys:['clock = заметить','new words','today']},
+      examples:[
+        {tag:'clock — часы',    en:'I look at the clock.',          ru:'Я смотрю на часы.'},
+        {tag:'clock — часы',    en:'There\'s a clock on the wall.', ru:'На стене есть часы.'},
+        {tag:'clock — замечать',en:'I clocked you!',                ru:'Я тебя заметил(а)!'},
+        {tag:'clock — замечать',en:'Did you clock that?',           ru:'Ты это заметил(а)?'},
+      ],
     },
-    examples:[
-      {tag:'clock — часы',    en:'I look at the clock.',          ru:'Я смотрю на часы.'},
-      {tag:'clock — часы',    en:'There\'s a clock on the wall.', ru:'На стене есть часы.'},
-      {tag:'clock — замечать',en:'I clocked you!',                ru:'Я тебя заметил(а)!'},
-      {tag:'clock — замечать',en:'Did you clock that?',           ru:'Ты это заметил(а)?'},
-    ],
+    A2:{
+      q:{en:"Can you clock the difference between British and American English?", ru:"Замечаешь разницу между британским и американским английским?", keys:['clock = замечать','difference','British English']},
+      examples:[
+        {tag:'clock — часы',    en:'What time does the clock show?',         ru:'Какое время показывают часы?'},
+        {tag:'clock — часы',    en:'The clock says three o\'clock.',          ru:'Часы показывают три часа.'},
+        {tag:'clock — замечать',en:'I clocked the sign.',                    ru:'Я заметил(а) знак.'},
+        {tag:'clock — замечать',en:'She clocked the mistake straight away.', ru:'Она заметила ошибку сразу.'},
+      ],
+    },
+    B1:{
+      q:{en:"Have you ever clocked someone speaking English really naturally and thought — how do they do that?", ru:"Ты когда-нибудь замечал(а), как кто-то очень естественно говорит по-английски, и думал: как у них это получается?", keys:['clocked someone','naturally','how do they do that']},
+      examples:[
+        {tag:'clock — часы',    en:'Keep an eye on the clock — we\'re running late.', ru:'Следи за часами — мы опаздываем.'},
+        {tag:'clock — часы',    en:'The clock struck midnight.',                       ru:'Часы пробили полночь.'},
+        {tag:'clock — замечать',en:'I clocked the way he said it.',                   ru:'Я заметил(а), как он это произнёс.'},
+        {tag:'clock — замечать',en:'Did you clock her reaction?',                     ru:'Ты заметил(а) её реакцию?'},
+      ],
+    },
+    B2:{
+      q:{en:"When you watch a film in English, do you clock the moments when you understand everything without subtitles?", ru:"Когда смотришь фильм на английском, замечаешь ли моменты, когда понимаешь всё без субтитров?", keys:['clock the moments','without subtitles','follow the plot']},
+      examples:[
+        {tag:'clock — часы',    en:'We\'re working against the clock — the deadline is tomorrow.', ru:'Мы работаем наперегонки со временем — дедлайн завтра.'},
+        {tag:'clock — часы',    en:'The clock is ticking — we need to decide now.',                ru:'Время идёт — нужно решить прямо сейчас.'},
+        {tag:'clock — замечать',en:'I clocked straight away that something was off.',              ru:'Я сразу заметил(а), что что-то не так.'},
+        {tag:'clock — замечать',en:'She clocked him the moment he walked in.',                    ru:'Она заметила его в ту же секунду, как он вошёл.'},
+      ],
+    },
+    C1:{
+      q:{en:"Have you ever clocked the way native speakers use intonation to completely shift the meaning of a sentence?", ru:"Замечал(а) ли ты, как носители языка используют интонацию, чтобы полностью изменить смысл предложения?", keys:['clocked','intonation','shift the meaning']},
+      examples:[
+        {tag:'clock — часы',    en:'Racing against the clock, she submitted the report at the last second.', ru:'Наперегонки со временем, она сдала отчёт в последнюю секунду.'},
+        {tag:'clock — часы',    en:'The clock is ticking on these negotiations.',                            ru:'Время работает против нас на этих переговорах.'},
+        {tag:'clock — замечать',en:'He clocked the subtle shift in her tone.',                              ru:'Он уловил тонкое изменение в её тоне.'},
+        {tag:'clock — замечать',en:'I clocked it immediately — she wasn\'t being entirely truthful.',       ru:'Я сразу заметил(а) — она была не до конца честна.'},
+      ],
+    },
   },
-  A2:{
-    q:{
-      en:"Can you clock the difference between British and American English?",
-      ru:"Замечаешь ли разницу между британским и американским английским?",
-      keys:['clock = замечать','difference','British English'],
+  // ── Шаг 2: Often & Soften ────────────────────────────────────────────────
+  1:{
+    label:'Примеры — often & soften',
+    word:'often|soften(?:ed|s|ing)?',
+    A1:{
+      q:{en:"How often do you speak English?", ru:"Как часто ты говоришь по-английски?", keys:['often = часто','every day','speak English']},
+      examples:[
+        {tag:'often — часто',    en:'I often drink tea.',         ru:'Я часто пью чай.'},
+        {tag:'often — часто',    en:'How often do you study?',    ru:'Как часто ты занимаешься?'},
+        {tag:'soften — смягчать',en:'Add milk to soften it.',     ru:'Добавь молоко, чтобы смягчить.'},
+        {tag:'soften — смягчать',en:'His voice softened.',        ru:'Его голос смягчился.'},
+      ],
     },
-    examples:[
-      {tag:'clock — часы',    en:'What time does the clock show?',          ru:'Какое время показывают часы?'},
-      {tag:'clock — часы',    en:'The clock says three o\'clock.',           ru:'Часы показывают три часа.'},
-      {tag:'clock — замечать',en:'I clocked the sign.',                     ru:'Я заметил(а) знак.'},
-      {tag:'clock — замечать',en:'She clocked the mistake straight away.',  ru:'Она заметила ошибку сразу.'},
-    ],
+    A2:{
+      q:{en:"Do you often watch films or listen to music in English?", ru:"Ты часто смотришь фильмы или слушаешь музыку на английском?", keys:['often = часто','films','music in English']},
+      examples:[
+        {tag:'often — часто',    en:'She often listens to music in English.',    ru:'Она часто слушает музыку на английском.'},
+        {tag:'often — часто',    en:'I don\'t often make mistakes now.',          ru:'Теперь я нечасто делаю ошибки.'},
+        {tag:'soften — смягчать',en:'Humour can soften a difficult conversation.',ru:'Юмор может смягчить сложный разговор.'},
+        {tag:'soften — смягчать',en:'Her tone softened when she saw him.',        ru:'Её тон смягчился, когда она его увидела.'},
+      ],
+    },
+    B1:{
+      q:{en:"How often do you get a chance to practise speaking, and what helps soften the nerves?", ru:"Как часто у тебя есть возможность практиковать говорение — и что помогает справиться с волнением?", keys:['often','soften the nerves','practise speaking']},
+      examples:[
+        {tag:'often — часто',    en:'I more often than not forget new words unless I use them.',    ru:'Я почти всегда забываю новые слова, если не использую их.'},
+        {tag:'often — часто',    en:'How often do you get to practise speaking?',                   ru:'Как часто у тебя есть возможность практиковать говорение?'},
+        {tag:'soften — смягчать',en:'A smile can soften even the most awkward silence.',            ru:'Улыбка может смягчить даже самую неловкую тишину.'},
+        {tag:'soften — смягчать',en:'Practising softens the accent over time.',                     ru:'Практика со временем смягчает акцент.'},
+      ],
+    },
+    B2:{
+      q:{en:"How often do you think about English outside of studying — and does that soften the gap between learning and real life?", ru:"Как часто ты думаешь об английском вне учёбы — и помогает ли это смягчить разрыв между обучением и реальной жизнью?", keys:['often','soften the gap','real life']},
+      examples:[
+        {tag:'often — часто',    en:'Fluency is more often a question of confidence than grammar.',           ru:'Беглость речи чаще всего — вопрос уверенности, а не грамматики.'},
+        {tag:'often — часто',    en:'It\'s often the small habits that make the biggest difference.',         ru:'Именно маленькие привычки часто дают наибольший результат.'},
+        {tag:'soften — смягчать',en:'Consistent input softens the discomfort of unfamiliar sounds.',         ru:'Регулярный input смягчает дискомфорт от незнакомых звуков.'},
+        {tag:'soften — смягчать',en:'She used humour to soften the criticism.',                              ru:'Она использовала юмор, чтобы смягчить критику.'},
+      ],
+    },
+    C1:{
+      q:{en:"How often do you catch yourself code-switching — and would you say immersion softens the boundary between your native and target language?", ru:"Как часто ты замечаешь, что переключаешься между языками — и смягчает ли иммерсия границу между родным и изучаемым языком?", keys:['often','code-switching','soften the boundary']},
+      examples:[
+        {tag:'often — часто',    en:'Proficiency is more often than not built on sheer volume of exposure.',              ru:'Языковая компетентность чаще всего строится на большом объёме погружения в язык.'},
+        {tag:'often — часто',    en:'The gap between active and passive vocabulary is often wider than learners realise.', ru:'Разрыв между активным и пассивным словарём часто больше, чем осознают учащиеся.'},
+        {tag:'soften — смягчать',en:'Immersion gradually softens the cognitive load of processing a second language.',    ru:'Иммерсия постепенно смягчает когнитивную нагрузку при обработке второго языка.'},
+        {tag:'soften — смягчать',en:'Prosody softens the abruptness of non-native intonation patterns.',                  ru:'Просодия смягчает резкость интонационных паттернов неносителей.'},
+      ],
+    },
   },
-  B1:{
-    q:{
-      en:"Have you ever clocked someone speaking English really naturally and thought — how do they do that?",
-      ru:"Ты когда-нибудь замечал(а), как кто-то очень естественно говорит по-английски, и думал: как у них это получается?",
-      keys:['clocked someone','naturally','how do they do that'],
+  // ── Шаг 3: Folk ──────────────────────────────────────────────────────────
+  2:{
+    label:'Примеры — folk',
+    word:'folk',
+    A1:{
+      q:{en:"Do you like folk music?", ru:"Тебе нравится народная музыка?", keys:['folk = народный','music','like']},
+      examples:[
+        {tag:'folk — народный',en:'I like folk music.',          ru:'Мне нравится народная музыка.'},
+        {tag:'folk — народный',en:'This is a folk song.',        ru:'Это народная песня.'},
+        {tag:'folk — люди',    en:'These folk are friendly.',    ru:'Эти люди дружелюбные.'},
+        {tag:'folk — люди',    en:'Ask the local folk.',         ru:'Спроси местных жителей.'},
+      ],
     },
-    examples:[
-      {tag:'clock — часы',    en:'Keep an eye on the clock — we\'re running late.', ru:'Следи за часами — мы опаздываем.'},
-      {tag:'clock — часы',    en:'The clock struck midnight.',                       ru:'Часы пробили полночь.'},
-      {tag:'clock — замечать',en:'I clocked the way he said it.',                   ru:'Я заметил(а), как он это произнёс.'},
-      {tag:'clock — замечать',en:'Did you clock her reaction?',                     ru:'Ты заметил(а) её реакцию?'},
-    ],
+    A2:{
+      q:{en:"What kind of folk music comes from your country?", ru:"Какая народная музыка есть в твоей стране?", keys:['folk = народный','country','traditional music']},
+      examples:[
+        {tag:'folk — народный',en:'Folk music tells stories of everyday life.',  ru:'Народная музыка рассказывает о повседневной жизни.'},
+        {tag:'folk — народный',en:'He plays folk guitar beautifully.',           ru:'Он красиво играет на народной гитаре.'},
+        {tag:'folk — люди',    en:'Most folk here speak some English.',          ru:'Большинство местных немного говорят по-английски.'},
+        {tag:'folk — люди',    en:'These folk don\'t like tourists.',            ru:'Этим людям не нравятся туристы.'},
+      ],
+    },
+    B1:{
+      q:{en:"Some folk say travelling is the best way to learn English. Do you agree?", ru:"Некоторые говорят, что путешествия — лучший способ выучить английский. Ты согласен(а)?", keys:['some folk say = некоторые говорят','best way','travelling']},
+      examples:[
+        {tag:'folk — народный',en:'Folk songs are a great way to pick up authentic expressions.',     ru:'Народные песни — отличный способ подхватить настоящие выражения.'},
+        {tag:'folk — народный',en:'The folk genre spans a huge range of cultures.',                   ru:'Жанр фолк охватывает огромное разнообразие культур.'},
+        {tag:'folk — люди',    en:'Some folk find it easier to speak English after a glass of wine.', ru:'Некоторым проще говорить по-английски после бокала вина.'},
+        {tag:'folk — люди',    en:'Most folk underestimate how much listening improves your speaking.',ru:'Большинство людей недооценивают, насколько слушание улучшает говорение.'},
+      ],
+    },
+    B2:{
+      q:{en:"Some folk believe accent doesn't matter for communication — others disagree strongly. Where do you stand?", ru:"Некоторые считают, что акцент не важен для общения — другие категорически не согласны. Какова твоя позиция?", keys:['some folk believe','accent','communication']},
+      examples:[
+        {tag:'folk — народный',en:'The folk revival of the 1960s brought traditional music to a global audience.',ru:'Возрождение фолка в 1960-х принесло традиционную музыку мировой аудитории.'},
+        {tag:'folk — народный',en:'Folk etymology often distorts the true origins of words.',                     ru:'Народная этимология часто искажает истинное происхождение слов.'},
+        {tag:'folk — люди',    en:'Some folk never quite shake their accent — and honestly, why would they?',     ru:'Некоторые так и не избавляются от своего акцента — и честно говоря, зачем?'},
+        {tag:'folk — люди',    en:'Folk wisdom isn\'t always supported by evidence, but it shapes how we learn.', ru:'Народная мудрость не всегда подкреплена доказательствами, но влияет на то, как мы учимся.'},
+      ],
+    },
+    C1:{
+      q:{en:"Folk wisdom around language learning is often contradicted by research — which popular belief about English have you found to be confirmed or debunked by your own experience?", ru:"Народная мудрость об изучении языков часто противоречит исследованиям — какое расхожее убеждение об английском ты лично подтвердил(а) или опроверг(ла)?", keys:['folk wisdom','language learning','confirmed or debunked']},
+      examples:[
+        {tag:'folk — народный',en:'Folk traditions are a living record of a culture\'s collective memory.',                                ru:'Народные традиции — живая летопись коллективной памяти культуры.'},
+        {tag:'folk — народный',en:'Folk etymology traces the word to its mythological roots rather than its actual history.',              ru:'Народная этимология возводит слово к мифологическим корням, а не к реальной истории.'},
+        {tag:'folk — люди',    en:'Folk in the linguistic community tend to underestimate the role of prosody in comprehension.',          ru:'Люди в лингвистическом сообществе склонны недооценивать роль просодии в понимании речи.'},
+        {tag:'folk — люди',    en:'Some folk achieve near-native fluency; others plateau — and both are perfectly valid outcomes.',        ru:'Некоторые достигают беглости, близкой к уровню носителя; другие выходят на плато — оба исхода нормальны.'},
+      ],
+    },
   },
-  B2:{
-    q:{
-      en:"When you watch a film in English, do you clock the moments when you understand everything without subtitles?",
-      ru:"Когда смотришь фильм на английском, замечаешь ли моменты, когда понимаешь всё без субтитров?",
-      keys:['clock the moments','without subtitles','follow the plot'],
+  // ── Шаг 4: Poignant & Luxury ─────────────────────────────────────────────
+  3:{
+    label:'Примеры — poignant & luxury',
+    word:'poignant|luxur(?:y|ious|iously)',
+    A1:{
+      q:{en:"Do you prefer luxury hotels or simple ones?", ru:"Тебе нравятся роскошные отели или простые?", keys:['luxury = роскошь / роскошный','hotel','prefer']},
+      examples:[
+        {tag:'poignant — трогательный',en:'It was a poignant film.',     ru:'Это был трогательный фильм.'},
+        {tag:'poignant — трогательный',en:'The song is very poignant.',  ru:'Песня очень трогательная.'},
+        {tag:'luxury — роскошь',       en:'This is a luxury hotel.',     ru:'Это роскошный отель.'},
+        {tag:'luxury — роскошь',       en:'I love a little luxury.',     ru:'Я люблю немного роскоши.'},
+      ],
     },
-    examples:[
-      {tag:'clock — часы',    en:'We\'re working against the clock — the deadline is tomorrow.', ru:'Мы работаем наперегонки со временем — дедлайн завтра.'},
-      {tag:'clock — часы',    en:'The clock is ticking — we need to decide now.',                ru:'Время идёт — нужно решить прямо сейчас.'},
-      {tag:'clock — замечать',en:'I clocked straight away that something was off.',              ru:'Я сразу заметил(а), что что-то не так.'},
-      {tag:'clock — замечать',en:'She clocked him the moment he walked in.',                    ru:'Она заметила его в ту же секунду, как он вошёл.'},
-    ],
-  },
-  C1:{
-    q:{
-      en:"Have you ever clocked the way native speakers use intonation to completely shift the meaning of a sentence?",
-      ru:"Замечал(а) ли ты, как носители языка используют интонацию, чтобы полностью изменить смысл предложения?",
-      keys:['clocked','intonation','shift the meaning'],
+    A2:{
+      q:{en:"What is a small luxury that makes your day better?", ru:"Какая маленькая роскошь делает твой день лучше?", keys:['luxury = роскошь','makes your day better','small things']},
+      examples:[
+        {tag:'poignant — трогательный',en:'That was a poignant moment in the film.',  ru:'Это был трогательный момент в фильме.'},
+        {tag:'poignant — трогательный',en:'Her words were simple but poignant.',       ru:'Её слова были простыми, но трогательными.'},
+        {tag:'luxury — роскошь',       en:'A long bath is my favourite luxury.',       ru:'Долгая ванна — моя любимая роскошь.'},
+        {tag:'luxury — роскошь',       en:'They stayed in a luxury apartment.',        ru:'Они остановились в роскошных апартаментах.'},
+      ],
     },
-    examples:[
-      {tag:'clock — часы',    en:'Racing against the clock, she submitted the report at the last second.', ru:'Наперегонки со временем, она сдала отчёт в последнюю секунду.'},
-      {tag:'clock — часы',    en:'The clock is ticking on these negotiations.',                            ru:'Время работает против нас на этих переговорах.'},
-      {tag:'clock — замечать',en:'He clocked the subtle shift in her tone.',                              ru:'Он уловил тонкое изменение в её тоне.'},
-      {tag:'clock — замечать',en:'I clocked it immediately — she wasn\'t being entirely truthful.',       ru:'Я сразу заметил(а) — она была не до конца честна.'},
-    ],
+    B1:{
+      q:{en:"What was the most poignant moment in a film or book you remember?", ru:"Какой самый трогательный момент в фильме или книге ты помнишь?", keys:['poignant = трогательный / пронзительный','moving','film or book']},
+      examples:[
+        {tag:'poignant — трогательный',en:'The scene at the end was deeply poignant.',                        ru:'Сцена в конце была очень трогательной.'},
+        {tag:'poignant — трогательный',en:'There\'s something poignant about leaving a place for the last time.',ru:'В том, чтобы покидать место в последний раз, есть что-то трогательное.'},
+        {tag:'luxury — роскошь',       en:'Time to think is a luxury most people don\'t have.',               ru:'Время подумать — роскошь, которой нет у большинства людей.'},
+        {tag:'luxury — роскошь',       en:'Speaking fluently feels like a luxury worth working for.',         ru:'Говорить бегло — это роскошь, ради которой стоит трудиться.'},
+      ],
+    },
+    B2:{
+      q:{en:"Is speaking English fluently a luxury — or a basic skill everyone should have access to?", ru:"Свободно говорить по-английски — это роскошь или базовый навык, доступный каждому?", keys:['luxury','fluency','access']},
+      examples:[
+        {tag:'poignant — трогательный',en:'The speech was poignant without being sentimental.',                           ru:'Речь была трогательной, не впадая в сентиментальность.'},
+        {tag:'poignant — трогательный',en:'There\'s something poignant about watching someone find their voice in a new language.',ru:'В том, как человек обретает голос на новом языке, есть что-то трогательное.'},
+        {tag:'luxury — роскошь',       en:'The luxury of a near-native accent is earned through hours of practice.',       ru:'Роскошь акцента, близкого к носительскому, заработана часами практики.'},
+        {tag:'luxury — роскошь',       en:'We can\'t afford the luxury of waiting until conditions are perfect.',          ru:'Мы не можем позволить себе роскошь ждать идеальных условий.'},
+      ],
+    },
+    C1:{
+      q:{en:"Which is more poignant to you — the moment you first spoke without thinking in English, or the moment you realised you\'d lost that initial thrill of progress?", ru:"Что для тебя более пронзительно — момент, когда ты впервые заговорил(а) по-английски не думая, или момент, когда осознал(а), что потерял(а) тот первый азарт прогресса?", keys:['poignant','speaking without thinking','thrill of progress']},
+      examples:[
+        {tag:'poignant — трогательный',en:'His memoir is poignant in its quiet restraint.',                                         ru:'Его мемуары трогательны своей тихой сдержанностью.'},
+        {tag:'poignant — трогательный',en:'The piece achieves something rare — poignant without being maudlin.',                    ru:'Произведению удаётся нечто редкое — оно трогательно, но не слащаво.'},
+        {tag:'luxury — роскошь',       en:'She couldn\'t afford the luxury of doubt.',                                              ru:'Она не могла позволить себе роскошь сомнений.'},
+        {tag:'luxury — роскошь',       en:'The luxury of linguistic fluency lies not in vocabulary size, but in ease of retrieval.',ru:'Роскошь языковой беглости — не в объёме словаря, а в лёгкости извлечения слов.'},
+      ],
+    },
   },
 };
 
@@ -1348,7 +1480,8 @@ function fnSpStart(){
   if(fnSpRunning){ fnSpStop(); return; }
   fnSpRunning = true;
   const code = (fnLevel && fnLevel.code) || 'B1';
-  const q = (FN_SP_DATA[code] || FN_SP_DATA.B1).q;
+  const stepData = FN_SP_DATA[fnVidIdx] || FN_SP_DATA[0];
+  const q = (stepData[code] || stepData.B1).q;
   document.getElementById('fnSpIdle').style.display = 'none';
   document.getElementById('fnSpEn').textContent = q.en;
   document.getElementById('fnSpRu').textContent = q.ru;
