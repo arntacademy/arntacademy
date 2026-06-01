@@ -110,7 +110,7 @@ nav.scrolled{background:var(--brown);box-shadow:0 2px 30px rgba(0,0,0,.35);}
 .lp-name.active{opacity:.7;}
 .lp-connector{flex:1;height:1px;background:rgba(242,235,214,.18);margin-bottom:24px;max-width:60px;}
 .lp-connector.filled{background:rgba(242,235,214,.45);}
-.btn-plan{font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--brown);background:var(--cream);padding:15px 40px;border:none;cursor:pointer;transition:background .2s;text-decoration:none;display:inline-block;}
+.btn-plan{font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--brown);background:var(--cream);padding:17px 48px;border:none;cursor:pointer;transition:background .2s;text-decoration:none;display:inline-block;}
 .btn-plan:hover{background:var(--white);}
 
 /* ── FUNNEL ─────────────────────────────────────────────────────────────── */
@@ -153,13 +153,16 @@ nav.scrolled{background:var(--brown);box-shadow:0 2px 30px rgba(0,0,0,.35);}
 .fn-vid-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;}
 .fn-vid-play{width:52px;height:52px;border-radius:50%;background:var(--brown);display:flex;align-items:center;justify-content:center;opacity:.25;}
 .fn-vid-ph-label{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--brown);opacity:.3;}
-.fn-vid-examples{margin:16px 0 4px;text-align:left;}
-.fn-vid-examples-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--brown);opacity:.3;margin-bottom:10px;}
-.fn-vid-example{font-size:13px;font-weight:300;color:var(--brown);opacity:.7;padding:9px 0;border-bottom:1px solid rgba(37,24,2,.07);line-height:1.6;}
-.fn-vid-example:last-child{border-bottom:none;}
+.fn-vid-examples{margin:20px 0 8px;text-align:left;background:rgba(37,24,2,.04);border:1px solid rgba(37,24,2,.1);padding:20px 22px;}
+.fn-vid-examples-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--brown);opacity:.3;margin-bottom:14px;}
+.fn-vid-example{padding:12px 0;border-bottom:1px solid rgba(37,24,2,.07);}
+.fn-vid-example:last-child{border-bottom:none;padding-bottom:0;}
+.fn-vid-ex-en{font-size:14px;font-weight:300;color:var(--brown);line-height:1.5;margin-bottom:4px;}
+.fn-vid-ex-en mark{background:rgba(37,24,2,.1);font-weight:500;padding:0 3px;color:var(--brown);}
+.fn-vid-ex-ru{font-size:12px;font-weight:300;color:var(--brown);opacity:.45;line-height:1.5;}
 .fn-vid-meta{margin-bottom:32px;}
 .fn-vid-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--brown);margin-bottom:5px;}
-.fn-vid-desc{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--brown);opacity:.35;}
+.fn-vid-desc{display:none;}
 /* S5 — Спикинг */
 .fn-s5-prompt-card{background:rgba(242,235,214,.05);border:1px solid rgba(242,235,214,.12);padding:36px 32px 28px;margin-bottom:36px;text-align:left;}
 .fn-s5-task-label{font-size:9px;letter-spacing:3.5px;text-transform:uppercase;color:var(--cream);opacity:.3;margin-bottom:18px;}
@@ -193,8 +196,9 @@ nav.scrolled{background:var(--brown);box-shadow:0 2px 30px rgba(0,0,0,.35);}
 .fn-s7-restart{display:inline-block;margin-top:22px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--cream);opacity:.28;text-decoration:none;transition:opacity .2s;border:none;background:none;cursor:pointer;font-family:'Jost',sans-serif;}
 .fn-s7-restart:hover{opacity:.55;}
 /* Funnel speaking trainer (шаг 1) */
-.fn-sp-block{margin-top:36px;padding-top:32px;border-top:1px solid rgba(37,24,2,.1);text-align:left;}
-.fn-sp-card{background:rgba(37,24,2,.03);border:1px solid rgba(37,24,2,.1);padding:28px 24px;margin-bottom:24px;min-height:120px;display:flex;flex-direction:column;justify-content:center;}
+.fn-sp-block{margin-top:20px;background:rgba(37,24,2,.04);border:1px solid rgba(37,24,2,.1);padding:24px 22px;text-align:left;}
+.fn-sp-instr{font-size:12px;font-weight:300;color:var(--brown);opacity:.55;line-height:1.75;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(37,24,2,.08);}
+.fn-sp-card{padding:0;margin-bottom:20px;min-height:100px;display:flex;flex-direction:column;justify-content:center;}
 .fn-sp-idle-msg{font-size:12px;font-weight:300;color:var(--brown);opacity:.38;text-align:center;letter-spacing:.3px;}
 .fn-sp-en{font-family:'Cormorant Garamond',serif;font-size:clamp(19px,2.8vw,26px);font-weight:400;font-style:italic;color:var(--brown);line-height:1.45;margin-bottom:10px;opacity:0;transition:opacity .4s;}
 .fn-sp-en.vis{opacity:1;}
@@ -510,6 +514,7 @@ footer{background:var(--brown);padding:80px 60px 48px;}
 
       <!-- Speaking trainer — только шаг 1 -->
       <div class="fn-sp-block" id="fnSpBlock" style="display:none;">
+        <p class="fn-sp-instr">Здесь нет записи и проверки — просто говори. Твоя задача: уложиться в минуту и поделиться историей на английском.</p>
         <div class="fn-sp-card">
           <p class="fn-sp-idle-msg" id="fnSpIdle">Нажми «Старт» — говори по-английски 60 секунд</p>
           <p class="fn-sp-en" id="fnSpEn"></p>
@@ -1215,9 +1220,14 @@ function fnRenderVideo(){
   if(fnVidIdx === 0){
     const code = (fnLevel && fnLevel.code) || 'B1';
     const spData = FN_SP_DATA[code] || FN_SP_DATA.B1;
+    const hl = s => s.replace(/\b(clock(?:ed)?)\b/gi, '<mark>$1</mark>');
     exWrap.innerHTML = '<p class="fn-vid-examples-label">Примеры — clock</p>' +
       spData.examples.map(e=>
-        `<div class="fn-vid-example"><span class="fn-vid-ex-tag">${e.tag}</span>${e.en}</div>`
+        `<div class="fn-vid-example">
+          <span class="fn-vid-ex-tag">${e.tag}</span>
+          <div class="fn-vid-ex-en">${hl(e.en)}</div>
+          <div class="fn-vid-ex-ru">${e.ru}</div>
+        </div>`
       ).join('');
     fnSpReset();
     spBlock.style.display = 'block';
@@ -1258,10 +1268,10 @@ const FN_SP_DATA = {
       keys:['clock = заметить','new words','today'],
     },
     examples:[
-      {tag:'clock — часы',    en:'I look at the clock.'},
-      {tag:'clock — часы',    en:'There\'s a clock on the wall.'},
-      {tag:'clock — замечать',en:'I clocked you!'},
-      {tag:'clock — замечать',en:'Did you clock that?'},
+      {tag:'clock — часы',    en:'I look at the clock.',          ru:'Я смотрю на часы.'},
+      {tag:'clock — часы',    en:'There\'s a clock on the wall.', ru:'На стене есть часы.'},
+      {tag:'clock — замечать',en:'I clocked you!',                ru:'Я тебя заметил(а)!'},
+      {tag:'clock — замечать',en:'Did you clock that?',           ru:'Ты это заметил(а)?'},
     ],
   },
   A2:{
@@ -1271,10 +1281,10 @@ const FN_SP_DATA = {
       keys:['clock = замечать','difference','British English'],
     },
     examples:[
-      {tag:'clock — часы',    en:'What time does the clock show?'},
-      {tag:'clock — часы',    en:'The clock says three o\'clock.'},
-      {tag:'clock — замечать',en:'I clocked the sign.'},
-      {tag:'clock — замечать',en:'She clocked the mistake straight away.'},
+      {tag:'clock — часы',    en:'What time does the clock show?',          ru:'Какое время показывают часы?'},
+      {tag:'clock — часы',    en:'The clock says three o\'clock.',           ru:'Часы показывают три часа.'},
+      {tag:'clock — замечать',en:'I clocked the sign.',                     ru:'Я заметил(а) знак.'},
+      {tag:'clock — замечать',en:'She clocked the mistake straight away.',  ru:'Она заметила ошибку сразу.'},
     ],
   },
   B1:{
@@ -1284,10 +1294,10 @@ const FN_SP_DATA = {
       keys:['clocked someone','naturally','how do they do that'],
     },
     examples:[
-      {tag:'clock — часы',    en:'Keep an eye on the clock — we\'re running late.'},
-      {tag:'clock — часы',    en:'The clock struck midnight.'},
-      {tag:'clock — замечать',en:'I clocked the way he said it.'},
-      {tag:'clock — замечать',en:'Did you clock her reaction?'},
+      {tag:'clock — часы',    en:'Keep an eye on the clock — we\'re running late.', ru:'Следи за часами — мы опаздываем.'},
+      {tag:'clock — часы',    en:'The clock struck midnight.',                       ru:'Часы пробили полночь.'},
+      {tag:'clock — замечать',en:'I clocked the way he said it.',                   ru:'Я заметил(а), как он это произнёс.'},
+      {tag:'clock — замечать',en:'Did you clock her reaction?',                     ru:'Ты заметил(а) её реакцию?'},
     ],
   },
   B2:{
@@ -1297,10 +1307,10 @@ const FN_SP_DATA = {
       keys:['clock the moments','without subtitles','follow the plot'],
     },
     examples:[
-      {tag:'clock — часы',    en:'We\'re working against the clock — the deadline is tomorrow.'},
-      {tag:'clock — часы',    en:'The clock is ticking — we need to decide now.'},
-      {tag:'clock — замечать',en:'I clocked straight away that something was off.'},
-      {tag:'clock — замечать',en:'She clocked him the moment he walked in.'},
+      {tag:'clock — часы',    en:'We\'re working against the clock — the deadline is tomorrow.', ru:'Мы работаем наперегонки со временем — дедлайн завтра.'},
+      {tag:'clock — часы',    en:'The clock is ticking — we need to decide now.',                ru:'Время идёт — нужно решить прямо сейчас.'},
+      {tag:'clock — замечать',en:'I clocked straight away that something was off.',              ru:'Я сразу заметил(а), что что-то не так.'},
+      {tag:'clock — замечать',en:'She clocked him the moment he walked in.',                    ru:'Она заметила его в ту же секунду, как он вошёл.'},
     ],
   },
   C1:{
@@ -1310,10 +1320,10 @@ const FN_SP_DATA = {
       keys:['clocked','intonation','shift the meaning'],
     },
     examples:[
-      {tag:'clock — часы',    en:'Racing against the clock, she submitted the report at the last second.'},
-      {tag:'clock — часы',    en:'The clock is ticking on these negotiations.'},
-      {tag:'clock — замечать',en:'He clocked the subtle shift in her tone.'},
-      {tag:'clock — замечать',en:'I clocked it immediately — she wasn\'t being entirely truthful.'},
+      {tag:'clock — часы',    en:'Racing against the clock, she submitted the report at the last second.', ru:'Наперегонки со временем, она сдала отчёт в последнюю секунду.'},
+      {tag:'clock — часы',    en:'The clock is ticking on these negotiations.',                            ru:'Время работает против нас на этих переговорах.'},
+      {tag:'clock — замечать',en:'He clocked the subtle shift in her tone.',                              ru:'Он уловил тонкое изменение в её тоне.'},
+      {tag:'clock — замечать',en:'I clocked it immediately — she wasn\'t being entirely truthful.',       ru:'Я сразу заметил(а) — она была не до конца честна.'},
     ],
   },
 };
