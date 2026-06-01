@@ -140,7 +140,7 @@ nav.scrolled{background:var(--brown);box-shadow:0 2px 30px rgba(0,0,0,.35);}
 .fn-vid-pip{width:28px;height:3px;background:rgba(37,24,2,.15);transition:background .3s;}
 .fn-vid-pip.done{background:var(--brown);}
 .fn-vid-pip.active{background:var(--brown);opacity:.6;}
-.fn-vid-wrap{position:relative;width:100%;padding-bottom:56.25%;background:rgba(37,24,2,.05);border:1px solid rgba(37,24,2,.1);margin-bottom:20px;}
+.fn-vid-wrap{position:relative;width:100%;max-width:320px;aspect-ratio:9/16;background:rgba(37,24,2,.05);border:1px solid rgba(37,24,2,.1);margin:0 auto 20px;}
 .fn-vid-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
 .fn-vid-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;}
 .fn-vid-play{width:52px;height:52px;border-radius:50%;background:var(--brown);display:flex;align-items:center;justify-content:center;opacity:.25;}
@@ -1047,12 +1047,14 @@ const FUNNEL_TEXTS = {
   },
 };
 
-// ── FUNNEL VIDEOS (заменить src и examples на реальные) ──────────────────────
+// ── FUNNEL VIDEOS ─────────────────────────────────────────────────────────────
 const FUNNEL_VIDEOS = [
-  {title:'Видео 1 — будет здесь', desc:'Урок', src:'', examples:[]},
-  {title:'Видео 2 — будет здесь', desc:'Урок', src:'', examples:[]},
-  {title:'Видео 3 — будет здесь', desc:'Урок', src:'', examples:[]},
-  {title:'Видео 4 — будет здесь', desc:'Урок', src:'', examples:[]},
+  {title:'Poignant', desc:'Фишка произношения', src:'https://www.youtube.com/embed/LGceiXgksH0', examples:[]},
+  {title:'Luxury',   desc:'Фишка произношения', src:'https://www.youtube.com/embed/pIRpXtxW6HQ',  examples:[]},
+  {title:'Soften',   desc:'Фишка произношения', src:'https://www.youtube.com/embed/P7Q0B1ofM7Y',  examples:[]},
+  {title:'Often',    desc:'Фишка произношения', src:'https://www.youtube.com/embed/8xa-6C6pphk',  examples:[]},
+  {title:'Clock',    desc:'Фишка произношения', src:'https://www.youtube.com/embed/NphQmD32HQ8',  examples:[]},
+  {title:'Folk',     desc:'Фишка произношения', src:'https://www.youtube.com/embed/9goAbIbe5ao',   examples:[]},
 ];
 
 // ── FUNNEL STATE ─────────────────────────────────────────────────────────────
