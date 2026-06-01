@@ -145,6 +145,10 @@ nav.scrolled{background:var(--brown);box-shadow:0 2px 30px rgba(0,0,0,.35);}
 .fn-vid-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;}
 .fn-vid-play{width:52px;height:52px;border-radius:50%;background:var(--brown);display:flex;align-items:center;justify-content:center;opacity:.25;}
 .fn-vid-ph-label{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--brown);opacity:.3;}
+.fn-vid-examples{margin:16px 0 4px;text-align:left;}
+.fn-vid-examples-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--brown);opacity:.3;margin-bottom:10px;}
+.fn-vid-example{font-size:13px;font-weight:300;color:var(--brown);opacity:.7;padding:9px 0;border-bottom:1px solid rgba(37,24,2,.07);line-height:1.6;}
+.fn-vid-example:last-child{border-bottom:none;}
 .fn-vid-meta{margin-bottom:32px;}
 .fn-vid-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--brown);margin-bottom:5px;}
 .fn-vid-desc{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--brown);opacity:.35;}
@@ -433,7 +437,7 @@ footer{background:var(--brown);padding:80px 60px 48px;}
           <div class="level-point" data-lvl="C1"><div class="lp-dot"></div><div class="lp-code">C1</div><div class="lp-name">Продвинутый</div></div>
         </div>
       </div>
-      <button class="btn-plan" onclick="fnNext('s2')">Что с этим делать →</button>
+      <button class="btn-plan" onclick="fnNext('s2')">Давай прокачаем →</button>
     </div>
   </div>
 
@@ -463,6 +467,7 @@ footer{background:var(--brown);padding:80px 60px 48px;}
       <p class="fn-step-tag-dark">Шаг 2 из 3</p>
       <div class="fn-vid-progress" id="fnVidProgress"></div>
       <div class="fn-vid-wrap" id="fnVidWrap"></div>
+      <div class="fn-vid-examples" id="fnVidExamples"></div>
       <div class="fn-vid-meta">
         <div class="fn-vid-title" id="fnVidTitle"></div>
         <div class="fn-vid-desc" id="fnVidDesc"></div>
@@ -530,25 +535,13 @@ footer{background:var(--brown);padding:80px 60px 48px;}
     </div>
   </div>
 
-  <!-- S2: Выбор темы -->
+  <!-- S2: Тизер урока -->
   <div class="fn-screen" id="fn-s2">
-    <div style="max-width:800px;margin:0 auto;text-align:center;">
-      <p class="sec-tag" style="color:var(--green);">Шаг 1 из 3</p>
-      <h2 class="fn-h2">На чём тебе важнее всего<br><em>заговорить?</em></h2>
-      <div class="fn-theme-grid">
-        <button class="fn-theme-card" onclick="fnSelectTheme('travel')">
-          <span class="fn-tc-icon">✈️</span>
-          <div><div class="fn-tc-label">Путешествия</div><div class="fn-tc-hint">аэропорт, отель, кафе</div></div>
-        </button>
-        <button class="fn-theme-card" onclick="fnSelectTheme('business')">
-          <span class="fn-tc-icon">💼</span>
-          <div><div class="fn-tc-label">Деловой</div><div class="fn-tc-hint">созвоны, письма, смолток</div></div>
-        </button>
-        <button class="fn-theme-card" onclick="fnSelectTheme('health')">
-          <span class="fn-tc-icon">🩺</span>
-          <div><div class="fn-tc-label">Здоровье</div><div class="fn-tc-hint">у врача, аптека, проблемы</div></div>
-        </button>
-      </div>
+    <div style="max-width:560px;margin:0 auto;text-align:center;">
+      <p class="fn-step-tag">Шаг 1 из 3</p>
+      <h2 class="fn-h2" style="color:var(--cream);">Давай прокачаем<br><em>твой уровень</em></h2>
+      <p class="fn-promise-body">Ниже я поделюсь фишками британского произношения и интересной конструкцией. Всё это ты сможешь потренировать в конструкторе уже сегодня.</p>
+      <button class="btn-plan" style="background:var(--cream);color:var(--brown);" onclick="fnShowS4()">Начать урок →</button>
     </div>
   </div>
 
@@ -1054,28 +1047,17 @@ const FUNNEL_TEXTS = {
   },
 };
 
-// ── FUNNEL VIDEOS (заменить src на реальные ссылки) ──────────────────────────
-const FUNNEL_VIDEOS = {
-  travel:[
-    {title:'Английский в путешествии — реальные ситуации', desc:'Зацепка по теме', src:''},
-    {title:'Одна конструкция — и уже можно говорить',       desc:'Мини-грамматика',  src:''},
-    {title:'15 слов, которые нужны в каждом путешествии',   desc:'Вокабуляр',        src:''},
-  ],
-  business:[
-    {title:'Деловой английский: где теряются деньги',       desc:'Зацепка по теме', src:''},
-    {title:'Одна конструкция — и уже можно говорить',       desc:'Мини-грамматика',  src:''},
-    {title:'15 слов для любого созвона на английском',      desc:'Вокабуляр',        src:''},
-  ],
-  health:[
-    {title:'Английский у врача — без паники',               desc:'Зацепка по теме', src:''},
-    {title:'Одна конструкция — и уже можно говорить',       desc:'Мини-грамматика',  src:''},
-    {title:'15 слов, которые нужны в любой клинике',        desc:'Вокабуляр',        src:''},
-  ],
-};
+// ── FUNNEL VIDEOS (заменить src и examples на реальные) ──────────────────────
+const FUNNEL_VIDEOS = [
+  {title:'Видео 1 — будет здесь', desc:'Урок', src:'', examples:[]},
+  {title:'Видео 2 — будет здесь', desc:'Урок', src:'', examples:[]},
+  {title:'Видео 3 — будет здесь', desc:'Урок', src:'', examples:[]},
+  {title:'Видео 4 — будет здесь', desc:'Урок', src:'', examples:[]},
+];
 
 // ── FUNNEL STATE ─────────────────────────────────────────────────────────────
 let fnLevel = null;
-let fnTheme = null;
+let fnTheme = 'travel';
 let fnVidIdx = 0;
 
 const FN_BG = {
@@ -1127,9 +1109,9 @@ function fnShowS4(){
 }
 
 function fnRenderVideo(){
-  const vids = FUNNEL_VIDEOS[fnTheme]||FUNNEL_VIDEOS.travel;
-  const v    = vids[fnVidIdx];
-  const isLast = fnVidIdx === vids.length-1;
+  const vids   = FUNNEL_VIDEOS;
+  const v      = vids[fnVidIdx];
+  const isLast = fnVidIdx === vids.length - 1;
 
   // progress pips
   document.getElementById('fnVidProgress').innerHTML =
@@ -1143,6 +1125,15 @@ function fnRenderVideo(){
         <div class="fn-vid-play"><svg width="16" height="16" viewBox="0 0 16 16" fill="var(--cream)"><polygon points="4,2 14,8 4,14"/></svg></div>
         <span class="fn-vid-ph-label">Видео будет здесь</span>
        </div>`;
+
+  // examples
+  const exWrap = document.getElementById('fnVidExamples');
+  if(v.examples && v.examples.length){
+    exWrap.innerHTML = `<p class="fn-vid-examples-label">Примеры</p>` +
+      v.examples.map(e=>`<div class="fn-vid-example">${e}</div>`).join('');
+  } else {
+    exWrap.innerHTML = '';
+  }
 
   document.getElementById('fnVidTitle').textContent = v.title;
   document.getElementById('fnVidDesc').textContent  = v.desc;
@@ -1158,8 +1149,7 @@ function fnRenderVideo(){
 }
 
 function fnVidNext(){
-  const vids = FUNNEL_VIDEOS[fnTheme]||FUNNEL_VIDEOS.travel;
-  if(fnVidIdx < vids.length-1){ fnVidIdx++; fnRenderVideo(); }
+  if(fnVidIdx < FUNNEL_VIDEOS.length-1){ fnVidIdx++; fnRenderVideo(); }
 }
 
 // ── FUNNEL S5 / S6 / S7 ──────────────────────────────────────────────────────
