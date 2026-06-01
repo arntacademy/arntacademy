@@ -192,6 +192,24 @@ nav.scrolled{background:var(--brown);box-shadow:0 2px 30px rgba(0,0,0,.35);}
 .fn-s7-body{font-size:14px;font-weight:300;line-height:1.9;color:var(--cream);opacity:.62;max-width:440px;margin:0 auto 44px;}
 .fn-s7-restart{display:inline-block;margin-top:22px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--cream);opacity:.28;text-decoration:none;transition:opacity .2s;border:none;background:none;cursor:pointer;font-family:'Jost',sans-serif;}
 .fn-s7-restart:hover{opacity:.55;}
+/* Funnel speaking trainer (шаг 1) */
+.fn-sp-block{margin-top:36px;padding-top:32px;border-top:1px solid rgba(37,24,2,.1);text-align:left;}
+.fn-sp-card{background:rgba(37,24,2,.03);border:1px solid rgba(37,24,2,.1);padding:28px 24px;margin-bottom:24px;min-height:120px;display:flex;flex-direction:column;justify-content:center;}
+.fn-sp-idle-msg{font-size:12px;font-weight:300;color:var(--brown);opacity:.38;text-align:center;letter-spacing:.3px;}
+.fn-sp-en{font-family:'Cormorant Garamond',serif;font-size:clamp(19px,2.8vw,26px);font-weight:400;font-style:italic;color:var(--brown);line-height:1.45;margin-bottom:10px;opacity:0;transition:opacity .4s;}
+.fn-sp-en.vis{opacity:1;}
+.fn-sp-ru{font-size:13px;font-weight:300;color:var(--brown);opacity:0;transition:opacity .4s .1s;line-height:1.6;margin-bottom:14px;}
+.fn-sp-ru.vis{opacity:.42;}
+.fn-sp-keys{display:flex;flex-wrap:wrap;gap:6px;opacity:0;transition:opacity .4s .2s;}
+.fn-sp-keys.vis{opacity:1;}
+.fn-sp-key{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--brown);border:1px solid rgba(37,24,2,.2);padding:4px 12px;}
+.fn-sp-controls{display:flex;align-items:center;justify-content:center;gap:32px;}
+.fn-sp-timer{text-align:center;}
+.fn-sp-timer-num{font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:300;color:var(--brown);line-height:1;}
+.fn-sp-timer-lbl{font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--brown);opacity:.3;}
+.fn-sp-btn{background:var(--brown);color:var(--cream);border:none;padding:12px 28px;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;font-family:'Jost',sans-serif;transition:background .2s;}
+.fn-sp-btn:hover{background:var(--green);}
+.fn-vid-ex-tag{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--brown);opacity:.3;display:block;margin-bottom:3px;}
 
 /* TEACHER */
 #teacher{background:var(--cream);padding:130px 60px;}
@@ -476,6 +494,24 @@ footer{background:var(--brown);padding:80px 60px 48px;}
       <div class="fn-vid-progress" id="fnVidProgress"></div>
       <div class="fn-vid-wrap" id="fnVidWrap"></div>
       <div class="fn-vid-examples" id="fnVidExamples"></div>
+
+      <!-- Speaking trainer — только шаг 1 -->
+      <div class="fn-sp-block" id="fnSpBlock" style="display:none;">
+        <div class="fn-sp-card">
+          <p class="fn-sp-idle-msg" id="fnSpIdle">Нажми «Старт» — говори по-английски 60 секунд</p>
+          <p class="fn-sp-en" id="fnSpEn"></p>
+          <p class="fn-sp-ru" id="fnSpRu"></p>
+          <div class="fn-sp-keys" id="fnSpKeys"></div>
+        </div>
+        <div class="fn-sp-controls">
+          <div class="fn-sp-timer">
+            <div class="fn-sp-timer-num" id="fnSpTimerNum">60</div>
+            <div class="fn-sp-timer-lbl">секунд</div>
+          </div>
+          <button class="fn-sp-btn" id="fnSpBtn" onclick="fnSpStart()">Старт</button>
+        </div>
+      </div>
+
       <div class="fn-vid-meta">
         <div class="fn-vid-title" id="fnVidTitle"></div>
         <div class="fn-vid-desc" id="fnVidDesc"></div>
@@ -1158,13 +1194,27 @@ function fnRenderVideo(){
     `<div class="fn-vid-row fn-vid-row--${count}">` +
     step.videos.map(itemHtml).join('') + '</div>';
 
-  // examples
-  const exWrap = document.getElementById('fnVidExamples');
-  if(step.examples && step.examples.length){
-    exWrap.innerHTML = `<p class="fn-vid-examples-label">Примеры</p>` +
-      step.examples.map(e=>`<div class="fn-vid-example">${e}</div>`).join('');
+  // examples + speaking trainer
+  const exWrap  = document.getElementById('fnVidExamples');
+  const spBlock = document.getElementById('fnSpBlock');
+  if(fnVidIdx === 0){
+    const code = (fnLevel && fnLevel.code) || 'B1';
+    const spData = FN_SP_DATA[code] || FN_SP_DATA.B1;
+    exWrap.innerHTML = '<p class="fn-vid-examples-label">Примеры — clock</p>' +
+      spData.examples.map(e=>
+        `<div class="fn-vid-example"><span class="fn-vid-ex-tag">${e.tag}</span>${e.en}</div>`
+      ).join('');
+    fnSpReset();
+    spBlock.style.display = 'block';
   } else {
-    exWrap.innerHTML = '';
+    fnSpStop();
+    spBlock.style.display = 'none';
+    if(step.examples && step.examples.length){
+      exWrap.innerHTML = '<p class="fn-vid-examples-label">Примеры</p>' +
+        step.examples.map(e=>`<div class="fn-vid-example">${e}</div>`).join('');
+    } else {
+      exWrap.innerHTML = '';
+    }
   }
 
   document.getElementById('fnVidTitle').textContent = step.title||'';
@@ -1182,6 +1232,118 @@ function fnRenderVideo(){
 
 function fnVidNext(){
   if(fnVidIdx < FUNNEL_VIDEOS.length-1){ fnVidIdx++; fnRenderVideo(); }
+}
+
+// ── FUNNEL STEP-1 SPEAKING DATA ───────────────────────────────────────────────
+const FN_SP_DATA = {
+  A1:{
+    q:{
+      en:"Did you clock any new words today?",
+      ru:"Ты заметил(а) новые слова сегодня?",
+      keys:['clock = заметить','new words','today'],
+    },
+    examples:[
+      {tag:'clock — часы',    en:'I look at the clock.'},
+      {tag:'clock — часы',    en:'There\'s a clock on the wall.'},
+      {tag:'clock — замечать',en:'I clocked you!'},
+      {tag:'clock — замечать',en:'Did you clock that?'},
+    ],
+  },
+  A2:{
+    q:{
+      en:"Can you clock the difference between British and American English?",
+      ru:"Замечаешь ли разницу между британским и американским английским?",
+      keys:['clock = замечать','difference','British English'],
+    },
+    examples:[
+      {tag:'clock — часы',    en:'What time does the clock show?'},
+      {tag:'clock — часы',    en:'The clock says three o\'clock.'},
+      {tag:'clock — замечать',en:'I clocked the sign.'},
+      {tag:'clock — замечать',en:'She clocked the mistake straight away.'},
+    ],
+  },
+  B1:{
+    q:{
+      en:"Have you ever clocked someone speaking English really naturally and thought — how do they do that?",
+      ru:"Ты когда-нибудь замечал(а), как кто-то очень естественно говорит по-английски, и думал: как у них это получается?",
+      keys:['clocked someone','naturally','how do they do that'],
+    },
+    examples:[
+      {tag:'clock — часы',    en:'Keep an eye on the clock — we\'re running late.'},
+      {tag:'clock — часы',    en:'The clock struck midnight.'},
+      {tag:'clock — замечать',en:'I clocked the way he said it.'},
+      {tag:'clock — замечать',en:'Did you clock her reaction?'},
+    ],
+  },
+  B2:{
+    q:{
+      en:"When you watch a film in English, do you clock the moments when you understand everything without subtitles?",
+      ru:"Когда смотришь фильм на английском, замечаешь ли моменты, когда понимаешь всё без субтитров?",
+      keys:['clock the moments','without subtitles','follow the plot'],
+    },
+    examples:[
+      {tag:'clock — часы',    en:'We\'re working against the clock — the deadline is tomorrow.'},
+      {tag:'clock — часы',    en:'The clock is ticking — we need to decide now.'},
+      {tag:'clock — замечать',en:'I clocked straight away that something was off.'},
+      {tag:'clock — замечать',en:'She clocked him the moment he walked in.'},
+    ],
+  },
+  C1:{
+    q:{
+      en:"Have you ever clocked the way native speakers use intonation to completely shift the meaning of a sentence?",
+      ru:"Замечал(а) ли ты, как носители языка используют интонацию, чтобы полностью изменить смысл предложения?",
+      keys:['clocked','intonation','shift the meaning'],
+    },
+    examples:[
+      {tag:'clock — часы',    en:'Racing against the clock, she submitted the report at the last second.'},
+      {tag:'clock — часы',    en:'The clock is ticking on these negotiations.'},
+      {tag:'clock — замечать',en:'He clocked the subtle shift in her tone.'},
+      {tag:'clock — замечать',en:'I clocked it immediately — she wasn\'t being entirely truthful.'},
+    ],
+  },
+};
+
+let fnSpTimer = null, fnSpTimeLeft = 60, fnSpRunning = false;
+
+function fnSpReset(){
+  fnSpStop();
+  fnSpTimeLeft = 60;
+  document.getElementById('fnSpTimerNum').textContent = '60';
+  document.getElementById('fnSpBtn').textContent = 'Старт';
+  document.getElementById('fnSpIdle').style.display = 'block';
+  ['fnSpEn','fnSpRu','fnSpKeys'].forEach(id=>{
+    const el = document.getElementById(id);
+    el.classList.remove('vis');
+    el.textContent = '';
+    if(id === 'fnSpKeys') el.innerHTML = '';
+  });
+}
+
+function fnSpStart(){
+  if(fnSpRunning){ fnSpStop(); return; }
+  fnSpRunning = true;
+  const code = (fnLevel && fnLevel.code) || 'B1';
+  const q = (FN_SP_DATA[code] || FN_SP_DATA.B1).q;
+  document.getElementById('fnSpIdle').style.display = 'none';
+  document.getElementById('fnSpEn').textContent = q.en;
+  document.getElementById('fnSpRu').textContent = q.ru;
+  document.getElementById('fnSpKeys').innerHTML = q.keys.map(k=>`<span class="fn-sp-key">${k}</span>`).join('');
+  setTimeout(()=>{
+    ['fnSpEn','fnSpRu','fnSpKeys'].forEach(id=>document.getElementById(id).classList.add('vis'));
+  }, 50);
+  document.getElementById('fnSpBtn').textContent = 'Стоп';
+  fnSpTimer = setInterval(()=>{
+    fnSpTimeLeft--;
+    document.getElementById('fnSpTimerNum').textContent = fnSpTimeLeft;
+    if(fnSpTimeLeft <= 0){ fnSpStop(); }
+  }, 1000);
+}
+
+function fnSpStop(){
+  clearInterval(fnSpTimer);
+  fnSpRunning = false;
+  if(document.getElementById('fnSpBtn'))
+    document.getElementById('fnSpBtn').textContent = 'Старт';
 }
 
 // ── FUNNEL S5 / S6 / S7 ──────────────────────────────────────────────────────
