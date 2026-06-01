@@ -140,8 +140,16 @@ nav.scrolled{background:var(--brown);box-shadow:0 2px 30px rgba(0,0,0,.35);}
 .fn-vid-pip{width:28px;height:3px;background:rgba(37,24,2,.15);transition:background .3s;}
 .fn-vid-pip.done{background:var(--brown);}
 .fn-vid-pip.active{background:var(--brown);opacity:.6;}
-.fn-vid-wrap{position:relative;width:100%;max-width:320px;aspect-ratio:9/16;background:rgba(37,24,2,.05);border:1px solid rgba(37,24,2,.1);margin:0 auto 20px;}
-.fn-vid-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
+.fn-vid-wrap{width:100%;margin-bottom:20px;}
+.fn-vid-row{display:flex;gap:14px;justify-content:center;}
+.fn-vid-item{position:relative;aspect-ratio:9/16;background:rgba(37,24,2,.05);border:1px solid rgba(37,24,2,.1);}
+.fn-vid-row--1 .fn-vid-item{width:100%;max-width:300px;}
+.fn-vid-row--2 .fn-vid-item{flex:1;max-width:210px;}
+.fn-vid-item iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
+@media(max-width:480px){
+  .fn-vid-row--2{flex-direction:column;align-items:center;}
+  .fn-vid-row--2 .fn-vid-item{width:100%;max-width:260px;}
+}
 .fn-vid-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;}
 .fn-vid-play{width:52px;height:52px;border-radius:50%;background:var(--brown);display:flex;align-items:center;justify-content:center;opacity:.25;}
 .fn-vid-ph-label{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--brown);opacity:.3;}
@@ -1048,13 +1056,32 @@ const FUNNEL_TEXTS = {
 };
 
 // ── FUNNEL VIDEOS ─────────────────────────────────────────────────────────────
+// videos: массив src (1 или 2 видео на шаг), examples: [] — заполнить позже
 const FUNNEL_VIDEOS = [
-  {title:'Poignant', desc:'Фишка произношения', src:'https://www.youtube.com/embed/LGceiXgksH0', examples:[]},
-  {title:'Luxury',   desc:'Фишка произношения', src:'https://www.youtube.com/embed/pIRpXtxW6HQ',  examples:[]},
-  {title:'Soften',   desc:'Фишка произношения', src:'https://www.youtube.com/embed/P7Q0B1ofM7Y',  examples:[]},
-  {title:'Often',    desc:'Фишка произношения', src:'https://www.youtube.com/embed/8xa-6C6pphk',  examples:[]},
-  {title:'Clock',    desc:'Фишка произношения', src:'https://www.youtube.com/embed/NphQmD32HQ8',  examples:[]},
-  {title:'Folk',     desc:'Фишка произношения', src:'https://www.youtube.com/embed/9goAbIbe5ao',   examples:[]},
+  {
+    title:'Clock',
+    desc:'Интересная конструкция',
+    videos:['https://www.youtube.com/embed/NphQmD32HQ8'],
+    examples:[],
+  },
+  {
+    title:'Often & Soften',
+    desc:'Фишка произношения',
+    videos:['https://www.youtube.com/embed/8xa-6C6pphk','https://www.youtube.com/embed/P7Q0B1ofM7Y'],
+    examples:[],
+  },
+  {
+    title:'Folk',
+    desc:'Фишка произношения',
+    videos:['https://www.youtube.com/embed/9goAbIbe5ao'],
+    examples:[],
+  },
+  {
+    title:'Poignant & Luxury',
+    desc:'Фишка произношения',
+    videos:['https://www.youtube.com/embed/LGceiXgksH0','https://www.youtube.com/embed/pIRpXtxW6HQ'],
+    examples:[],
+  },
 ];
 
 // ── FUNNEL STATE ─────────────────────────────────────────────────────────────
@@ -1111,34 +1138,37 @@ function fnShowS4(){
 }
 
 function fnRenderVideo(){
-  const vids   = FUNNEL_VIDEOS;
-  const v      = vids[fnVidIdx];
-  const isLast = fnVidIdx === vids.length - 1;
+  const step   = FUNNEL_VIDEOS[fnVidIdx];
+  const isLast = fnVidIdx === FUNNEL_VIDEOS.length - 1;
 
   // progress pips
   document.getElementById('fnVidProgress').innerHTML =
-    vids.map((_,i)=>`<div class="fn-vid-pip${i<fnVidIdx?' done':i===fnVidIdx?' active':''}"></div>`).join('');
+    FUNNEL_VIDEOS.map((_,i)=>`<div class="fn-vid-pip${i<fnVidIdx?' done':i===fnVidIdx?' active':''}"></div>`).join('');
 
-  // video area
-  const wrap = document.getElementById('fnVidWrap');
-  wrap.innerHTML = v.src
-    ? `<iframe src="${v.src}" allowfullscreen allow="autoplay"></iframe>`
-    : `<div class="fn-vid-placeholder">
+  // video(s)
+  const itemHtml = src => src
+    ? `<div class="fn-vid-item"><iframe src="${src}" allowfullscreen allow="autoplay"></iframe></div>`
+    : `<div class="fn-vid-item"><div class="fn-vid-placeholder">
         <div class="fn-vid-play"><svg width="16" height="16" viewBox="0 0 16 16" fill="var(--cream)"><polygon points="4,2 14,8 4,14"/></svg></div>
         <span class="fn-vid-ph-label">Видео будет здесь</span>
-       </div>`;
+       </div></div>`;
+
+  const count = step.videos.length;
+  document.getElementById('fnVidWrap').innerHTML =
+    `<div class="fn-vid-row fn-vid-row--${count}">` +
+    step.videos.map(itemHtml).join('') + '</div>';
 
   // examples
   const exWrap = document.getElementById('fnVidExamples');
-  if(v.examples && v.examples.length){
+  if(step.examples && step.examples.length){
     exWrap.innerHTML = `<p class="fn-vid-examples-label">Примеры</p>` +
-      v.examples.map(e=>`<div class="fn-vid-example">${e}</div>`).join('');
+      step.examples.map(e=>`<div class="fn-vid-example">${e}</div>`).join('');
   } else {
     exWrap.innerHTML = '';
   }
 
-  document.getElementById('fnVidTitle').textContent = v.title;
-  document.getElementById('fnVidDesc').textContent  = v.desc;
+  document.getElementById('fnVidTitle').textContent = step.title||'';
+  document.getElementById('fnVidDesc').textContent  = step.desc||'';
 
   const btn = document.getElementById('fnVidNextBtn');
   if(isLast){
