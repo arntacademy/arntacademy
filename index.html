@@ -875,8 +875,19 @@ function adSelectOpt(btn,idx){
   document.getElementById('btnNext').disabled=false;
 }
 
+function adAdvance(){
+  document.getElementById('ruleBox').style.display='none';
+  if(adQCount>=AD_MAX){adShowResults();}
+  else{adCurrent=adPickQuestion();adSelOpt=null;adAnswered=false;document.getElementById('btnNext').disabled=true;adRenderQ();adUpdateProgress();}
+}
+
 function adNext(){
-  if(adSelOpt===null||adAnswered)return;
+  if(adAnswered){
+    // wrong answer: user clicks "Следующий" to dismiss rule
+    if(document.getElementById('ruleBox').style.display!=='none') adAdvance();
+    return;
+  }
+  if(adSelOpt===null)return;
   adAnswered=true;
   const{correctIdx,q}=adCurrent;
   const correct=adSelOpt===correctIdx;
@@ -889,13 +900,12 @@ function adNext(){
     opts[adSelOpt].classList.add('wrong');
     document.getElementById('ruleText').innerHTML=q.rule;
     ruleBox.style.display='block';
+    document.getElementById('btnNext').disabled=false;
   } else {ruleBox.style.display='none';}
 
-  document.getElementById('btnNext').disabled=true;
   adAnswers.push({correct,diff:adDiff});
   adQCount++;
 
-  // adjust difficulty
   if(correct){
     adStreak++;
     if(adStreak>=2&&adDiff<3){adDiff++;adStreak=0;}
@@ -904,11 +914,7 @@ function adNext(){
     if(adDiff>1)adDiff--;
   }
 
-  setTimeout(()=>{
-    ruleBox.style.display='none';
-    if(adQCount>=AD_MAX){adShowResults();}
-    else{adCurrent=adPickQuestion();adSelOpt=null;adAnswered=false;document.getElementById('btnNext').disabled=true;adRenderQ();adUpdateProgress();}
-  },correct?800:5500);
+  if(correct) setTimeout(adAdvance,800);
 }
 
 function adShowResults(){

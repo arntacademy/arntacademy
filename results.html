@@ -679,8 +679,8 @@ function fnRenderVideo(){
       </div>`;
     if(stepData.words){
       const [w1, w2] = stepData.words;
-      const col1 = lvData.examples.filter(e=>e.tag.toLowerCase().includes(w1));
-      const col2 = lvData.examples.filter(e=>e.tag.toLowerCase().includes(w2));
+      const col1 = lvData.examples.filter(e=>e.tag.toLowerCase().includes(w1)).slice(0,2);
+      const col2 = lvData.examples.filter(e=>e.tag.toLowerCase().includes(w2)).slice(0,2);
       exWrap.className = '';
       exWrap.innerHTML =
         `<div class="fn-vid-ex-split">
@@ -695,11 +695,16 @@ function fnRenderVideo(){
       const exHtml = makeExHtml(makeHl(stepData.word));
       exWrap.className = 'fn-vid-examples';
       exWrap.innerHTML = `<p class="fn-vid-examples-label">${stepData.label}</p>` +
-        lvData.examples.map(exHtml).join('');
+        lvData.examples.slice(0,2).map(exHtml).join('');
     }
     document.getElementById('fnStepLabel2').style.display = 'flex';
-    fnSpReset();
-    spBlock.style.display = 'block';
+    if(fnVidIdx === 0){
+      fnSpReset();
+      spBlock.style.display = 'block';
+    } else {
+      fnSpStop();
+      spBlock.style.display = 'none';
+    }
   } else {
     fnSpStop();
     spBlock.style.display = 'none';
