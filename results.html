@@ -633,9 +633,12 @@ function fnRenderVideo(){
   if(stepData){
     const code = (fnLevel && fnLevel.code) || 'B1';
     const lvData = stepData[code] || stepData.B1;
-    const pattern = new RegExp(`\\b(${stepData.word})\\b`, 'gi');
-    const hl = s => s.replace(pattern, '<mark>$1</mark>');
-    const exHtml = e =>
+    const makeHl = word => {
+      if(!word) return s => s;
+      const pat = new RegExp(`\\b(${word})\\b`, 'gi');
+      return s => s.replace(pat, '<mark>$1</mark>');
+    };
+    const makeExHtml = hl => e =>
       `<div class="fn-vid-example">
         <span class="fn-vid-ex-tag">${e.tag}</span>
         <div class="fn-vid-ex-en">${hl(e.en)}</div>
@@ -649,13 +652,14 @@ function fnRenderVideo(){
       exWrap.innerHTML =
         `<div class="fn-vid-ex-split">
           <div class="fn-vid-ex-col">
-            <p class="fn-vid-ex-col-title">${w1}</p>${col1.map(exHtml).join('')}
+            <p class="fn-vid-ex-col-title">${w1}</p>${col1.map(makeExHtml(makeHl(w1))).join('')}
           </div>
           <div class="fn-vid-ex-col">
-            <p class="fn-vid-ex-col-title">${w2}</p>${col2.map(exHtml).join('')}
+            <p class="fn-vid-ex-col-title">${w2}</p>${col2.map(makeExHtml(makeHl(w2))).join('')}
           </div>
         </div>`;
     } else {
+      const exHtml = makeExHtml(makeHl(stepData.word));
       exWrap.className = 'fn-vid-examples';
       exWrap.innerHTML = `<p class="fn-vid-examples-label">${stepData.label}</p>` +
         lvData.examples.map(exHtml).join('');
@@ -684,8 +688,7 @@ function fnRenderVideo(){
 function fnVidNext(){
   if(fnVidIdx < FUNNEL_VIDEOS.length-1){
     fnVidIdx++;
-    fnRenderVideo();
-    scrollToTop();
+    scrollToTop(fnRenderVideo);
   }
 }
 
