@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ваш уровень — Arnt Academy</title>
+<link rel="preload" href="cormorant-garamond-v21-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="jost-v20-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:'Cormorant Garamond';src:url('cormorant-garamond-v21-latin-regular.woff2') format('woff2');font-weight:200 900;font-style:normal;font-display:swap;unicode-range:U+0000-024F,U+1E00-1EFF,U+2000-206F,U+20AC,U+FEFF;}
+@font-face{font-family:'Jost';src:url('jost-v20-latin-regular.woff2') format('woff2');font-weight:200 900;font-style:normal;font-display:swap;unicode-range:U+0000-024F,U+1E00-1EFF,U+2000-206F,U+20AC,U+FEFF;}
+:root{--white:#FDFDFD;--cream:#F2EBD6;--brown:#251802;--green:#1A2E22;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--brown);color:var(--brown);overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:22px 60px;background:var(--brown);}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.nav-logo img{width:36px;height:36px;object-fit:contain;filter:brightness(0) invert(1);opacity:.85;}
+.nav-logo span{font-family:'Jost',sans-serif;font-size:12px;font-weight:500;letter-spacing:3px;color:var(--cream);text-transform:uppercase;}
+.nav-back{font-size:10px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:var(--cream);opacity:.55;text-decoration:none;transition:opacity .2s;}
+.nav-back:hover{opacity:1;}
+
+/* RESULTS / FUNNEL — main container */
+#results{min-height:100vh;background:var(--brown);padding:110px 60px 80px;text-align:center;transition:background .5s;}
+.res-tag{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--cream);opacity:.4;margin-bottom:14px;}
+.res-level{font-family:'Cormorant Garamond',serif;font-size:clamp(70px,12vw,130px);font-weight:300;color:var(--cream);line-height:1;margin-bottom:8px;}
+.res-name{font-family:'Cormorant Garamond',serif;font-size:26px;font-style:italic;font-weight:300;color:var(--cream);opacity:.65;margin-bottom:36px;}
+.res-score{font-size:11px;letter-spacing:3px;color:var(--cream);opacity:.4;margin-bottom:40px;}
+.res-desc{font-size:14px;font-weight:300;line-height:1.9;color:var(--cream);opacity:.72;max-width:540px;margin:0 auto 50px;}
+.level-line-wrap{max-width:640px;margin:0 auto 56px;padding:0 20px;}
+.level-line{display:flex;align-items:center;position:relative;}
+.level-point{display:flex;flex-direction:column;align-items:center;flex:1;position:relative;z-index:1;}
+.lp-dot{width:10px;height:10px;border-radius:50%;border:1.5px solid rgba(242,235,214,.35);background:transparent;margin-bottom:10px;transition:all .3s;}
+.lp-dot.active{background:var(--cream);border-color:var(--cream);width:14px;height:14px;}
+.lp-code{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--cream);opacity:.4;margin-bottom:4px;transition:opacity .3s;}
+.lp-code.active{opacity:1;}
+.lp-name{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--cream);opacity:.3;transition:opacity .3s;}
+.lp-name.active{opacity:.7;}
+.lp-connector{flex:1;height:1px;background:rgba(242,235,214,.18);margin-bottom:24px;max-width:60px;}
+.lp-connector.filled{background:rgba(242,235,214,.45);}
+.btn-plan{font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--brown);background:var(--cream);padding:17px 48px;border:none;cursor:pointer;transition:background .2s;text-decoration:none;display:inline-block;}
+.btn-plan:hover{background:var(--white);}
+
+/* FUNNEL SCREENS */
+.fn-screen{display:none;}
+.fn-screen.fn-active{display:block;}
+.res-diagnosis{font-size:15px;font-weight:300;line-height:1.9;color:var(--cream);opacity:.75;max-width:520px;margin:0 auto 48px;}
+.fn-park-body{font-size:14px;font-weight:300;line-height:1.95;color:var(--cream);opacity:.72;max-width:480px;margin:0 auto 48px;}
+.fn-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,46px);font-weight:400;line-height:1.1;color:var(--brown);margin-bottom:40px;}
+.fn-h2 em{font-style:italic;}
+.fn-step-tag{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--cream);opacity:.38;margin-bottom:32px;}
+.fn-s2-intro{font-size:15px;font-weight:300;color:var(--cream);opacity:.78;line-height:1.75;margin-bottom:32px;}
+.fn-s2-steps{display:flex;flex-direction:column;gap:10px;max-width:400px;margin:0 auto 28px;text-align:left;}
+.fn-s2-step{display:flex;align-items:center;gap:16px;padding:14px 18px;border:1px solid rgba(242,235,214,.14);background:rgba(242,235,214,.05);}
+.fn-s2-num{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--cream);opacity:.4;flex-shrink:0;width:20px;text-align:center;}
+.fn-s2-text{font-size:13px;font-weight:300;color:var(--cream);opacity:.75;line-height:1.5;}
+.fn-s2-task{font-size:13px;font-weight:300;color:var(--cream);opacity:.5;line-height:1.85;margin-bottom:36px;max-width:400px;margin-left:auto;margin-right:auto;}
+.fn-step-tag-dark{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--brown);opacity:.38;margin-bottom:24px;}
+.fn-promise-body{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,3vw,30px);font-weight:300;font-style:italic;color:var(--cream);line-height:1.7;margin-bottom:52px;max-width:560px;margin-left:auto;margin-right:auto;}
+
+/* S4 — видео */
+.fn-vid-instr{font-size:13px;font-weight:400;color:var(--brown);opacity:.75;letter-spacing:.2px;margin:4px 0 22px;line-height:1.7;}
+.fn-vid-progress{display:flex;gap:6px;justify-content:center;margin-bottom:32px;}
+.fn-vid-pip{width:28px;height:3px;background:rgba(37,24,2,.15);transition:background .3s;}
+.fn-vid-pip.done{background:var(--brown);}
+.fn-vid-pip.active{background:var(--brown);opacity:.6;}
+.fn-vid-wrap{width:100%;margin-bottom:20px;}
+.fn-vid-row{display:flex;gap:14px;justify-content:center;}
+.fn-vid-item{position:relative;aspect-ratio:9/16;background:rgba(37,24,2,.05);border:1px solid rgba(37,24,2,.1);}
+.fn-vid-row--1 .fn-vid-item{width:100%;max-width:300px;}
+.fn-vid-row--2 .fn-vid-item{flex:1;max-width:210px;}
+.fn-vid-item iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
+@media(max-width:480px){
+  .fn-vid-row--2{flex-direction:column;align-items:center;}
+  .fn-vid-row--2 .fn-vid-item{width:100%;max-width:260px;}
+}
+.fn-vid-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;}
+.fn-vid-play{width:52px;height:52px;border-radius:50%;background:var(--brown);display:flex;align-items:center;justify-content:center;opacity:.25;}
+.fn-vid-ph-label{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--brown);opacity:.3;}
+.fn-vid-examples{margin:20px 0 8px;text-align:left;background:rgba(37,24,2,.04);border:1px solid rgba(37,24,2,.1);padding:20px 22px;}
+.fn-vid-ex-split{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0 8px;}
+.fn-vid-ex-col{background:rgba(37,24,2,.04);border:1px solid rgba(37,24,2,.1);padding:16px 18px;text-align:left;}
+.fn-vid-ex-col-title{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--brown);opacity:.3;margin-bottom:12px;}
+@media(max-width:540px){.fn-vid-ex-split{grid-template-columns:1fr;}}
+.fn-vid-examples-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--brown);opacity:.3;margin-bottom:14px;}
+.fn-vid-example{padding:12px 0;border-bottom:1px solid rgba(37,24,2,.07);}
+.fn-vid-example:last-child{border-bottom:none;padding-bottom:0;}
+.fn-vid-ex-en{font-size:14px;font-weight:300;color:var(--brown);line-height:1.5;margin-bottom:4px;}
+.fn-vid-ex-en mark{background:rgba(37,24,2,.1);font-weight:500;padding:0 3px;color:var(--brown);}
+.fn-vid-ex-ru{font-size:12px;font-weight:300;color:var(--brown);opacity:.45;line-height:1.5;}
+.fn-vid-note{font-size:13px;font-weight:300;color:var(--brown);opacity:.65;line-height:1.75;background:rgba(37,24,2,.04);border-left:2px solid rgba(37,24,2,.2);padding:12px 16px;margin-bottom:16px;text-align:left;}
+.fn-vid-note strong{font-weight:500;opacity:1;}
+.fn-vid-meta{margin-bottom:32px;}
+.fn-vid-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--brown);margin-bottom:5px;}
+.fn-vid-desc{display:none;}
+.fn-vid-ex-tag{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--brown);opacity:.3;display:block;margin-bottom:3px;}
+
+/* Funnel speaking trainer */
+.fn-sp-block{margin-top:20px;background:rgba(37,24,2,.04);border:1px solid rgba(37,24,2,.1);padding:24px 22px;text-align:left;}
+.fn-sp-instr{font-size:12px;font-weight:300;color:var(--brown);opacity:.55;line-height:1.75;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(37,24,2,.08);}
+.fn-sp-card{padding:0;margin-bottom:20px;min-height:100px;display:flex;flex-direction:column;justify-content:center;}
+.fn-sp-idle-msg{font-size:12px;font-weight:300;color:var(--brown);opacity:.38;text-align:center;letter-spacing:.3px;}
+.fn-sp-en{font-family:'Cormorant Garamond',serif;font-size:clamp(19px,2.8vw,26px);font-weight:400;font-style:italic;color:var(--brown);line-height:1.45;margin-bottom:10px;opacity:0;transition:opacity .4s;}
+.fn-sp-en.vis{opacity:1;}
+.fn-sp-ru{font-size:13px;font-weight:300;color:var(--brown);opacity:0;transition:opacity .4s .1s;line-height:1.6;margin-bottom:14px;}
+.fn-sp-ru.vis{opacity:.42;}
+.fn-sp-keys{display:flex;flex-wrap:wrap;gap:6px;opacity:0;transition:opacity .4s .2s;}
+.fn-sp-keys.vis{opacity:1;}
+.fn-sp-key{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--brown);border:1px solid rgba(37,24,2,.2);padding:4px 12px;}
+.fn-sp-controls{display:flex;align-items:center;justify-content:center;gap:32px;}
+.fn-sp-timer{text-align:center;}
+.fn-sp-timer-num{font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:300;color:var(--brown);line-height:1;}
+.fn-sp-timer-lbl{font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--brown);opacity:.3;}
+.fn-sp-btn{background:var(--brown);color:var(--cream);border:none;padding:12px 28px;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;font-family:'Jost',sans-serif;transition:background .2s;}
+.fn-sp-btn:hover{background:var(--green);}
+
+/* S5 — Карточки */
+.fn-fc-wrap{perspective:1000px;width:100%;max-width:360px;margin:0 auto 28px;cursor:pointer;}
+.fn-fc-card{position:relative;width:100%;aspect-ratio:3/2;transform-style:preserve-3d;transition:transform .5s;}
+.fn-fc-card.flipped{transform:rotateY(180deg);}
+.fn-fc-front,.fn-fc-back{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;border:1px solid rgba(242,235,214,.2);background:rgba(242,235,214,.06);}
+.fn-fc-back{transform:rotateY(180deg);background:rgba(242,235,214,.12);}
+.fn-fc-word{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,7vw,60px);font-weight:300;color:var(--cream);letter-spacing:2px;}
+.fn-fc-tap{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--cream);opacity:.28;margin-top:10px;}
+.fn-fc-ipa{font-size:22px;font-weight:300;color:var(--cream);margin-bottom:6px;letter-spacing:1px;}
+.fn-fc-ru{font-size:16px;font-weight:300;color:var(--cream);opacity:.65;margin-bottom:6px;}
+.fn-fc-note{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--cream);opacity:.32;margin-top:4px;}
+.fn-fc-counter{font-size:11px;letter-spacing:2px;color:var(--cream);opacity:.32;margin-bottom:20px;}
+
+/* S7 — Телеграм */
+.fn-s7-body{font-size:14px;font-weight:300;line-height:1.9;color:var(--cream);opacity:.72;max-width:440px;margin:0 auto 32px;}
+.fn-s7-features{display:flex;flex-direction:column;gap:10px;max-width:420px;margin:0 auto 36px;text-align:left;}
+.fn-s7-feat{font-size:13px;font-weight:300;color:var(--cream);opacity:.75;padding:13px 16px;border:1px solid rgba(242,235,214,.14);background:rgba(242,235,214,.05);display:flex;gap:14px;align-items:baseline;}
+.fn-s7-num{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--cream);opacity:.35;flex-shrink:0;}
+.fn-s7-restart{display:inline-block;margin-top:20px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--cream);opacity:.28;text-decoration:none;transition:opacity .2s;border:none;background:none;cursor:pointer;font-family:'Jost',sans-serif;}
+.fn-s7-restart:hover{opacity:.55;}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:none;}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-22px);}to{opacity:.88;transform:none;}}
+
+/* Cookie banner */
+.cookie-banner{position:fixed;bottom:0;left:0;right:0;background:var(--brown);padding:18px 40px;display:flex;align-items:center;justify-content:space-between;gap:20px;z-index:9999;transform:translateY(100%);transition:transform .45s cubic-bezier(.22,.61,.36,1);border-top:1px solid rgba(242,235,214,.1);}
+.cookie-banner.vis{transform:translateY(0);}
+.cookie-text{font-size:11px;font-weight:300;color:var(--cream);opacity:.65;line-height:1.65;max-width:640px;}
+.cookie-btns{display:flex;gap:10px;flex-shrink:0;}
+.cookie-accept{background:var(--cream);color:var(--brown);border:none;padding:10px 26px;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Jost',sans-serif;transition:background .2s;}
+.cookie-accept:hover{background:var(--white);}
+.cookie-decline{background:transparent;color:var(--cream);border:1px solid rgba(242,235,214,.28);padding:10px 26px;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Jost',sans-serif;opacity:.55;transition:opacity .2s,border-color .2s;}
+.cookie-decline:hover{opacity:1;border-color:rgba(242,235,214,.65);}
+
+@media(max-width:900px){
+  nav{padding:18px 24px;}
+  #results{padding-left:24px;padding-right:24px;}
+}
+@media(max-width:480px){
+  nav{padding:14px 16px;}
+  #results{padding-left:16px;padding-right:16px;padding-top:90px;}
+  .cookie-banner{flex-direction:column;align-items:flex-start;padding:20px 20px 24px;gap:14px;}
+  .cookie-btns{width:100%;}
+  .cookie-accept,.cookie-decline{flex:1;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="Frame 24.png" alt="Arnt Academy">
+    <span>Arnt Academy</span>
+  </a>
+  <a href="index.html" class="nav-back">← Пройти тест заново</a>
+</nav>
+
+<!-- FUNNEL -->
+<section id="results">
+
+  <!-- S1: Результат (B1+) -->
+  <div class="fn-screen fn-active" id="fn-s1">
+    <div style="max-width:700px;margin:0 auto;text-align:center;">
+      <p class="res-tag">Ваш уровень</p>
+      <div class="res-level" id="resLevel">B1</div>
+      <div class="res-name" id="resName">Pre-Intermediate</div>
+      <div class="res-score" id="resScore"></div>
+      <p class="res-diagnosis" id="resDiagnosis"></p>
+      <div class="level-line-wrap">
+        <div class="level-line" id="levelLine">
+          <div class="level-point" data-lvl="A1"><div class="lp-dot"></div><div class="lp-code">A1</div><div class="lp-name">Начальный</div></div>
+          <div class="lp-connector"></div>
+          <div class="level-point" data-lvl="A2"><div class="lp-dot"></div><div class="lp-code">A2</div><div class="lp-name">Элементарный</div></div>
+          <div class="lp-connector"></div>
+          <div class="level-point" data-lvl="B1"><div class="lp-dot"></div><div class="lp-code">B1</div><div class="lp-name">Средний</div></div>
+          <div class="lp-connector"></div>
+          <div class="level-point" data-lvl="B2"><div class="lp-dot"></div><div class="lp-code">B2</div><div class="lp-name">Выше среднего</div></div>
+          <div class="lp-connector"></div>
+          <div class="level-point" data-lvl="C1"><div class="lp-dot"></div><div class="lp-code">C1</div><div class="lp-name">Продвинутый</div></div>
+        </div>
+      </div>
+      <button class="btn-plan" onclick="fnNext('s2')">Давай прокачаем →</button>
+    </div>
+  </div>
+
+  <!-- S1b: Парковка (A1/A2) -->
+  <div class="fn-screen" id="fn-s1b">
+    <div style="max-width:580px;margin:0 auto;text-align:center;">
+      <p class="res-tag">Ваш уровень</p>
+      <div class="res-level" id="fnS1bLevel"></div>
+      <div class="res-name" id="fnS1bName"></div>
+      <div class="level-line-wrap">
+        <div class="level-line">
+          <div class="level-point" data-lvl="A1"><div class="lp-dot"></div><div class="lp-code">A1</div><div class="lp-name">Начальный</div></div>
+          <div class="lp-connector"></div>
+          <div class="level-point" data-lvl="A2"><div class="lp-dot"></div><div class="lp-code">A2</div><div class="lp-name">Элементарный</div></div>
+          <div class="lp-connector"></div>
+          <div class="level-point" data-lvl="B1"><div class="lp-dot"></div><div class="lp-code">B1</div><div class="lp-name">Средний</div></div>
+          <div class="lp-connector"></div>
+          <div class="level-point" data-lvl="B2"><div class="lp-dot"></div><div class="lp-code">B2</div><div class="lp-name">Выше среднего</div></div>
+          <div class="lp-connector"></div>
+          <div class="level-point" data-lvl="C1"><div class="lp-dot"></div><div class="lp-code">C1</div><div class="lp-name">Продвинутый</div></div>
+        </div>
+      </div>
+      <p class="fn-park-body" id="fnParkBody"></p>
+      <button class="btn-plan" onclick="fnNext('s2')">Давай прокачаем →</button>
+    </div>
+  </div>
+
+  <!-- S3: Обещание -->
+  <div class="fn-screen" id="fn-s3">
+    <div style="max-width:620px;margin:0 auto;text-align:center;">
+      <p class="fn-step-tag">Шаг 2 из 3</p>
+      <p class="fn-promise-body" id="fnPromiseText"></p>
+      <button class="btn-plan" style="background:var(--cream);color:var(--brown);" onclick="fnShowS4()">Поехали →</button>
+    </div>
+  </div>
+
+  <!-- S4: Видео-поток -->
+  <div class="fn-screen" id="fn-s4">
+    <div style="max-width:720px;margin:0 auto;text-align:center;">
+      <p class="fn-step-tag-dark">Шаг 2 из 3</p>
+      <div class="fn-vid-progress" id="fnVidProgress"></div>
+      <p class="fn-vid-instr">Посмотри это видео и потренируйся на примерах ниже</p>
+      <div class="fn-vid-note" id="fnVidNote" style="display:none;"></div>
+      <div class="fn-vid-wrap" id="fnVidWrap"></div>
+      <div class="fn-vid-examples" id="fnVidExamples"></div>
+
+      <!-- Speaking trainer -->
+      <div class="fn-sp-block" id="fnSpBlock" style="display:none;">
+        <p class="fn-sp-instr">Здесь нет записи и проверки — просто говори. Вопрос появится, как только ты нажмёшь «Старт». Твоя задача: уложиться в минуту и поделиться историей на английском.</p>
+        <div class="fn-sp-card">
+          <p class="fn-sp-idle-msg" id="fnSpIdle">Нажми «Старт» — говори по-английски 60 секунд</p>
+          <p class="fn-sp-en" id="fnSpEn"></p>
+          <p class="fn-sp-ru" id="fnSpRu"></p>
+          <div class="fn-sp-keys" id="fnSpKeys"></div>
+        </div>
+        <div class="fn-sp-controls">
+          <div class="fn-sp-timer">
+            <div class="fn-sp-timer-num" id="fnSpTimerNum">60</div>
+            <div class="fn-sp-timer-lbl">секунд</div>
+          </div>
+          <button class="fn-sp-btn" id="fnSpBtn" onclick="fnSpStart()">Старт</button>
+        </div>
+      </div>
+
+      <div class="fn-vid-meta">
+        <div class="fn-vid-title" id="fnVidTitle"></div>
+        <div class="fn-vid-desc" id="fnVidDesc"></div>
+      </div>
+      <button class="btn-plan" id="fnVidNextBtn">Дальше →</button>
+    </div>
+  </div>
+
+  <!-- S5: Карточки слов -->
+  <div class="fn-screen" id="fn-s5">
+    <div style="max-width:500px;margin:0 auto;text-align:center;">
+      <p class="fn-step-tag">Скажи вслух — по-британски</p>
+      <p class="fn-s2-intro" style="margin-bottom:24px;">Нажимай на карточку, чтобы увидеть фишку произношения. Посмотри — и попробуй произнести слово так же.</p>
+      <div class="fn-vid-progress" id="fnFcProgress"></div>
+      <p class="fn-fc-counter" id="fnFcCounter">1 / 4</p>
+      <div class="fn-fc-wrap">
+        <div class="fn-fc-card" id="fnFcCard" onclick="fnFcFlip()">
+          <div class="fn-fc-front" id="fnFcFront"></div>
+          <div class="fn-fc-back" id="fnFcBack"></div>
+        </div>
+      </div>
+      <button class="btn-plan" id="fnFcNextBtn" style="display:none;background:var(--cream);color:var(--brown);">Следующее →</button>
+    </div>
+  </div>
+
+  <!-- S2: Тизер урока -->
+  <div class="fn-screen" id="fn-s2">
+    <div style="max-width:520px;margin:0 auto;text-align:center;">
+      <p class="fn-step-tag">Программа готова</p>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,46px);font-weight:400;line-height:1.1;color:var(--cream);margin-bottom:40px;">Давай прокачаем<br><em>твой уровень</em></h2>
+      <p class="fn-s2-intro">Тебя ждут 3 шага — каждый с фишкой произношения или полезной конструкцией.</p>
+      <div class="fn-s2-steps">
+        <div class="fn-s2-step"><span class="fn-s2-num">1</span><span class="fn-s2-text">Clock — полезная конструкция</span></div>
+        <div class="fn-s2-step"><span class="fn-s2-num">2</span><span class="fn-s2-text">Folk — фишка произношения</span></div>
+        <div class="fn-s2-step"><span class="fn-s2-num">3</span><span class="fn-s2-text">Poignant & Luxury — произношение</span></div>
+      </div>
+      <p class="fn-s2-task">Твоя задача — смотреть и пробовать применить. К каждому шагу будут примеры и задание на говорение.</p>
+      <button class="btn-plan" style="background:var(--cream);color:var(--brown);" onclick="fnShowS4()">Начать урок →</button>
+    </div>
+  </div>
+
+  <!-- S7: Телеграм-подписка -->
+  <div class="fn-screen" id="fn-s7">
+    <div style="max-width:560px;margin:0 auto;text-align:center;">
+      <p class="fn-step-tag">Хочешь больше?</p>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,46px);font-weight:400;line-height:1.1;color:var(--cream);margin-bottom:40px;">Ежедневное погружение<br><em>в английский</em></h2>
+      <p class="fn-s7-body">Если хочешь получать такие знания каждый день — оформи подписку в закрытый Телеграм-канал.</p>
+      <div class="fn-s7-features">
+        <div class="fn-s7-feat"><span class="fn-s7-num">1</span>Видео с произношением и полезными конструкциями</div>
+        <div class="fn-s7-feat"><span class="fn-s7-num">2</span>Разбор зарубежных медиа</div>
+        <div class="fn-s7-feat"><span class="fn-s7-num">3</span>Культурные особенности иностранцев — как они думают, живут и общаются</div>
+      </div>
+      <a href="https://t.me/tribute/app?startapp=sX07" class="btn-plan">Оформить подписку →</a>
+      <br>
+      <button class="fn-s7-restart" onclick="location.href='index.html'">Пройти тест заново</button>
+    </div>
+  </div>
+
+</section>
+
+<!-- COOKIE BANNER -->
+<div class="cookie-banner" id="cookieBanner">
+  <p class="cookie-text">Мы используем файлы cookie для корректной работы сайта. Продолжая использование, вы соглашаетесь с нашей <a href="privacy.html" style="color:var(--cream);opacity:.8;text-decoration:underline;text-underline-offset:2px;">политикой конфиденциальности</a>.</p>
+  <div class="cookie-btns">
+    <button class="cookie-accept" onclick="cookieChoice('accepted')">Принять</button>
+    <button class="cookie-decline" onclick="cookieChoice('declined')">Отклонить</button>
+  </div>
+</div>
+
+<script>
+// ── LEVELS (нужны для buildLevelLine и fnStart) ──────────────────────────────
+const LEVELS = [
+  {code:'A1',name:'Beginner',       desc:'Вы только начинаете путь. Самый быстрый прогресс именно здесь.'},
+  {code:'A2',name:'Elementary',     desc:'У вас есть база, но её нужно укрепить.'},
+  {code:'B1',name:'Pre-Intermediate',desc:'Вы понимаете основные темы и можете говорить о знакомых вещах.'},
+  {code:'B2',name:'Intermediate',   desc:'Вы уже можете общаться свободно.'},
+  {code:'C1',name:'Advanced',       desc:'Сильный уровень. Работаем над точностью, стилем и культурным контекстом.'},
+];
+
+// ── FUNNEL DATA ──────────────────────────────────────────────────────────────
+const FUNNEL_TEXTS = {
+  diagnosis:{
+    B1:'У тебя уже есть база — ты понимаешь и читаешь. Но в разговоре фразы складываются медленнее, чем нужно. Это твоя точка роста прямо сейчас.',
+    B2:'Ты уже говоришь — но чувствуешь, что тебя что-то сдерживает. Точность, беглость, уверенность. Пора убрать этот потолок.',
+    C1:'Твой уровень уже высокий. Разрыв между тем, как ты думаешь, и тем, как говоришь — минимальный. Здесь работаем над нюансами, которые отличают хороший английский от отличного.',
+  },
+  park:{
+    A1:'Тебе сейчас рано бустить речь — сначала стоит собрать базу. Это честно: попытка заговорить без фундамента даёт медленный результат и много разочарований. Правильный путь — быстрее.',
+    A2:'У тебя уже есть начало. Но до уверенной речи нужно чуть укрепить фундамент — и это займёт меньше времени, чем кажется. Сейчас лучший момент для этого.',
+  },
+  promise:{
+    travel:'Окей, путешествия. Смысл везде один: чтобы заговорить — надо начать говорить, а не учить ещё больше правил. Сейчас за пару минут сам убедишься, что это работает.',
+    business:'Окей, деловой английский. Смысл везде один: чтобы заговорить — надо начать говорить, а не учить ещё больше правил. Сейчас за пару минут сам убедишься, что это работает.',
+    health:'Окей, здоровье. Смысл везде один: чтобы заговорить — надо начать говорить, а не учить ещё больше правил. Сейчас за пару минут сам убедишься, что это работает.',
+  },
+};
+
+const FUNNEL_VIDEOS = [
+  {
+    title:'Clock',
+    desc:'Интересная конструкция',
+    videos:['https://www.youtube.com/embed/NphQmD32HQ8'],
+    examples:[],
+  },
+  {
+    title:'Folk',
+    desc:'Фишка произношения',
+    videos:['https://www.youtube.com/embed/9goAbIbe5ao'],
+    examples:[],
+  },
+  {
+    title:'Poignant & Luxury',
+    desc:'Фишка произношения',
+    videos:['https://www.youtube.com/embed/LGceiXgksH0','https://www.youtube.com/embed/pIRpXtxW6HQ'],
+    note:'В этом шаге два видео. <strong>Poignant</strong> — слово посложнее, <strong>Luxury</strong> — попроще. Выбирайте сами, что хотите изучить сегодня — или смотрите оба.',
+    examples:[],
+  },
+];
+
+const FN_SP_DATA = {
+  0:{
+    label:'Примеры — clock',
+    word:'clock(?:ed)?',
+    A1:{
+      q:{en:"Did you clock any new words today?", ru:"Ты заметил(а) новые слова сегодня?", keys:['clock = заметить','new words','today']},
+      examples:[
+        {tag:'clock — часы',    en:'I look at the clock.',          ru:'Я смотрю на часы.'},
+        {tag:'clock — часы',    en:'There\'s a clock on the wall.', ru:'На стене есть часы.'},
+        {tag:'clock — замечать',en:'I clocked you!',                ru:'Я тебя заметил(а)!'},
+        {tag:'clock — замечать',en:'Did you clock that?',           ru:'Ты это заметил(а)?'},
+      ],
+    },
+    A2:{
+      q:{en:"Did you clock anything unusual about this place?", ru:"Ты заметил(а) что-то необычное в этом месте?", keys:['clock = заметить','unusual','I clocked...']},
+      examples:[
+        {tag:'clock — замечать',en:'I clocked the price straight away.',           ru:'Я сразу заметил(а) цену.'},
+        {tag:'clock — замечать',en:'Did you clock what she was wearing?',          ru:'Ты заметил(а), что она была в?'},
+        {tag:'clock — скорость',en:'The car clocked 200 km/h on the motorway.',   ru:'Машина развила 200 км/ч на шоссе.'},
+        {tag:'clock — скорость',en:'He clocked the fastest time in the group.',   ru:'Он показал лучшее время в группе.'},
+      ],
+    },
+    B1:{
+      q:{en:"Have you ever clocked someone doing something suspicious while travelling?", ru:"Ты когда-нибудь замечал(а) кого-то подозрительного в путешествии?", keys:['clock = замечать','suspicious behaviour','I clocked someone...']},
+      examples:[
+        {tag:'clock — замечать',en:'I clocked the exit as soon as I entered.',                       ru:'Я заметил(а) выход, как только вошёл(а).'},
+        {tag:'clock — замечать',en:'She clocked that something was off before anyone else did.',     ru:'Она заметила, что что-то не так, раньше других.'},
+        {tag:'clock — скорость',en:'The train clocked over 300 km/h through the tunnel.',           ru:'Поезд развил больше 300 км/ч в тоннеле.'},
+        {tag:'clock — работа',  en:'He\'s been clocking serious overtime this week.',               ru:'На этой неделе он много перерабатывает.'},
+      ],
+    },
+    B2:{
+      q:{en:"Have you ever clocked the moment when a conversation shifted — and what gave it away?", ru:"Ты когда-нибудь ловил(а) момент, когда разговор изменился — и что это выдало?", keys:['clock = уловить момент','shift','the moment when...']},
+      examples:[
+        {tag:'clock — уловить',en:'I clocked the shift in tone the moment he walked in.',           ru:'Я уловил(а) перемену тона, как только он вошёл.'},
+        {tag:'clock — уловить',en:'She clocked his hesitation before he even spoke.',               ru:'Она заметила его колебание ещё до того, как он заговорил.'},
+        {tag:'clock — время',  en:'By the time we landed, I\'d clocked 14 hours of travel.',       ru:'К моменту посадки за плечами было 14 часов в пути.'},
+        {tag:'clock — работа', en:'He\'s clocking serious miles on the road for this project.',    ru:'Ради этого проекта он накручивает серьёзный километраж.'},
+      ],
+    },
+    C1:{
+      q:{en:"At what point did you clock that your level of English had shifted — and what gave it away?", ru:"В какой момент ты понял(а), что твой английский изменился — и что это выдало?", keys:['clock = уловить/заметить','shift','the moment when...']},
+      examples:[
+        {tag:'clock — уловить',en:'I clocked a slight change in register the moment she switched topics.',  ru:'Я уловил(а) тонкую смену регистра, как только она сменила тему.'},
+        {tag:'clock — уловить',en:'He clocked the subtext before anyone else in the room did.',             ru:'Он уловил подтекст раньше всех остальных в комнате.'},
+        {tag:'clock — данные', en:'The system clocked an anomaly at 03:47, but no one flagged it.',        ru:'Система зафиксировала аномалию в 03:47, но никто не поднял тревогу.'},
+        {tag:'clock — данные', en:'Researchers clocked a measurable shift in syntax after just 6 weeks.',  ru:'Исследователи зафиксировали измеримый сдвиг в синтаксисе уже через 6 недель.'},
+      ],
+    },
+  },
+  1:{
+    label:'Примеры — folk',
+    word:'folk(?:s)?',
+    A1:{
+      q:{en:"Are the folk in your city friendly to tourists?", ru:"Люди в твоём городе дружелюбны к туристам?", keys:['folk = люди','friendly','in my city']},
+      examples:[
+        {tag:'folk — люди',en:'The local folk were very welcoming.',   ru:'Местные жители были очень приветливы.'},
+        {tag:'folk — люди',en:'The folk here are friendly.',           ru:'Здесь люди дружелюбные.'},
+        {tag:'folk — семья',en:'My folks live far away.',              ru:'Мои родители живут далеко.'},
+        {tag:'folk — семья',en:'How are your folks doing?',           ru:'Как поживают твои?'},
+      ],
+    },
+    A2:{
+      q:{en:"What do the folk in your hometown think about learning English?", ru:"Что думают люди в твоём городе об изучении английского?", keys:['folk = люди','hometown','think about']},
+      examples:[
+        {tag:'folk — люди',     en:'The folk in that village still speak the old dialect.',  ru:'Люди в той деревне до сих пор говорят на старом диалекте.'},
+        {tag:'folk — люди',     en:'I love how folk here just chat to strangers.',           ru:'Мне нравится, как здесь люди запросто разговаривают с незнакомцами.'},
+        {tag:'folk — культура', en:'We listened to folk music by the fire.',                ru:'Мы слушали народную музыку у костра.'},
+        {tag:'folk — культура', en:'It\'s an old folk tale from this region.',              ru:'Это старая народная сказка из этого края.'},
+      ],
+    },
+    B1:{
+      q:{en:"Do you think folk from different cultures approach travel differently?", ru:"Как ты думаешь, люди из разных культур по-разному подходят к путешествиям?", keys:['folk = люди','cultural differences','approach to travel']},
+      examples:[
+        {tag:'folk — люди',     en:'The folk you meet at hostels often become long-term travel friends.', ru:'Люди, с которыми встречаешься в хостелах, нередко становятся друзьями надолго.'},
+        {tag:'folk — люди',     en:'Some folk just don\'t warm to strangers easily.',                   ru:'Некоторые люди просто не склонны быстро сближаться с незнакомцами.'},
+        {tag:'folk — культура', en:'Folk traditions vary hugely across regions, even within one country.', ru:'Народные традиции сильно различаются между регионами даже внутри одной страны.'},
+        {tag:'folk — культура', en:'There\'s something deeply moving about authentic folk music.',       ru:'В настоящей народной музыке есть что-то глубоко трогательное.'},
+      ],
+    },
+    B2:{
+      q:{en:"Do you think folk who speak multiple languages see the world differently?", ru:"Как ты думаешь, люди, говорящие на нескольких языках, иначе воспринимают мир?", keys:['folk = люди','multilingual','worldview']},
+      examples:[
+        {tag:'folk — люди',     en:'Folk who\'ve lived abroad tend to be more adaptable in unfamiliar situations.',  ru:'Люди, жившие за рубежом, как правило, легче адаптируются в незнакомых ситуациях.'},
+        {tag:'folk — люди',     en:'Some folk thrive on uncertainty — they actually enjoy not knowing what\'s next.', ru:'Некоторые люди расцветают в неопределённости — им нравится не знать, что будет дальше.'},
+        {tag:'folk — культура', en:'Folk etymology often reveals how a culture understood the world centuries ago.',  ru:'Народная этимология часто показывает, как культура понимала мир несколько веков назад.'},
+        {tag:'folk — культура', en:'The revival of folk traditions is often a response to rapid modernisation.',     ru:'Возрождение народных традиций нередко является ответом на стремительную модернизацию.'},
+      ],
+    },
+    C1:{
+      q:{en:"What do folk in your field misunderstand about language learning — and why does that myth persist?", ru:"Что люди в твоей сфере неправильно понимают в изучении языков — и почему этот миф живёт?", keys:['folk = люди','misconception','persist']},
+      examples:[
+        {tag:'folk — люди',     en:'Folk wisdom about language learning is often at odds with what research actually shows.', ru:'Народная мудрость об изучении языков нередко расходится с тем, что показывают исследования.'},
+        {tag:'folk — люди',     en:'The folk you meet at the margins of an industry often understand it better than the centre does.', ru:'Люди на периферии индустрии нередко понимают её лучше, чем те, кто в центре.'},
+        {tag:'folk — культура', en:'Folk narratives are rarely innocent — they encode the values of those who preserve them.',ru:'Народные нарративы редко бывают невинными — в них зашифрованы ценности тех, кто их хранит.'},
+        {tag:'folk — культура', en:'The line between folk art and fine art is often more political than aesthetic.',  ru:'Граница между народным и изобразительным искусством нередко носит скорее политический, чем эстетический характер.'},
+      ],
+    },
+  },
+  2:{
+    label:'Примеры',
+    words:['poignant','luxury'],
+    A1:{
+      q:{en:"What is a small luxury that makes your day better?", ru:"Какая маленькая роскошь делает твой день лучше?", keys:['luxury = роскошь','makes your day better','small things']},
+      examples:[
+        {tag:'poignant — трогательный',en:'That was a poignant moment in the film.',  ru:'Это был трогательный момент в фильме.'},
+        {tag:'poignant — трогательный',en:'Her words were simple but poignant.',       ru:'Её слова были простыми, но трогательными.'},
+        {tag:'luxury — роскошь',       en:'A long bath is my favourite luxury.',       ru:'Долгая ванна — моя любимая роскошь.'},
+        {tag:'luxury — роскошь',       en:'They stayed in a luxury apartment.',        ru:'Они остановились в роскошных апартаментах.'},
+      ],
+    },
+    A2:{
+      q:{en:"What is a small luxury that makes your day better?", ru:"Какая маленькая роскошь делает твой день лучше?", keys:['luxury = роскошь','makes your day better','small things']},
+      examples:[
+        {tag:'poignant — трогательный',en:'That was a poignant moment in the film.',  ru:'Это был трогательный момент в фильме.'},
+        {tag:'poignant — трогательный',en:'Her words were simple but poignant.',       ru:'Её слова были простыми, но трогательными.'},
+        {tag:'luxury — роскошь',       en:'A long bath is my favourite luxury.',       ru:'Долгая ванна — моя любимая роскошь.'},
+        {tag:'luxury — роскошь',       en:'They stayed in a luxury apartment.',        ru:'Они остановились в роскошных апартаментах.'},
+      ],
+    },
+    B1:{
+      q:{en:"What was the most poignant moment in a film or book you remember?", ru:"Какой самый трогательный момент в фильме или книге ты помнишь?", keys:['poignant = трогательный / пронзительный','moving','film or book']},
+      examples:[
+        {tag:'poignant — трогательный',en:'The scene at the end was deeply poignant.',                        ru:'Сцена в конце была очень трогательной.'},
+        {tag:'poignant — трогательный',en:'There\'s something poignant about leaving a place for the last time.',ru:'В том, чтобы покидать место в последний раз, есть что-то трогательное.'},
+        {tag:'luxury — роскошь',       en:'Time to think is a luxury most people don\'t have.',               ru:'Время подумать — роскошь, которой нет у большинства людей.'},
+        {tag:'luxury — роскошь',       en:'Speaking fluently feels like a luxury worth working for.',         ru:'Говорить бегло — это роскошь, ради которой стоит трудиться.'},
+      ],
+    },
+    B2:{
+      q:{en:"Is speaking English fluently a luxury — or a basic skill everyone should have access to?", ru:"Свободно говорить по-английски — это роскошь или базовый навык, доступный каждому?", keys:['luxury','fluency','access']},
+      examples:[
+        {tag:'poignant — трогательный',en:'The speech was poignant without being sentimental.',                           ru:'Речь была трогательной, не впадая в сентиментальность.'},
+        {tag:'poignant — трогательный',en:'There\'s something poignant about watching someone find their voice in a new language.',ru:'В том, как человек обретает голос на новом языке, есть что-то трогательное.'},
+        {tag:'luxury — роскошь',       en:'The luxury of a near-native accent is earned through hours of practice.',       ru:'Роскошь акцента, близкого к носительскому, заработана часами практики.'},
+        {tag:'luxury — роскошь',       en:'We can\'t afford the luxury of waiting until conditions are perfect.',          ru:'Мы не можем позволить себе роскошь ждать идеальных условий.'},
+      ],
+    },
+    C1:{
+      q:{en:"Which is more poignant to you — the moment you first spoke without thinking in English, or the moment you realised you'd lost that initial thrill of progress?", ru:"Что для тебя более пронзительно — момент, когда ты впервые заговорил(а) по-английски не думая, или момент, когда осознал(а), что потерял(а) тот первый азарт прогресса?", keys:['poignant','speaking without thinking','thrill of progress']},
+      examples:[
+        {tag:'poignant — трогательный',en:'His memoir is poignant in its quiet restraint.',                                         ru:'Его мемуары трогательны своей тихой сдержанностью.'},
+        {tag:'poignant — трогательный',en:'The piece achieves something rare — poignant without being maudlin.',                    ru:'Произведению удаётся нечто редкое — оно трогательно, но не слащаво.'},
+        {tag:'luxury — роскошь',       en:'She couldn\'t afford the luxury of doubt.',                                              ru:'Она не могла позволить себе роскошь сомнений.'},
+        {tag:'luxury — роскошь',       en:'The luxury of linguistic fluency lies not in vocabulary size, but in ease of retrieval.',ru:'Роскошь языковой беглости — не в объёме словаря, а в лёгкости извлечения слов.'},
+      ],
+    },
+  },
+};
+
+const FLASHCARDS = [
+  {word:'folk',   ipa:'/fəʊk/',       ru:'народ, люди',    note:'буква L не читается'},
+  {word:'luxury', ipa:'/ˈlʌkʃəri/',  ru:'роскошь',        note:''},
+  {word:'palm',   ipa:'/pɑːm/',       ru:'ладонь, пальма', note:'буква L не читается'},
+  {word:'calm',   ipa:'/kɑːm/',       ru:'спокойный',      note:'буква L не читается'},
+];
+
+// ── FUNNEL STATE ─────────────────────────────────────────────────────────────
+let fnLevel = null;
+let fnTheme = 'travel';
+let fnVidIdx = 0;
+
+const FN_BG = {
+  'fn-s1':'var(--brown)','fn-s1b':'var(--brown)',
+  'fn-s2':'var(--green)',
+  'fn-s3':'var(--green)',
+  'fn-s4':'var(--white)',
+  'fn-s5':'var(--brown)',
+  'fn-s7':'var(--green)',
+};
+
+function scrollToTop(cb){
+  var start = window.scrollY||window.pageYOffset;
+  if(start < 4){ if(cb) cb(); return; }
+  var duration = 380;
+  var t0 = performance.now();
+  function step(t){
+    var p = Math.min((t - t0) / duration, 1);
+    var ease = 1 - Math.pow(1 - p, 3);
+    window.scrollTo(0, start * (1 - ease));
+    if(p < 1){ requestAnimationFrame(step); } else if(cb){ cb(); }
+  }
+  requestAnimationFrame(step);
+}
+
+function fnShowScreen(id){
+  scrollToTop(function(){
+    document.querySelectorAll('.fn-screen').forEach(s=>s.classList.remove('fn-active'));
+    document.getElementById(id).classList.add('fn-active');
+    document.getElementById('results').style.background = FN_BG[id]||'var(--brown)';
+  });
+}
+
+function fnStart(lvl){
+  fnLevel = lvl;
+  if(lvl.code==='A1'||lvl.code==='A2'){
+    document.getElementById('fnS1bLevel').textContent = lvl.code;
+    document.getElementById('fnS1bName').textContent  = lvl.name;
+    document.getElementById('fnParkBody').textContent = FUNNEL_TEXTS.park[lvl.code]||'';
+    fnShowScreen('fn-s1b');
+  } else {
+    fnShowScreen('fn-s1');
+  }
+}
+
+function fnNext(target){
+  fnShowScreen('fn-'+target);
+}
+
+function fnSelectTheme(key){
+  fnTheme = key;
+  localStorage.setItem('arntTheme', key);
+  document.getElementById('fnPromiseText').textContent = FUNNEL_TEXTS.promise[key]||FUNNEL_TEXTS.promise.travel;
+  fnShowScreen('fn-s3');
+}
+
+function fnShowS4(){
+  fnVidIdx = 0;
+  fnRenderVideo();
+  fnShowScreen('fn-s4');
+}
+
+function fnRenderVideo(){
+  const step   = FUNNEL_VIDEOS[fnVidIdx];
+  const isLast = fnVidIdx === FUNNEL_VIDEOS.length - 1;
+
+  document.getElementById('fnVidProgress').innerHTML =
+    FUNNEL_VIDEOS.map((_,i)=>`<div class="fn-vid-pip${i<fnVidIdx?' done':i===fnVidIdx?' active':''}"></div>`).join('');
+
+  const noteEl = document.getElementById('fnVidNote');
+  if(step.note){ noteEl.innerHTML = step.note; noteEl.style.display = 'block'; }
+  else { noteEl.style.display = 'none'; }
+
+  const itemHtml = src => src
+    ? `<div class="fn-vid-item"><iframe src="${src}" allowfullscreen allow="autoplay"></iframe></div>`
+    : `<div class="fn-vid-item"><div class="fn-vid-placeholder">
+        <div class="fn-vid-play"><svg width="16" height="16" viewBox="0 0 16 16" fill="var(--cream)"><polygon points="4,2 14,8 4,14"/></svg></div>
+        <span class="fn-vid-ph-label">Видео будет здесь</span>
+       </div></div>`;
+
+  const count = step.videos.length;
+  document.getElementById('fnVidWrap').innerHTML =
+    `<div class="fn-vid-row fn-vid-row--${count}">` + step.videos.map(itemHtml).join('') + '</div>';
+
+  const exWrap  = document.getElementById('fnVidExamples');
+  const spBlock = document.getElementById('fnSpBlock');
+  const stepData = FN_SP_DATA[fnVidIdx];
+  if(stepData){
+    const code = (fnLevel && fnLevel.code) || 'B1';
+    const lvData = stepData[code] || stepData.B1;
+    const pattern = new RegExp(`\\b(${stepData.word})\\b`, 'gi');
+    const hl = s => s.replace(pattern, '<mark>$1</mark>');
+    const exHtml = e =>
+      `<div class="fn-vid-example">
+        <span class="fn-vid-ex-tag">${e.tag}</span>
+        <div class="fn-vid-ex-en">${hl(e.en)}</div>
+        <div class="fn-vid-ex-ru">${e.ru}</div>
+      </div>`;
+    if(stepData.words){
+      const [w1, w2] = stepData.words;
+      const col1 = lvData.examples.filter(e=>e.tag.toLowerCase().includes(w1));
+      const col2 = lvData.examples.filter(e=>e.tag.toLowerCase().includes(w2));
+      exWrap.className = '';
+      exWrap.innerHTML =
+        `<div class="fn-vid-ex-split">
+          <div class="fn-vid-ex-col">
+            <p class="fn-vid-ex-col-title">${w1}</p>${col1.map(exHtml).join('')}
+          </div>
+          <div class="fn-vid-ex-col">
+            <p class="fn-vid-ex-col-title">${w2}</p>${col2.map(exHtml).join('')}
+          </div>
+        </div>`;
+    } else {
+      exWrap.className = 'fn-vid-examples';
+      exWrap.innerHTML = `<p class="fn-vid-examples-label">${stepData.label}</p>` +
+        lvData.examples.map(exHtml).join('');
+    }
+    fnSpReset();
+    spBlock.style.display = 'block';
+  } else {
+    fnSpStop();
+    spBlock.style.display = 'none';
+    exWrap.innerHTML = '';
+  }
+
+  document.getElementById('fnVidTitle').textContent = step.title||'';
+  document.getElementById('fnVidDesc').textContent  = step.desc||'';
+
+  const btn = document.getElementById('fnVidNextBtn');
+  if(isLast){
+    btn.textContent = 'Попробовать сказать самому →';
+    btn.onclick = fnShowS5;
+  } else {
+    btn.textContent = 'Дальше →';
+    btn.onclick = fnVidNext;
+  }
+}
+
+function fnVidNext(){
+  if(fnVidIdx < FUNNEL_VIDEOS.length-1){
+    fnVidIdx++;
+    fnRenderVideo();
+    scrollToTop();
+  }
+}
+
+// ── FUNNEL SPEAKING ───────────────────────────────────────────────────────────
+let fnSpTimer = null, fnSpTimeLeft = 60, fnSpRunning = false;
+
+function fnSpReset(){
+  fnSpStop();
+  fnSpTimeLeft = 60;
+  document.getElementById('fnSpTimerNum').textContent = '60';
+  document.getElementById('fnSpBtn').textContent = 'Старт';
+  document.getElementById('fnSpIdle').style.display = 'block';
+  ['fnSpEn','fnSpRu','fnSpKeys'].forEach(id=>{
+    const el = document.getElementById(id);
+    el.classList.remove('vis');
+    el.textContent = '';
+    if(id === 'fnSpKeys') el.innerHTML = '';
+  });
+}
+
+function fnSpStart(){
+  if(fnSpRunning){ fnSpStop(); return; }
+  fnSpRunning = true;
+  const code = (fnLevel && fnLevel.code) || 'B1';
+  const stepData = FN_SP_DATA[fnVidIdx] || FN_SP_DATA[0];
+  const q = (stepData[code] || stepData.B1).q;
+  document.getElementById('fnSpIdle').style.display = 'none';
+  document.getElementById('fnSpEn').textContent = q.en;
+  document.getElementById('fnSpRu').textContent = q.ru;
+  document.getElementById('fnSpKeys').innerHTML = q.keys.map(k=>`<span class="fn-sp-key">${k}</span>`).join('');
+  setTimeout(()=>{
+    ['fnSpEn','fnSpRu','fnSpKeys'].forEach(id=>document.getElementById(id).classList.add('vis'));
+  }, 50);
+  document.getElementById('fnSpBtn').textContent = 'Стоп';
+  fnSpTimer = setInterval(()=>{
+    fnSpTimeLeft--;
+    document.getElementById('fnSpTimerNum').textContent = fnSpTimeLeft;
+    if(fnSpTimeLeft <= 0){ fnSpStop(); }
+  }, 1000);
+}
+
+function fnSpStop(){
+  clearInterval(fnSpTimer);
+  fnSpRunning = false;
+  if(document.getElementById('fnSpBtn'))
+    document.getElementById('fnSpBtn').textContent = 'Старт';
+}
+
+// ── FUNNEL S5 FLASHCARDS ──────────────────────────────────────────────────────
+let fnFcIdx = 0;
+let fnFcFlipped = false;
+
+function fnShowS5(){
+  fnFcIdx = 0;
+  fnFcRender();
+  fnShowScreen('fn-s5');
+}
+
+function fnFcRender(){
+  const fc = FLASHCARDS[fnFcIdx];
+  const isLast = fnFcIdx === FLASHCARDS.length - 1;
+  fnFcFlipped = false;
+
+  document.getElementById('fnFcProgress').innerHTML =
+    FLASHCARDS.map((_,i)=>`<div class="fn-vid-pip${i<fnFcIdx?' done':i===fnFcIdx?' active':''}"></div>`).join('');
+  document.getElementById('fnFcCounter').textContent = `${fnFcIdx+1} / ${FLASHCARDS.length}`;
+
+  const card = document.getElementById('fnFcCard');
+  card.classList.remove('flipped');
+  document.getElementById('fnFcFront').innerHTML =
+    `<div class="fn-fc-word">${fc.word}</div>
+     <div class="fn-fc-tap">нажми чтобы перевернуть</div>`;
+  document.getElementById('fnFcBack').innerHTML =
+    `<div class="fn-fc-ipa">${fc.ipa}</div>
+     <div class="fn-fc-ru">${fc.ru}</div>
+     ${fc.note ? `<div class="fn-fc-note">${fc.note}</div>` : ''}`;
+
+  const btn = document.getElementById('fnFcNextBtn');
+  btn.style.display = 'none';
+  btn.textContent = isLast ? 'Готово →' : 'Следующее →';
+  btn.onclick = isLast ? ()=>fnShowScreen('fn-s7') : fnFcNext;
+}
+
+function fnFcFlip(){
+  const card = document.getElementById('fnFcCard');
+  card.classList.toggle('flipped');
+  fnFcFlipped = !fnFcFlipped;
+  if(fnFcFlipped) document.getElementById('fnFcNextBtn').style.display = 'inline-block';
+}
+
+function fnFcNext(){
+  if(fnFcIdx < FLASHCARDS.length-1){ fnFcIdx++; fnFcRender(); }
+}
+
+function buildLevelLine(code){
+  const order=['A1','A2','B1','B2','C1'];
+  const userIdx=order.indexOf(code);
+  document.querySelectorAll('.level-line').forEach(line=>{
+    line.querySelectorAll('.level-point').forEach((p,i)=>{
+      p.querySelector('.lp-dot').classList.toggle('active',order[i]===code);
+      p.querySelector('.lp-code').classList.toggle('active',i<=userIdx);
+      p.querySelector('.lp-name').classList.toggle('active',i<=userIdx);
+    });
+    line.querySelectorAll('.lp-connector').forEach((c,i)=>c.classList.toggle('filled',i<userIdx));
+  });
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+(function init(){
+  // Читаем из URL-параметров (надёжно), потом из localStorage (fallback)
+  var params = new URLSearchParams(window.location.search);
+  var code   = params.get('l');
+  var correct = parseInt(params.get('c'), 10);
+  var total   = parseInt(params.get('t'), 10) || 15;
+
+  if(!code){
+    // fallback к localStorage
+    try{
+      var stored = localStorage.getItem('arntLevel');
+      if(stored){ var d=JSON.parse(stored); code=d.code; correct=d.correct; total=d.total||15; }
+    }catch(e){}
+  }
+
+  if(!code){ location.href = 'index.html'; return; }
+
+  var lvl = LEVELS.find(function(l){ return l.code===code; }) || LEVELS[0];
+
+  document.getElementById('resLevel').textContent = lvl.code;
+  document.getElementById('resName').textContent  = lvl.name;
+  if(!isNaN(correct)){
+    document.getElementById('resScore').textContent = correct + ' из ' + total + ' правильных ответов';
+  }
+  document.getElementById('resDiagnosis').textContent =
+    (FUNNEL_TEXTS.diagnosis[lvl.code]) ? FUNNEL_TEXTS.diagnosis[lvl.code] : lvl.desc;
+  buildLevelLine(lvl.code);
+  fnStart(lvl);
+})();
+
+// ── COOKIE ────────────────────────────────────────────────────────────────────
+(function(){
+  if(!localStorage.getItem('arntCookies')){
+    setTimeout(function(){
+      var b=document.getElementById('cookieBanner');
+      if(b) b.classList.add('vis');
+    },800);
+  }
+})();
+function cookieChoice(v){
+  localStorage.setItem('arntCookies',v);
+  var b=document.getElementById('cookieBanner');
+  if(b) b.classList.remove('vis');
+}
+</script>
+</body>
+</html>

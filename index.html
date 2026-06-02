@@ -4,16 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Arnt Academy — English for Travellers</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preload" href="cormorant-garamond-v21-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="jost-v20-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="обложка-mobile.jpg" as="image" media="(max-width:900px)">
+<link rel="preload" href="Frame 24.png" as="image">
 <style>
 @font-face{font-family:'Cormorant Garamond';src:url('cormorant-garamond-v21-latin-regular.woff2') format('woff2');font-weight:200 900;font-style:normal;font-display:swap;unicode-range:U+0000-024F,U+1E00-1EFF,U+2000-206F,U+20AC,U+FEFF;}
 @font-face{font-family:'Jost';src:url('jost-v20-latin-regular.woff2') format('woff2');font-weight:200 900;font-style:normal;font-display:swap;unicode-range:U+0000-024F,U+1E00-1EFF,U+2000-206F,U+20AC,U+FEFF;}
 :root{--white:#FDFDFD;--cream:#F2EBD6;--brown:#251802;--green:#1A2E22;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:'Inter','Jost',sans-serif;background:var(--white);color:var(--brown);overflow-x:hidden;}
+body{font-family:'Jost',sans-serif;background:var(--white);color:var(--brown);overflow-x:hidden;}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:22px 60px;transition:background .4s,box-shadow .4s;}
@@ -143,6 +144,7 @@ nav.scrolled{background:var(--brown);box-shadow:0 2px 30px rgba(0,0,0,.35);}
 .fn-step-tag-dark{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--brown);opacity:.38;margin-bottom:24px;}
 .fn-promise-body{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,3vw,30px);font-weight:300;font-style:italic;color:var(--cream);line-height:1.7;margin-bottom:52px;max-width:560px;margin-left:auto;margin-right:auto;}
 /* S4 — видео */
+.fn-vid-instr{font-size:12px;font-weight:300;color:var(--brown);opacity:.55;letter-spacing:.4px;margin:8px 0 18px;line-height:1.7;}
 .fn-vid-progress{display:flex;gap:6px;justify-content:center;margin-bottom:32px;}
 .fn-vid-pip{width:28px;height:3px;background:rgba(37,24,2,.15);transition:background .3s;}
 .fn-vid-pip.done{background:var(--brown);}
@@ -431,7 +433,6 @@ footer{background:var(--brown);padding:80px 60px 48px;}
     <a href="#test" class="btn-p">Определить уровень</a>
     <a href="#teacher" class="btn-o">Об академии</a>
   </div>
-  <div class="hero-scroll">Scroll</div>
 </section>
 
 <!-- TEST -->
@@ -467,154 +468,6 @@ footer{background:var(--brown);padding:80px 60px 48px;}
       </div>
     </div>
   </div>
-</section>
-
-<!-- RESULTS / FUNNEL -->
-<section id="results">
-
-  <!-- S1: Результат (B1+) -->
-  <div class="fn-screen fn-active" id="fn-s1">
-    <div style="max-width:700px;margin:0 auto;text-align:center;">
-      <p class="res-tag">Ваш уровень</p>
-      <div class="res-level" id="resLevel">B1</div>
-      <div class="res-name" id="resName">Pre-Intermediate</div>
-      <div class="res-score" id="resScore"></div>
-      <p class="res-diagnosis" id="resDiagnosis"></p>
-      <div class="level-line-wrap">
-        <div class="level-line" id="levelLine">
-          <div class="level-point" data-lvl="A1"><div class="lp-dot"></div><div class="lp-code">A1</div><div class="lp-name">Начальный</div></div>
-          <div class="lp-connector"></div>
-          <div class="level-point" data-lvl="A2"><div class="lp-dot"></div><div class="lp-code">A2</div><div class="lp-name">Элементарный</div></div>
-          <div class="lp-connector"></div>
-          <div class="level-point" data-lvl="B1"><div class="lp-dot"></div><div class="lp-code">B1</div><div class="lp-name">Средний</div></div>
-          <div class="lp-connector"></div>
-          <div class="level-point" data-lvl="B2"><div class="lp-dot"></div><div class="lp-code">B2</div><div class="lp-name">Выше среднего</div></div>
-          <div class="lp-connector"></div>
-          <div class="level-point" data-lvl="C1"><div class="lp-dot"></div><div class="lp-code">C1</div><div class="lp-name">Продвинутый</div></div>
-        </div>
-      </div>
-      <button class="btn-plan" onclick="fnNext('s2')">Давай прокачаем →</button>
-    </div>
-  </div>
-
-  <!-- S1b: Парковка (A1/A2) -->
-  <div class="fn-screen" id="fn-s1b">
-    <div style="max-width:580px;margin:0 auto;text-align:center;">
-      <p class="res-tag">Ваш уровень</p>
-      <div class="res-level" id="fnS1bLevel"></div>
-      <div class="res-name" id="fnS1bName"></div>
-      <div class="level-line-wrap">
-        <div class="level-line">
-          <div class="level-point" data-lvl="A1"><div class="lp-dot"></div><div class="lp-code">A1</div><div class="lp-name">Начальный</div></div>
-          <div class="lp-connector"></div>
-          <div class="level-point" data-lvl="A2"><div class="lp-dot"></div><div class="lp-code">A2</div><div class="lp-name">Элементарный</div></div>
-          <div class="lp-connector"></div>
-          <div class="level-point" data-lvl="B1"><div class="lp-dot"></div><div class="lp-code">B1</div><div class="lp-name">Средний</div></div>
-          <div class="lp-connector"></div>
-          <div class="level-point" data-lvl="B2"><div class="lp-dot"></div><div class="lp-code">B2</div><div class="lp-name">Выше среднего</div></div>
-          <div class="lp-connector"></div>
-          <div class="level-point" data-lvl="C1"><div class="lp-dot"></div><div class="lp-code">C1</div><div class="lp-name">Продвинутый</div></div>
-        </div>
-      </div>
-      <p class="fn-park-body" id="fnParkBody"></p>
-      <button class="btn-plan" onclick="fnNext('s2')">Давай прокачаем →</button>
-    </div>
-  </div>
-
-  <!-- S3: Обещание -->
-  <div class="fn-screen" id="fn-s3">
-    <div style="max-width:620px;margin:0 auto;text-align:center;">
-      <p class="fn-step-tag">Шаг 2 из 3</p>
-      <p class="fn-promise-body" id="fnPromiseText"></p>
-      <button class="btn-plan" style="background:var(--cream);color:var(--brown);" onclick="fnShowS4()">Поехали →</button>
-    </div>
-  </div>
-
-  <!-- S4: Видео-поток -->
-  <div class="fn-screen" id="fn-s4">
-    <div style="max-width:720px;margin:0 auto;text-align:center;">
-      <p class="fn-step-tag-dark">Шаг 2 из 3</p>
-      <div class="fn-vid-progress" id="fnVidProgress"></div>
-      <div class="fn-vid-note" id="fnVidNote" style="display:none;"></div>
-      <div class="fn-vid-wrap" id="fnVidWrap"></div>
-      <div class="fn-vid-examples" id="fnVidExamples"></div>
-
-      <!-- Speaking trainer — только шаг 1 -->
-      <div class="fn-sp-block" id="fnSpBlock" style="display:none;">
-        <p class="fn-sp-instr">Здесь нет записи и проверки — просто говори. Вопрос появится, как только ты нажмёшь «Старт». Твоя задача: уложиться в минуту и поделиться историей на английском.</p>
-        <div class="fn-sp-card">
-          <p class="fn-sp-idle-msg" id="fnSpIdle">Нажми «Старт» — говори по-английски 60 секунд</p>
-          <p class="fn-sp-en" id="fnSpEn"></p>
-          <p class="fn-sp-ru" id="fnSpRu"></p>
-          <div class="fn-sp-keys" id="fnSpKeys"></div>
-        </div>
-        <div class="fn-sp-controls">
-          <div class="fn-sp-timer">
-            <div class="fn-sp-timer-num" id="fnSpTimerNum">60</div>
-            <div class="fn-sp-timer-lbl">секунд</div>
-          </div>
-          <button class="fn-sp-btn" id="fnSpBtn" onclick="fnSpStart()">Старт</button>
-        </div>
-      </div>
-
-      <div class="fn-vid-meta">
-        <div class="fn-vid-title" id="fnVidTitle"></div>
-        <div class="fn-vid-desc" id="fnVidDesc"></div>
-      </div>
-      <button class="btn-plan" id="fnVidNextBtn">Дальше →</button>
-    </div>
-  </div>
-
-  <!-- S5: Карточки слов -->
-  <div class="fn-screen" id="fn-s5">
-    <div style="max-width:500px;margin:0 auto;text-align:center;">
-      <p class="fn-step-tag">Скажи вслух — по-британски</p>
-      <p class="fn-s2-intro" style="margin-bottom:24px;">Нажимай на карточку, чтобы увидеть фишку произношения. Посмотри — и попробуй произнести слово так же.</p>
-      <div class="fn-vid-progress" id="fnFcProgress"></div>
-      <p class="fn-fc-counter" id="fnFcCounter">1 / 4</p>
-      <div class="fn-fc-wrap">
-        <div class="fn-fc-card" id="fnFcCard" onclick="fnFcFlip()">
-          <div class="fn-fc-front" id="fnFcFront"></div>
-          <div class="fn-fc-back" id="fnFcBack"></div>
-        </div>
-      </div>
-      <button class="btn-plan" id="fnFcNextBtn" style="display:none;background:var(--cream);color:var(--brown);">Следующее →</button>
-    </div>
-  </div>
-
-  <!-- S7: Телеграм-подписка -->
-  <div class="fn-screen" id="fn-s7">
-    <div style="max-width:560px;margin:0 auto;text-align:center;">
-      <p class="fn-step-tag">Хочешь больше?</p>
-      <h2 class="fn-h2" style="color:var(--cream);">Ежедневное погружение<br><em>в английский</em></h2>
-      <p class="fn-s7-body">Если хочешь получать такие знания каждый день — оформи подписку в закрытый Телеграм-канал.</p>
-      <div class="fn-s7-features">
-        <div class="fn-s7-feat"><span class="fn-s7-num">1</span>Видео с произношением и полезными конструкциями</div>
-        <div class="fn-s7-feat"><span class="fn-s7-num">2</span>Разбор зарубежных медиа</div>
-        <div class="fn-s7-feat"><span class="fn-s7-num">3</span>Культурные особенности иностранцев — как они думают, живут и общаются</div>
-      </div>
-      <a href="#" class="btn-plan">Оформить подписку →</a>
-      <br>
-      <button class="fn-s7-restart" onclick="location.reload()">Пройти тест заново</button>
-    </div>
-  </div>
-
-  <!-- S2: Тизер урока -->
-  <div class="fn-screen" id="fn-s2">
-    <div style="max-width:520px;margin:0 auto;text-align:center;">
-      <p class="fn-step-tag">Программа готова</p>
-      <h2 class="fn-h2" style="color:var(--cream);">Давай прокачаем<br><em>твой уровень</em></h2>
-      <p class="fn-s2-intro">Тебя ждут 3 шага — каждый с фишкой произношения или полезной конструкцией.</p>
-      <div class="fn-s2-steps">
-        <div class="fn-s2-step"><span class="fn-s2-num">1</span><span class="fn-s2-text">Clock — полезная конструкция</span></div>
-        <div class="fn-s2-step"><span class="fn-s2-num">2</span><span class="fn-s2-text">Folk — фишка произношения</span></div>
-        <div class="fn-s2-step"><span class="fn-s2-num">3</span><span class="fn-s2-text">Poignant & Luxury — произношение</span></div>
-      </div>
-      <p class="fn-s2-task">Твоя задача — смотреть и пробовать применить. К каждому шагу будут примеры и задание на говорение.</p>
-      <button class="btn-plan" style="background:var(--cream);color:var(--brown);" onclick="fnShowS4()">Начать урок →</button>
-    </div>
-  </div>
-
 </section>
 
 <!-- TEACHER -->
@@ -978,7 +831,6 @@ let adUsed = {1:new Set(), 2:new Set(), 3:new Set()};
 let adCurrent = null; // {q, shuffledOpts, correctIdx}
 let adSelOpt = null;
 let adAnswered = false;
-let userLevel = null;
 
 function adShuffleOpts(q){
   const idx=[0,1,2,3];
@@ -1066,488 +918,23 @@ function adShowResults(){
   const correct=adAnswers.filter(a=>a.correct).length;
 
   let code;
-  if     (stats[3].t>=6 && acc(3)>=0.65)                                          code='C1';
-  else if((stats[3].t>=4 && acc(3)>=0.50)||(stats[2].t>=5 && acc(2)>=0.65))       code='B2';
-  else if(stats[2].t>=3 && acc(2)>=0.40)                                           code='B1';
-  else if(stats[1].t>=3 && acc(1)>=0.60)                                           code='A2';
-  else                                                                              code='A1';
+  if     ((stats[3].t>=6 && acc(3)>=0.65)||(stats[3].t>=4 && acc(3)>=0.75))                           code='C1';
+  else if((stats[3].t>=4 && acc(3)>=0.50)||(stats[2].t>=5 && acc(2)>=0.65 && stats[3].t>=2))         code='B2';
+  else if(stats[2].t>=3 && acc(2)>=0.50)                                                               code='B1';
+  else if(stats[1].t>=3 && acc(1)>=0.60)                                                               code='A2';
+  else                                                                                                   code='A1';
 
   const lvl=LEVELS.find(l=>l.code===code)||LEVELS[0];
-  userLevel=lvl;
-  document.getElementById('resLevel').textContent=lvl.code;
-  document.getElementById('resName').textContent=lvl.name;
-  document.getElementById('resScore').textContent=correct+' из '+AD_MAX+' правильных ответов';
-  document.getElementById('resDiagnosis').textContent=FUNNEL_TEXTS.diagnosis[lvl.code]||lvl.desc;
-  buildLevelLine(lvl.code);
-  fnStart(lvl);
+  try{ localStorage.setItem('arntLevel', JSON.stringify({code:lvl.code, name:lvl.name, desc:lvl.desc, correct, total:AD_MAX})); }catch(e){}
+  window.location.href = 'results.html?l='+lvl.code+'&c='+correct+'&t='+AD_MAX;
 }
 
 document.getElementById('btnNext').addEventListener('click',adNext);
 
-function buildLevelLine(code){
-  const order=['A1','A2','B1','B2','C1'];
-  const userIdx=order.indexOf(code);
-  document.querySelectorAll('.level-line').forEach(line=>{
-    line.querySelectorAll('.level-point').forEach((p,i)=>{
-      p.querySelector('.lp-dot').classList.toggle('active',order[i]===code);
-      p.querySelector('.lp-code').classList.toggle('active',i<=userIdx);
-      p.querySelector('.lp-name').classList.toggle('active',i<=userIdx);
-    });
-    line.querySelectorAll('.lp-connector').forEach((c,i)=>c.classList.toggle('filled',i<userIdx));
-  });
-}
-
-// ── FUNNEL DATA ──────────────────────────────────────────────────────────────
-const themes = {
-  travel:   {label:'Путешествия', hint:'аэропорт, отель, кафе',        icon:'✈️'},
-  business: {label:'Деловой',     hint:'созвоны, письма, смолток',      icon:'💼'},
-  health:   {label:'Здоровье',    hint:'у врача, аптека, проблемы',     icon:'🩺'},
-};
-
-const FUNNEL_TEXTS = {
-  diagnosis:{
-    B1:'У тебя уже есть база — ты понимаешь и читаешь. Но в разговоре фразы складываются медленнее, чем нужно. Это твоя точка роста прямо сейчас.',
-    B2:'Ты уже говоришь — но чувствуешь, что тебя что-то сдерживает. Точность, беглость, уверенность. Пора убрать этот потолок.',
-    C1:'Твой уровень уже высокий. Разрыв между тем, как ты думаешь, и тем, как говоришь — минимальный. Здесь работаем над нюансами, которые отличают хороший английский от отличного.',
-  },
-  park:{
-    A1:'Тебе сейчас рано бустить речь — сначала стоит собрать базу. Это честно: попытка заговорить без фундамента даёт медленный результат и много разочарований. Правильный путь — быстрее.',
-    A2:'У тебя уже есть начало. Но до уверенной речи нужно чуть укрепить фундамент — и это займёт меньше времени, чем кажется. Сейчас лучший момент для этого.',
-  },
-  promise:{
-    travel:'Окей, путешествия. Смысл везде один: чтобы заговорить — надо начать говорить, а не учить ещё больше правил. Сейчас за пару минут сам убедишься, что это работает.',
-    business:'Окей, деловой английский. Смысл везде один: чтобы заговорить — надо начать говорить, а не учить ещё больше правил. Сейчас за пару минут сам убедишься, что это работает.',
-    health:'Окей, здоровье. Смысл везде один: чтобы заговорить — надо начать говорить, а не учить ещё больше правил. Сейчас за пару минут сам убедишься, что это работает.',
-  },
-};
-
-// ── FUNNEL VIDEOS ─────────────────────────────────────────────────────────────
-// videos: массив src (1 или 2 видео на шаг), examples: [] — заполнить позже
-const FUNNEL_VIDEOS = [
-  {
-    title:'Clock',
-    desc:'Интересная конструкция',
-    videos:['https://www.youtube.com/embed/NphQmD32HQ8'],
-    examples:[],
-  },
-  {
-    title:'Folk',
-    desc:'Фишка произношения',
-    videos:['https://www.youtube.com/embed/9goAbIbe5ao'],
-    examples:[],
-  },
-  {
-    title:'Poignant & Luxury',
-    desc:'Фишка произношения',
-    videos:['https://www.youtube.com/embed/LGceiXgksH0','https://www.youtube.com/embed/pIRpXtxW6HQ'],
-    note:'В этом шаге два видео. <strong>Poignant</strong> — слово посложнее, <strong>Luxury</strong> — попроще. Выбирайте сами, что хотите изучить сегодня — или смотрите оба.',
-    examples:[],
-  },
-];
-
-// ── FUNNEL STATE ─────────────────────────────────────────────────────────────
-let fnLevel = null;
-let fnTheme = 'travel';
-let fnVidIdx = 0;
-
-const FN_BG = {
-  'fn-s1':'var(--brown)','fn-s1b':'var(--brown)',
-  'fn-s2':'var(--green)',
-  'fn-s3':'var(--green)',
-  'fn-s4':'var(--white)',
-  'fn-s5':'var(--brown)',
-  'fn-s7':'var(--green)',
-};
-
-function fnShowScreen(id){
-  document.querySelectorAll('.fn-screen').forEach(s=>s.classList.remove('fn-active'));
-  document.getElementById(id).classList.add('fn-active');
-  const sec = document.getElementById('results');
-  sec.style.background = FN_BG[id]||'var(--brown)';
-  sec.style.display = 'block';
-  const top = sec.getBoundingClientRect().top + window.scrollY - 70;
-  window.scrollTo({top: Math.max(0, top), behavior:'smooth'});
-}
-
-function fnStart(lvl){
-  fnLevel = lvl;
-  if(lvl.code==='A1'||lvl.code==='A2'){
-    document.getElementById('fnS1bLevel').textContent = lvl.code;
-    document.getElementById('fnS1bName').textContent  = lvl.name;
-    document.getElementById('fnParkBody').textContent = FUNNEL_TEXTS.park[lvl.code]||'';
-    fnShowScreen('fn-s1b');
-  } else {
-    fnShowScreen('fn-s1');
-  }
-}
-
-function fnNext(target){
-  fnShowScreen('fn-'+target);
-}
-
-function fnSelectTheme(key){
-  fnTheme = key;
-  localStorage.setItem('arntTheme', key);
-  document.getElementById('fnPromiseText').textContent = FUNNEL_TEXTS.promise[key]||FUNNEL_TEXTS.promise.travel;
-  fnShowScreen('fn-s3');
-}
-
-function fnShowS4(){
-  fnVidIdx = 0;
-  fnRenderVideo();
-  fnShowScreen('fn-s4');
-}
-
-function fnRenderVideo(){
-  const step   = FUNNEL_VIDEOS[fnVidIdx];
-  const isLast = fnVidIdx === FUNNEL_VIDEOS.length - 1;
-
-  // progress pips
-  document.getElementById('fnVidProgress').innerHTML =
-    FUNNEL_VIDEOS.map((_,i)=>`<div class="fn-vid-pip${i<fnVidIdx?' done':i===fnVidIdx?' active':''}"></div>`).join('');
-
-  // note (если есть)
-  const noteEl = document.getElementById('fnVidNote');
-  if(step.note){ noteEl.innerHTML = step.note; noteEl.style.display = 'block'; }
-  else { noteEl.style.display = 'none'; }
-
-  // video(s)
-  const itemHtml = src => src
-    ? `<div class="fn-vid-item"><iframe src="${src}" allowfullscreen allow="autoplay"></iframe></div>`
-    : `<div class="fn-vid-item"><div class="fn-vid-placeholder">
-        <div class="fn-vid-play"><svg width="16" height="16" viewBox="0 0 16 16" fill="var(--cream)"><polygon points="4,2 14,8 4,14"/></svg></div>
-        <span class="fn-vid-ph-label">Видео будет здесь</span>
-       </div></div>`;
-
-  const count = step.videos.length;
-  document.getElementById('fnVidWrap').innerHTML =
-    `<div class="fn-vid-row fn-vid-row--${count}">` +
-    step.videos.map(itemHtml).join('') + '</div>';
-
-  // examples + speaking trainer
-  const exWrap  = document.getElementById('fnVidExamples');
-  const spBlock = document.getElementById('fnSpBlock');
-  const stepData = FN_SP_DATA[fnVidIdx];
-  if(stepData){
-    const code = (fnLevel && fnLevel.code) || 'B1';
-    const lvData = stepData[code] || stepData.B1;
-    const pattern = new RegExp(`\\b(${stepData.word})\\b`, 'gi');
-    const hl = s => s.replace(pattern, '<mark>$1</mark>');
-    const exHtml = e =>
-      `<div class="fn-vid-example">
-        <span class="fn-vid-ex-tag">${e.tag}</span>
-        <div class="fn-vid-ex-en">${hl(e.en)}</div>
-        <div class="fn-vid-ex-ru">${e.ru}</div>
-      </div>`;
-    if(stepData.words){
-      const [w1, w2] = stepData.words;
-      const col1 = lvData.examples.filter(e=>e.tag.toLowerCase().includes(w1));
-      const col2 = lvData.examples.filter(e=>e.tag.toLowerCase().includes(w2));
-      exWrap.className = '';
-      exWrap.innerHTML =
-        `<div class="fn-vid-ex-split">
-          <div class="fn-vid-ex-col">
-            <p class="fn-vid-ex-col-title">${w1}</p>${col1.map(exHtml).join('')}
-          </div>
-          <div class="fn-vid-ex-col">
-            <p class="fn-vid-ex-col-title">${w2}</p>${col2.map(exHtml).join('')}
-          </div>
-        </div>`;
-    } else {
-      exWrap.className = 'fn-vid-examples';
-      exWrap.innerHTML = `<p class="fn-vid-examples-label">${stepData.label}</p>` +
-        lvData.examples.map(exHtml).join('');
-    }
-    fnSpReset();
-    spBlock.style.display = 'block';
-  } else {
-    fnSpStop();
-    spBlock.style.display = 'none';
-    exWrap.innerHTML = '';
-  }
-
-  document.getElementById('fnVidTitle').textContent = step.title||'';
-  document.getElementById('fnVidDesc').textContent  = step.desc||'';
-
-  const btn = document.getElementById('fnVidNextBtn');
-  if(isLast){
-    btn.textContent = 'Попробовать сказать самому →';
-    btn.onclick = fnShowS5;
-  } else {
-    btn.textContent = 'Дальше →';
-    btn.onclick = fnVidNext;
-  }
-}
-
-function fnVidNext(){
-  if(fnVidIdx < FUNNEL_VIDEOS.length-1){ fnVidIdx++; fnRenderVideo(); }
-}
-
-// ── FUNNEL STEP-1 SPEAKING DATA ───────────────────────────────────────────────
-const FN_SP_DATA = {
-  // ── Шаг 1: Clock ─────────────────────────────────────────────────────────
-  0:{
-    label:'Примеры — clock',
-    word:'clock(?:ed)?',
-    A1:{
-      q:{en:"Did you clock any new words today?", ru:"Ты заметил(а) новые слова сегодня?", keys:['clock = заметить','new words','today']},
-      examples:[
-        {tag:'clock — часы',    en:'I look at the clock.',          ru:'Я смотрю на часы.'},
-        {tag:'clock — часы',    en:'There\'s a clock on the wall.', ru:'На стене есть часы.'},
-        {tag:'clock — замечать',en:'I clocked you!',                ru:'Я тебя заметил(а)!'},
-        {tag:'clock — замечать',en:'Did you clock that?',           ru:'Ты это заметил(а)?'},
-      ],
-    },
-    A2:{
-      q:{en:"Can you clock the difference between British and American English?", ru:"Замечаешь разницу между британским и американским английским?", keys:['clock = замечать','difference','British English']},
-      examples:[
-        {tag:'clock — часы',    en:'What time does the clock show?',         ru:'Какое время показывают часы?'},
-        {tag:'clock — часы',    en:'The clock says three o\'clock.',          ru:'Часы показывают три часа.'},
-        {tag:'clock — замечать',en:'I clocked the sign.',                    ru:'Я заметил(а) знак.'},
-        {tag:'clock — замечать',en:'She clocked the mistake straight away.', ru:'Она заметила ошибку сразу.'},
-      ],
-    },
-    B1:{
-      q:{en:"Have you ever clocked someone speaking English really naturally and thought — how do they do that?", ru:"Ты когда-нибудь замечал(а), как кто-то очень естественно говорит по-английски, и думал: как у них это получается?", keys:['clocked someone','naturally','how do they do that']},
-      examples:[
-        {tag:'clock — часы',    en:'Keep an eye on the clock — we\'re running late.', ru:'Следи за часами — мы опаздываем.'},
-        {tag:'clock — часы',    en:'The clock struck midnight.',                       ru:'Часы пробили полночь.'},
-        {tag:'clock — замечать',en:'I clocked the way he said it.',                   ru:'Я заметил(а), как он это произнёс.'},
-        {tag:'clock — замечать',en:'Did you clock her reaction?',                     ru:'Ты заметил(а) её реакцию?'},
-      ],
-    },
-    B2:{
-      q:{en:"When you watch a film in English, do you clock the moments when you understand everything without subtitles?", ru:"Когда смотришь фильм на английском, замечаешь ли моменты, когда понимаешь всё без субтитров?", keys:['clock the moments','without subtitles','follow the plot']},
-      examples:[
-        {tag:'clock — часы',    en:'We\'re working against the clock — the deadline is tomorrow.', ru:'Мы работаем наперегонки со временем — дедлайн завтра.'},
-        {tag:'clock — часы',    en:'The clock is ticking — we need to decide now.',                ru:'Время идёт — нужно решить прямо сейчас.'},
-        {tag:'clock — замечать',en:'I clocked straight away that something was off.',              ru:'Я сразу заметил(а), что что-то не так.'},
-        {tag:'clock — замечать',en:'She clocked him the moment he walked in.',                    ru:'Она заметила его в ту же секунду, как он вошёл.'},
-      ],
-    },
-    C1:{
-      q:{en:"Have you ever clocked the way native speakers use intonation to completely shift the meaning of a sentence?", ru:"Замечал(а) ли ты, как носители языка используют интонацию, чтобы полностью изменить смысл предложения?", keys:['clocked','intonation','shift the meaning']},
-      examples:[
-        {tag:'clock — часы',    en:'Racing against the clock, she submitted the report at the last second.', ru:'Наперегонки со временем, она сдала отчёт в последнюю секунду.'},
-        {tag:'clock — часы',    en:'The clock is ticking on these negotiations.',                            ru:'Время работает против нас на этих переговорах.'},
-        {tag:'clock — замечать',en:'He clocked the subtle shift in her tone.',                              ru:'Он уловил тонкое изменение в её тоне.'},
-        {tag:'clock — замечать',en:'I clocked it immediately — she wasn\'t being entirely truthful.',       ru:'Я сразу заметил(а) — она была не до конца честна.'},
-      ],
-    },
-  },
-  // ── Шаг 2: Folk ──────────────────────────────────────────────────────────
-  1:{
-    label:'Примеры — folk',
-    word:'folk',
-    A1:{
-      q:{en:"Do you like folk music?", ru:"Тебе нравится народная музыка?", keys:['folk = народный','music','like']},
-      examples:[
-        {tag:'folk — народный',en:'I like folk music.',          ru:'Мне нравится народная музыка.'},
-        {tag:'folk — народный',en:'This is a folk song.',        ru:'Это народная песня.'},
-        {tag:'folk — люди',    en:'These folk are friendly.',    ru:'Эти люди дружелюбные.'},
-        {tag:'folk — люди',    en:'Ask the local folk.',         ru:'Спроси местных жителей.'},
-      ],
-    },
-    A2:{
-      q:{en:"What kind of folk music comes from your country?", ru:"Какая народная музыка есть в твоей стране?", keys:['folk = народный','country','traditional music']},
-      examples:[
-        {tag:'folk — народный',en:'Folk music tells stories of everyday life.',  ru:'Народная музыка рассказывает о повседневной жизни.'},
-        {tag:'folk — народный',en:'He plays folk guitar beautifully.',           ru:'Он красиво играет на народной гитаре.'},
-        {tag:'folk — люди',    en:'Most folk here speak some English.',          ru:'Большинство местных немного говорят по-английски.'},
-        {tag:'folk — люди',    en:'These folk don\'t like tourists.',            ru:'Этим людям не нравятся туристы.'},
-      ],
-    },
-    B1:{
-      q:{en:"Some folk say travelling is the best way to learn English. Do you agree?", ru:"Некоторые говорят, что путешествия — лучший способ выучить английский. Ты согласен(а)?", keys:['some folk say = некоторые говорят','best way','travelling']},
-      examples:[
-        {tag:'folk — народный',en:'Folk songs are a great way to pick up authentic expressions.',     ru:'Народные песни — отличный способ подхватить настоящие выражения.'},
-        {tag:'folk — народный',en:'The folk genre spans a huge range of cultures.',                   ru:'Жанр фолк охватывает огромное разнообразие культур.'},
-        {tag:'folk — люди',    en:'Some folk find it easier to speak English after a glass of wine.', ru:'Некоторым проще говорить по-английски после бокала вина.'},
-        {tag:'folk — люди',    en:'Most folk underestimate how much listening improves your speaking.',ru:'Большинство людей недооценивают, насколько слушание улучшает говорение.'},
-      ],
-    },
-    B2:{
-      q:{en:"Some folk believe accent doesn't matter for communication — others disagree strongly. Where do you stand?", ru:"Некоторые считают, что акцент не важен для общения — другие категорически не согласны. Какова твоя позиция?", keys:['some folk believe','accent','communication']},
-      examples:[
-        {tag:'folk — народный',en:'The folk revival of the 1960s brought traditional music to a global audience.',ru:'Возрождение фолка в 1960-х принесло традиционную музыку мировой аудитории.'},
-        {tag:'folk — народный',en:'Folk etymology often distorts the true origins of words.',                     ru:'Народная этимология часто искажает истинное происхождение слов.'},
-        {tag:'folk — люди',    en:'Some folk never quite shake their accent — and honestly, why would they?',     ru:'Некоторые так и не избавляются от своего акцента — и честно говоря, зачем?'},
-        {tag:'folk — люди',    en:'Folk wisdom isn\'t always supported by evidence, but it shapes how we learn.', ru:'Народная мудрость не всегда подкреплена доказательствами, но влияет на то, как мы учимся.'},
-      ],
-    },
-    C1:{
-      q:{en:"Folk wisdom around language learning is often contradicted by research — which popular belief about English have you found to be confirmed or debunked by your own experience?", ru:"Народная мудрость об изучении языков часто противоречит исследованиям — какое расхожее убеждение об английском ты лично подтвердил(а) или опроверг(ла)?", keys:['folk wisdom','language learning','confirmed or debunked']},
-      examples:[
-        {tag:'folk — народный',en:'Folk traditions are a living record of a culture\'s collective memory.',                                ru:'Народные традиции — живая летопись коллективной памяти культуры.'},
-        {tag:'folk — народный',en:'Folk etymology traces the word to its mythological roots rather than its actual history.',              ru:'Народная этимология возводит слово к мифологическим корням, а не к реальной истории.'},
-        {tag:'folk — люди',    en:'Folk in the linguistic community tend to underestimate the role of prosody in comprehension.',          ru:'Люди в лингвистическом сообществе склонны недооценивать роль просодии в понимании речи.'},
-        {tag:'folk — люди',    en:'Some folk achieve near-native fluency; others plateau — and both are perfectly valid outcomes.',        ru:'Некоторые достигают беглости, близкой к уровню носителя; другие выходят на плато — оба исхода нормальны.'},
-      ],
-    },
-  },
-  // ── Шаг 3: Poignant & Luxury ─────────────────────────────────────────────
-  2:{
-    label:'Примеры — poignant & luxury',
-    word:'poignant|luxur(?:y|ious|iously)',
-    words:['poignant','luxury'],
-    A1:{
-      q:{en:"Do you prefer luxury hotels or simple ones?", ru:"Тебе нравятся роскошные отели или простые?", keys:['luxury = роскошь / роскошный','hotel','prefer']},
-      examples:[
-        {tag:'poignant — трогательный',en:'It was a poignant film.',     ru:'Это был трогательный фильм.'},
-        {tag:'poignant — трогательный',en:'The song is very poignant.',  ru:'Песня очень трогательная.'},
-        {tag:'luxury — роскошь',       en:'This is a luxury hotel.',     ru:'Это роскошный отель.'},
-        {tag:'luxury — роскошь',       en:'I love a little luxury.',     ru:'Я люблю немного роскоши.'},
-      ],
-    },
-    A2:{
-      q:{en:"What is a small luxury that makes your day better?", ru:"Какая маленькая роскошь делает твой день лучше?", keys:['luxury = роскошь','makes your day better','small things']},
-      examples:[
-        {tag:'poignant — трогательный',en:'That was a poignant moment in the film.',  ru:'Это был трогательный момент в фильме.'},
-        {tag:'poignant — трогательный',en:'Her words were simple but poignant.',       ru:'Её слова были простыми, но трогательными.'},
-        {tag:'luxury — роскошь',       en:'A long bath is my favourite luxury.',       ru:'Долгая ванна — моя любимая роскошь.'},
-        {tag:'luxury — роскошь',       en:'They stayed in a luxury apartment.',        ru:'Они остановились в роскошных апартаментах.'},
-      ],
-    },
-    B1:{
-      q:{en:"What was the most poignant moment in a film or book you remember?", ru:"Какой самый трогательный момент в фильме или книге ты помнишь?", keys:['poignant = трогательный / пронзительный','moving','film or book']},
-      examples:[
-        {tag:'poignant — трогательный',en:'The scene at the end was deeply poignant.',                        ru:'Сцена в конце была очень трогательной.'},
-        {tag:'poignant — трогательный',en:'There\'s something poignant about leaving a place for the last time.',ru:'В том, чтобы покидать место в последний раз, есть что-то трогательное.'},
-        {tag:'luxury — роскошь',       en:'Time to think is a luxury most people don\'t have.',               ru:'Время подумать — роскошь, которой нет у большинства людей.'},
-        {tag:'luxury — роскошь',       en:'Speaking fluently feels like a luxury worth working for.',         ru:'Говорить бегло — это роскошь, ради которой стоит трудиться.'},
-      ],
-    },
-    B2:{
-      q:{en:"Is speaking English fluently a luxury — or a basic skill everyone should have access to?", ru:"Свободно говорить по-английски — это роскошь или базовый навык, доступный каждому?", keys:['luxury','fluency','access']},
-      examples:[
-        {tag:'poignant — трогательный',en:'The speech was poignant without being sentimental.',                           ru:'Речь была трогательной, не впадая в сентиментальность.'},
-        {tag:'poignant — трогательный',en:'There\'s something poignant about watching someone find their voice in a new language.',ru:'В том, как человек обретает голос на новом языке, есть что-то трогательное.'},
-        {tag:'luxury — роскошь',       en:'The luxury of a near-native accent is earned through hours of practice.',       ru:'Роскошь акцента, близкого к носительскому, заработана часами практики.'},
-        {tag:'luxury — роскошь',       en:'We can\'t afford the luxury of waiting until conditions are perfect.',          ru:'Мы не можем позволить себе роскошь ждать идеальных условий.'},
-      ],
-    },
-    C1:{
-      q:{en:"Which is more poignant to you — the moment you first spoke without thinking in English, or the moment you realised you\'d lost that initial thrill of progress?", ru:"Что для тебя более пронзительно — момент, когда ты впервые заговорил(а) по-английски не думая, или момент, когда осознал(а), что потерял(а) тот первый азарт прогресса?", keys:['poignant','speaking without thinking','thrill of progress']},
-      examples:[
-        {tag:'poignant — трогательный',en:'His memoir is poignant in its quiet restraint.',                                         ru:'Его мемуары трогательны своей тихой сдержанностью.'},
-        {tag:'poignant — трогательный',en:'The piece achieves something rare — poignant without being maudlin.',                    ru:'Произведению удаётся нечто редкое — оно трогательно, но не слащаво.'},
-        {tag:'luxury — роскошь',       en:'She couldn\'t afford the luxury of doubt.',                                              ru:'Она не могла позволить себе роскошь сомнений.'},
-        {tag:'luxury — роскошь',       en:'The luxury of linguistic fluency lies not in vocabulary size, but in ease of retrieval.',ru:'Роскошь языковой беглости — не в объёме словаря, а в лёгкости извлечения слов.'},
-      ],
-    },
-  },
-};
-
-let fnSpTimer = null, fnSpTimeLeft = 60, fnSpRunning = false;
-
-function fnSpReset(){
-  fnSpStop();
-  fnSpTimeLeft = 60;
-  document.getElementById('fnSpTimerNum').textContent = '60';
-  document.getElementById('fnSpBtn').textContent = 'Старт';
-  document.getElementById('fnSpIdle').style.display = 'block';
-  ['fnSpEn','fnSpRu','fnSpKeys'].forEach(id=>{
-    const el = document.getElementById(id);
-    el.classList.remove('vis');
-    el.textContent = '';
-    if(id === 'fnSpKeys') el.innerHTML = '';
-  });
-}
-
-function fnSpStart(){
-  if(fnSpRunning){ fnSpStop(); return; }
-  fnSpRunning = true;
-  const code = (fnLevel && fnLevel.code) || 'B1';
-  const stepData = FN_SP_DATA[fnVidIdx] || FN_SP_DATA[0];
-  const q = (stepData[code] || stepData.B1).q;
-  document.getElementById('fnSpIdle').style.display = 'none';
-  document.getElementById('fnSpEn').textContent = q.en;
-  document.getElementById('fnSpRu').textContent = q.ru;
-  document.getElementById('fnSpKeys').innerHTML = q.keys.map(k=>`<span class="fn-sp-key">${k}</span>`).join('');
-  setTimeout(()=>{
-    ['fnSpEn','fnSpRu','fnSpKeys'].forEach(id=>document.getElementById(id).classList.add('vis'));
-  }, 50);
-  document.getElementById('fnSpBtn').textContent = 'Стоп';
-  fnSpTimer = setInterval(()=>{
-    fnSpTimeLeft--;
-    document.getElementById('fnSpTimerNum').textContent = fnSpTimeLeft;
-    if(fnSpTimeLeft <= 0){ fnSpStop(); }
-  }, 1000);
-}
-
-function fnSpStop(){
-  clearInterval(fnSpTimer);
-  fnSpRunning = false;
-  if(document.getElementById('fnSpBtn'))
-    document.getElementById('fnSpBtn').textContent = 'Старт';
-}
-
-// ── FUNNEL S5 / S6 / S7 ──────────────────────────────────────────────────────
-const FN_PROMPTS = {
-  travel:   {en:'Name three things you need at the airport.',       ru:'Назовите три вещи, которые нужны в аэропорту.'},
-  business: {en:'Say your name and what you do — in one sentence.', ru:'Скажите своё имя и чем занимаетесь — одним предложением.'},
-  health:   {en:'Say: "I don\'t feel well. I need to see a doctor."', ru:'Скажите: «Мне плохо. Мне нужен врач.»'},
-};
-
-// ── FLASHCARDS ────────────────────────────────────────────────────────────────
-const FLASHCARDS = [
-  {word:'folk',   ipa:'/fəʊk/',        ru:'народ, люди',    note:'буква L не читается'},
-  {word:'luxury', ipa:'/ˈlʌkʃəri/',   ru:'роскошь',        note:''},
-  {word:'palm',   ipa:'/pɑːm/',        ru:'ладонь, пальма', note:'буква L не читается'},
-  {word:'calm',   ipa:'/kɑːm/',        ru:'спокойный',      note:'буква L не читается'},
-];
-
-let fnFcIdx = 0;
-let fnFcFlipped = false;
-
-function fnShowS5(){
-  fnFcIdx = 0;
-  fnFcRender();
-  fnShowScreen('fn-s5');
-}
-
-function fnFcRender(){
-  const fc = FLASHCARDS[fnFcIdx];
-  const isLast = fnFcIdx === FLASHCARDS.length - 1;
-  fnFcFlipped = false;
-
-  document.getElementById('fnFcProgress').innerHTML =
-    FLASHCARDS.map((_,i)=>`<div class="fn-vid-pip${i<fnFcIdx?' done':i===fnFcIdx?' active':''}"></div>`).join('');
-  document.getElementById('fnFcCounter').textContent = `${fnFcIdx+1} / ${FLASHCARDS.length}`;
-
-  const card = document.getElementById('fnFcCard');
-  card.classList.remove('flipped');
-  document.getElementById('fnFcFront').innerHTML =
-    `<div class="fn-fc-word">${fc.word}</div>
-     <div class="fn-fc-tap">нажми чтобы перевернуть</div>`;
-  document.getElementById('fnFcBack').innerHTML =
-    `<div class="fn-fc-ipa">${fc.ipa}</div>
-     <div class="fn-fc-ru">${fc.ru}</div>
-     ${fc.note ? `<div class="fn-fc-note">${fc.note}</div>` : ''}`;
-
-  const btn = document.getElementById('fnFcNextBtn');
-  btn.style.display = 'none';
-  btn.textContent = isLast ? 'Готово →' : 'Следующее →';
-  btn.onclick = isLast ? ()=>fnShowScreen('fn-s7') : fnFcNext;
-}
-
-function fnFcFlip(){
-  const card = document.getElementById('fnFcCard');
-  card.classList.toggle('flipped');
-  fnFcFlipped = !fnFcFlipped;
-  if(fnFcFlipped) document.getElementById('fnFcNextBtn').style.display = 'inline-block';
-}
-
-function fnFcNext(){
-  if(fnFcIdx < FLASHCARDS.length-1){ fnFcIdx++; fnFcRender(); }
-}
-
 function skipToA1(){
   const lvl = LEVELS.find(l=>l.code==='A1')||LEVELS[0];
-  userLevel = lvl;
-  localStorage.setItem('arntLevel',JSON.stringify(lvl));
-  buildLevelLine(lvl.code);
-  fnStart(lvl);
+  try{ localStorage.setItem('arntLevel', JSON.stringify({code:lvl.code, name:lvl.name, desc:lvl.desc, correct:0, total:AD_MAX})); }catch(e){}
+  window.location.href = 'results.html?l='+lvl.code+'&c=0&t='+AD_MAX;
 }
 
 // ── SPEAKING ─────────────────────────────────────────────────────────────────
