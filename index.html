@@ -1147,7 +1147,7 @@ let fnVidIdx = 0;
 
 const FN_BG = {
   'fn-s1':'var(--brown)','fn-s1b':'var(--brown)',
-  'fn-s2':'var(--cream)',
+  'fn-s2':'var(--green)',
   'fn-s3':'var(--green)',
   'fn-s4':'var(--white)',
   'fn-s5':'var(--brown)',
@@ -1160,7 +1160,8 @@ function fnShowScreen(id){
   const sec = document.getElementById('results');
   sec.style.background = FN_BG[id]||'var(--brown)';
   sec.style.display = 'block';
-  sec.scrollIntoView({behavior:'smooth',block:'start'});
+  const top = sec.getBoundingClientRect().top + window.scrollY - 70;
+  window.scrollTo({top: Math.max(0, top), behavior:'smooth'});
 }
 
 function fnStart(lvl){
