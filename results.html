@@ -799,10 +799,10 @@ function buildLevelLine(code){
 // ── INIT ─────────────────────────────────────────────────────────────────────
 (function init(){
   // Читаем из URL-параметров (надёжно), потом из localStorage (fallback)
-  var params = new URLSearchParams(window.location.search);
-  var code   = params.get('l');
-  var correct = parseInt(params.get('c'), 10);
-  var total   = parseInt(params.get('t'), 10) || 15;
+  var params  = new URLSearchParams(window.location.search);
+  var code    = params.get('l');
+  var correct = Math.max(0, Math.min(parseInt(params.get('c'), 10) || 0, 15));
+  var total   = Math.max(1, Math.min(parseInt(params.get('t'), 10) || 15, 15));
 
   if(!code){
     // fallback к localStorage
