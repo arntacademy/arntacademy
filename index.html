@@ -587,7 +587,7 @@ footer{background:var(--brown);padding:80px 60px 48px;}
       <p class="fn-s7-body">Если хочешь получать такие знания каждый день — оформи подписку в закрытый Телеграм-канал.</p>
       <div class="fn-s7-features">
         <div class="fn-s7-feat"><span class="fn-s7-num">1</span>Видео с произношением и полезными конструкциями</div>
-        <div class="fn-s7-feat"><span class="fn-s7-num">2</span>Разбор статей из зарубежных журналов</div>
+        <div class="fn-s7-feat"><span class="fn-s7-num">2</span>Разбор зарубежных медиа</div>
         <div class="fn-s7-feat"><span class="fn-s7-num">3</span>Культурные особенности иностранцев — как они думают, живут и общаются</div>
       </div>
       <a href="#" class="btn-plan">Оформить подписку →</a>
@@ -1051,20 +1051,14 @@ function adNext(){
 }
 
 function adShowResults(){
-  const stats={1:{c:0,t:0},2:{c:0,t:0},3:{c:0,t:0}};
-  adAnswers.forEach(a=>{stats[a.diff].t++;if(a.correct)stats[a.diff].c++;});
-  const acc=d=>stats[d].t>0?stats[d].c/stats[d].t:0;
-  const lastDiff=adAnswers[adAnswers.length-1]?.diff||2;
+  const correct=adAnswers.filter(a=>a.correct).length;
 
   let code;
-  if(stats[3].t>=4&&acc(3)>=0.6)code='C1';
-  else if(stats[3].t>=3&&acc(3)>=0.4)code='B2';
-  else if(stats[2].t>=4&&acc(2)>=0.65)code='B2';
-  else if(stats[2].t>=3&&acc(2)>=0.45)code='B1';
-  else if(lastDiff===1&&acc(1)>=0.6)code='A2';
-  else if(lastDiff===1)code='A1';
-  else if(acc(2)>=0.3)code='A2';
-  else code='A1';
+  if(correct>=14)     code='C1';
+  else if(correct>=10)code='B2';
+  else if(correct>=6) code='B1';
+  else if(correct>=4) code='A2';
+  else                code='A1';
 
   const lvl=LEVELS.find(l=>l.code===code)||LEVELS[0];
   userLevel=lvl;
