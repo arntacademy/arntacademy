@@ -213,6 +213,7 @@ nav.scrolled{background:var(--brown);box-shadow:0 2px 30px rgba(0,0,0,.35);}
 .fn-fc-ipa{font-size:22px;font-weight:300;color:var(--cream);margin-bottom:6px;letter-spacing:1px;}
 .fn-fc-ru{font-size:16px;font-weight:300;color:var(--cream);opacity:.65;margin-bottom:6px;}
 .fn-fc-note{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--cream);opacity:.32;margin-top:4px;}
+.fn-fc-counter{font-size:11px;letter-spacing:2px;color:var(--cream);opacity:.32;margin-bottom:20px;}
 /* S7 — Телеграм */
 .fn-s7-body{font-size:14px;font-weight:300;line-height:1.9;color:var(--cream);opacity:.72;max-width:440px;margin:0 auto 32px;}
 .fn-s7-features{display:flex;flex-direction:column;gap:10px;max-width:420px;margin:0 auto 36px;text-align:left;}
@@ -570,6 +571,7 @@ footer{background:var(--brown);padding:80px 60px 48px;}
       <p class="fn-step-tag">Скажи вслух — по-британски</p>
       <p class="fn-s2-intro" style="margin-bottom:24px;">Нажимай на карточку, чтобы увидеть фишку произношения. Посмотри — и попробуй произнести слово так же.</p>
       <div class="fn-vid-progress" id="fnFcProgress"></div>
+      <p class="fn-fc-counter" id="fnFcCounter">1 / 4</p>
       <div class="fn-fc-wrap">
         <div class="fn-fc-card" id="fnFcCard" onclick="fnFcFlip()">
           <div class="fn-fc-front" id="fnFcFront"></div>
@@ -1480,12 +1482,10 @@ const FN_PROMPTS = {
 
 // ── FLASHCARDS ────────────────────────────────────────────────────────────────
 const FLASHCARDS = [
-  {word:'folk',       ipa:'/fəʊk/',          ru:'народ, люди',    note:'буква L не читается'},
-  {word:'foreign',    ipa:'/ˈfɒrɪn/',        ru:'иностранный',    note:'буква G не читается'},
-  {word:'luxury',     ipa:'/ˈlʌkʃəri/',      ru:'роскошь',        note:''},
-  {word:'luxurious',  ipa:'/lʌɡˈʒʊəriəs/',  ru:'роскошный',      note:''},
-  {word:'palm',       ipa:'/pɑːm/',           ru:'ладонь, пальма', note:'буква L не читается'},
-  {word:'calm',       ipa:'/kɑːm/',           ru:'спокойный',      note:'буква L не читается'},
+  {word:'folk',   ipa:'/fəʊk/',        ru:'народ, люди',    note:'буква L не читается'},
+  {word:'luxury', ipa:'/ˈlʌkʃəri/',   ru:'роскошь',        note:''},
+  {word:'palm',   ipa:'/pɑːm/',        ru:'ладонь, пальма', note:'буква L не читается'},
+  {word:'calm',   ipa:'/kɑːm/',        ru:'спокойный',      note:'буква L не читается'},
 ];
 
 let fnFcIdx = 0;
@@ -1504,6 +1504,7 @@ function fnFcRender(){
 
   document.getElementById('fnFcProgress').innerHTML =
     FLASHCARDS.map((_,i)=>`<div class="fn-vid-pip${i<fnFcIdx?' done':i===fnFcIdx?' active':''}"></div>`).join('');
+  document.getElementById('fnFcCounter').textContent = `${fnFcIdx+1} / ${FLASHCARDS.length}`;
 
   const card = document.getElementById('fnFcCard');
   card.classList.remove('flipped');
