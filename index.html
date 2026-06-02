@@ -161,6 +161,10 @@ nav.scrolled{background:var(--brown);box-shadow:0 2px 30px rgba(0,0,0,.35);}
 .fn-vid-play{width:52px;height:52px;border-radius:50%;background:var(--brown);display:flex;align-items:center;justify-content:center;opacity:.25;}
 .fn-vid-ph-label{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--brown);opacity:.3;}
 .fn-vid-examples{margin:20px 0 8px;text-align:left;background:rgba(37,24,2,.04);border:1px solid rgba(37,24,2,.1);padding:20px 22px;}
+.fn-vid-ex-split{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0 8px;}
+.fn-vid-ex-col{background:rgba(37,24,2,.04);border:1px solid rgba(37,24,2,.1);padding:16px 18px;text-align:left;}
+.fn-vid-ex-col-title{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--brown);opacity:.3;margin-bottom:12px;}
+@media(max-width:540px){.fn-vid-ex-split{grid-template-columns:1fr;}}
 .fn-vid-examples-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--brown);opacity:.3;margin-bottom:14px;}
 .fn-vid-example{padding:12px 0;border-bottom:1px solid rgba(37,24,2,.07);}
 .fn-vid-example:last-child{border-bottom:none;padding-bottom:0;}
@@ -1239,14 +1243,31 @@ function fnRenderVideo(){
     const lvData = stepData[code] || stepData.B1;
     const pattern = new RegExp(`\\b(${stepData.word})\\b`, 'gi');
     const hl = s => s.replace(pattern, '<mark>$1</mark>');
-    exWrap.innerHTML = `<p class="fn-vid-examples-label">${stepData.label}</p>` +
-      lvData.examples.map(e=>
-        `<div class="fn-vid-example">
-          <span class="fn-vid-ex-tag">${e.tag}</span>
-          <div class="fn-vid-ex-en">${hl(e.en)}</div>
-          <div class="fn-vid-ex-ru">${e.ru}</div>
-        </div>`
-      ).join('');
+    const exHtml = e =>
+      `<div class="fn-vid-example">
+        <span class="fn-vid-ex-tag">${e.tag}</span>
+        <div class="fn-vid-ex-en">${hl(e.en)}</div>
+        <div class="fn-vid-ex-ru">${e.ru}</div>
+      </div>`;
+    if(stepData.words){
+      const [w1, w2] = stepData.words;
+      const col1 = lvData.examples.filter(e=>e.tag.toLowerCase().includes(w1));
+      const col2 = lvData.examples.filter(e=>e.tag.toLowerCase().includes(w2));
+      exWrap.className = '';
+      exWrap.innerHTML =
+        `<div class="fn-vid-ex-split">
+          <div class="fn-vid-ex-col">
+            <p class="fn-vid-ex-col-title">${w1}</p>${col1.map(exHtml).join('')}
+          </div>
+          <div class="fn-vid-ex-col">
+            <p class="fn-vid-ex-col-title">${w2}</p>${col2.map(exHtml).join('')}
+          </div>
+        </div>`;
+    } else {
+      exWrap.className = 'fn-vid-examples';
+      exWrap.innerHTML = `<p class="fn-vid-examples-label">${stepData.label}</p>` +
+        lvData.examples.map(exHtml).join('');
+    }
     fnSpReset();
     spBlock.style.display = 'block';
   } else {
@@ -1378,6 +1399,7 @@ const FN_SP_DATA = {
   2:{
     label:'Примеры — poignant & luxury',
     word:'poignant|luxur(?:y|ious|iously)',
+    words:['poignant','luxury'],
     A1:{
       q:{en:"Do you prefer luxury hotels or simple ones?", ru:"Тебе нравятся роскошные отели или простые?", keys:['luxury = роскошь / роскошный','hotel','prefer']},
       examples:[
