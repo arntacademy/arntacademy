@@ -202,11 +202,23 @@ nav.scrolled{background:var(--brown);box-shadow:0 2px 30px rgba(0,0,0,.35);}
 .fn-s6-buy:hover{background:var(--white);}
 .fn-s6-later{background:transparent;border:none;color:var(--cream);opacity:.35;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Jost',sans-serif;transition:opacity .2s;padding:6px 0;}
 .fn-s6-later:hover{opacity:.65;}
-/* S7 — Страховочная сеть */
-.fn-s7-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4.5vw,56px);font-weight:300;line-height:1.05;color:var(--cream);margin-bottom:28px;}
-.fn-s7-title em{font-style:italic;}
-.fn-s7-body{font-size:14px;font-weight:300;line-height:1.9;color:var(--cream);opacity:.62;max-width:440px;margin:0 auto 44px;}
-.fn-s7-restart{display:inline-block;margin-top:22px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--cream);opacity:.28;text-decoration:none;transition:opacity .2s;border:none;background:none;cursor:pointer;font-family:'Jost',sans-serif;}
+/* S5 — Карточки слов */
+.fn-fc-wrap{perspective:1000px;width:100%;max-width:360px;margin:0 auto 28px;cursor:pointer;}
+.fn-fc-card{position:relative;width:100%;aspect-ratio:3/2;transform-style:preserve-3d;transition:transform .5s;}
+.fn-fc-card.flipped{transform:rotateY(180deg);}
+.fn-fc-front,.fn-fc-back{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;border:1px solid rgba(242,235,214,.2);background:rgba(242,235,214,.06);}
+.fn-fc-back{transform:rotateY(180deg);background:rgba(242,235,214,.12);}
+.fn-fc-word{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,7vw,60px);font-weight:300;color:var(--cream);letter-spacing:2px;}
+.fn-fc-tap{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--cream);opacity:.28;margin-top:10px;}
+.fn-fc-ipa{font-size:22px;font-weight:300;color:var(--cream);margin-bottom:6px;letter-spacing:1px;}
+.fn-fc-ru{font-size:16px;font-weight:300;color:var(--cream);opacity:.65;margin-bottom:6px;}
+.fn-fc-note{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--cream);opacity:.32;margin-top:4px;}
+/* S7 — Телеграм */
+.fn-s7-body{font-size:14px;font-weight:300;line-height:1.9;color:var(--cream);opacity:.72;max-width:440px;margin:0 auto 32px;}
+.fn-s7-features{display:flex;flex-direction:column;gap:10px;max-width:420px;margin:0 auto 36px;text-align:left;}
+.fn-s7-feat{font-size:13px;font-weight:300;color:var(--cream);opacity:.75;padding:13px 16px;border:1px solid rgba(242,235,214,.14);background:rgba(242,235,214,.05);display:flex;gap:14px;align-items:baseline;}
+.fn-s7-num{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--cream);opacity:.35;flex-shrink:0;}
+.fn-s7-restart{display:inline-block;margin-top:20px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--cream);opacity:.28;text-decoration:none;transition:opacity .2s;border:none;background:none;cursor:pointer;font-family:'Jost',sans-serif;}
 .fn-s7-restart:hover{opacity:.55;}
 /* Funnel speaking trainer (шаг 1) */
 .fn-sp-block{margin-top:20px;background:rgba(37,24,2,.04);border:1px solid rgba(37,24,2,.1);padding:24px 22px;text-align:left;}
@@ -552,60 +564,33 @@ footer{background:var(--brown);padding:80px 60px 48px;}
     </div>
   </div>
 
-  <!-- S5: Спикинг-тренажёр -->
+  <!-- S5: Карточки слов -->
   <div class="fn-screen" id="fn-s5">
-    <div style="max-width:600px;margin:0 auto;text-align:center;">
-      <p class="fn-step-tag">Шаг 3 из 3</p>
-
-      <div id="fnS5PromptState">
-        <div class="fn-s5-prompt-card">
-          <p class="fn-s5-task-label">Скажи это вслух — прямо сейчас</p>
-          <p class="fn-s5-en" id="fnS5En"></p>
-          <p class="fn-s5-ru-hint" id="fnS5Ru"></p>
+    <div style="max-width:500px;margin:0 auto;text-align:center;">
+      <p class="fn-step-tag">Скажи вслух — по-британски</p>
+      <div class="fn-vid-progress" id="fnFcProgress"></div>
+      <div class="fn-fc-wrap">
+        <div class="fn-fc-card" id="fnFcCard" onclick="fnFcFlip()">
+          <div class="fn-fc-front" id="fnFcFront"></div>
+          <div class="fn-fc-back" id="fnFcBack"></div>
         </div>
-        <div class="fn-s5-timer" id="fnS5TimerNum">30</div>
-        <div class="fn-s5-timer-lbl">секунд</div>
-        <br>
-        <button class="btn-plan" id="fnS5StartBtn" onclick="fnS5Start()" style="background:var(--cream);color:var(--brown);">Начать говорить →</button>
-        <br>
-        <button class="fn-s5-done-btn" id="fnS5DoneBtn" style="display:none;" onclick="fnS5Done()">Я сказал(а) →</button>
       </div>
-
-      <div id="fnS5SuccessState" style="display:none;">
-        <div class="fn-s5-check">✓</div>
-        <p class="fn-s5-win-msg" id="fnS5WinMsg"></p>
-        <button class="btn-plan" style="background:var(--cream);color:var(--brown);" onclick="fnShowS6()">Что дальше? →</button>
-      </div>
+      <button class="btn-plan" id="fnFcNextBtn" style="display:none;background:var(--cream);color:var(--brown);">Следующее →</button>
     </div>
   </div>
 
-  <!-- S6: Оффер -->
-  <div class="fn-screen" id="fn-s6">
-    <div style="max-width:620px;margin:0 auto;text-align:center;">
-      <p class="fn-s6-tag" id="fnS6Tag"></p>
-      <h2 class="fn-s6-title">Бустим<br><em>спикинг</em></h2>
-      <p class="fn-s6-body" id="fnS6Body"></p>
-      <div class="fn-s6-features">
-        <div class="fn-s6-feat"><span class="fn-s6-feat-dash">—</span><span id="fnS6FeatTheme">10 занятий по теме</span></div>
-        <div class="fn-s6-feat"><span class="fn-s6-feat-dash">—</span><span>Говоришь с первого урока</span></div>
-        <div class="fn-s6-feat"><span class="fn-s6-feat-dash">—</span><span>Только практика — никаких правил</span></div>
-        <div class="fn-s6-feat"><span class="fn-s6-feat-dash">—</span><span>Результат за 2 недели</span></div>
-      </div>
-      <div class="fn-s6-price">1499 ₽</div>
-      <p class="fn-s6-price-note">единоразовый платёж · доступ навсегда</p>
-      <button class="fn-s6-buy" id="fnS6BuyBtn">Записаться — 1499 ₽</button>
-      <br>
-      <button class="fn-s6-later" onclick="fnShowScreen('fn-s7')">Позже →</button>
-    </div>
-  </div>
-
-  <!-- S7: Страховочная сеть -->
+  <!-- S7: Телеграм-подписка -->
   <div class="fn-screen" id="fn-s7">
-    <div style="max-width:580px;margin:0 auto;text-align:center;">
-      <p class="fn-step-tag">Не сейчас — и это окей</p>
-      <h2 class="fn-s7-title">Подпишись —<br><em>уроки бесплатно</em></h2>
-      <p class="fn-s7-body" id="fnS7Body"></p>
-      <a href="#" class="btn-plan">Подписаться на канал →</a>
+    <div style="max-width:560px;margin:0 auto;text-align:center;">
+      <p class="fn-step-tag">Хочешь больше?</p>
+      <h2 class="fn-h2" style="color:var(--cream);">Ежедневное погружение<br><em>в английский</em></h2>
+      <p class="fn-s7-body">Если хочешь получать такие знания каждый день — оформи подписку в закрытый Телеграм-канал.</p>
+      <div class="fn-s7-features">
+        <div class="fn-s7-feat"><span class="fn-s7-num">1</span>Видео с произношением и полезными конструкциями</div>
+        <div class="fn-s7-feat"><span class="fn-s7-num">2</span>Разбор статей из зарубежных журналов</div>
+        <div class="fn-s7-feat"><span class="fn-s7-num">3</span>Культурный контекст — почему британцы говорят именно так</div>
+      </div>
+      <a href="#" class="btn-plan">Оформить подписку →</a>
       <br>
       <button class="fn-s7-restart" onclick="location.reload()">Пройти тест заново</button>
     </div>
@@ -1166,8 +1151,7 @@ const FN_BG = {
   'fn-s3':'var(--green)',
   'fn-s4':'var(--white)',
   'fn-s5':'var(--brown)',
-  'fn-s6':'var(--green)',
-  'fn-s7':'var(--brown)',
+  'fn-s7':'var(--green)',
 };
 
 function fnShowScreen(id){
@@ -1499,75 +1483,58 @@ const FN_PROMPTS = {
   health:   {en:'Say: "I don\'t feel well. I need to see a doctor."', ru:'Скажите: «Мне плохо. Мне нужен врач.»'},
 };
 
-const FN_S6_BODY = {
-  travel:{
-    B1:'Ты уже попробовал — и это сработало. Курс «Бустим спикинг» продолжит именно это: реальные ситуации в аэропорту, отеле и кафе. Говоришь с первого урока.',
-    B2:'Ты уже говоришь — но хочешь больше беглости и уверенности в путешествиях. Курс даст конкретные фразы, конструкции и практику.',
-    C1:'Твой уровень высокий. Курс — для нюансов: как звучать по-настоящему естественно в любой ситуации за рубежом.',
-  },
-  business:{
-    B1:'Ты уже попробовал — и это сработало. Курс даст конкретные фразы для созвонов, встреч и деловой переписки. Говоришь по-деловому с первого урока.',
-    B2:'Ты уже общаешься — но хочешь звучать точнее и увереннее. Курс даст беглость, которая нужна на международных переговорах.',
-    C1:'Твой уровень высокий. Курс — для нюансов делового общения: тонкие конструкции, культурный контекст, переговорные стратегии.',
-  },
-  health:{
-    B1:'Ты уже попробовал — и это сработало. Курс даст конкретные фразы для любой медицинской ситуации за рубежом. Говоришь уверенно с первого урока.',
-    B2:'Ты уже говоришь — но у врача хочется больше уверенности. Курс закроет именно это: точная лексика и нужные конструкции.',
-    C1:'Твой уровень высокий. Курс — для точности: медицинская лексика, сложные описания симптомов, общение со специалистами.',
-  },
-};
+// ── FLASHCARDS ────────────────────────────────────────────────────────────────
+const FLASHCARDS = [
+  {word:'folk',       ipa:'/fəʊk/',          ru:'народ, люди',    note:'буква L не читается'},
+  {word:'foreign',    ipa:'/ˈfɒrɪn/',        ru:'иностранный',    note:'буква G не читается'},
+  {word:'luxury',     ipa:'/ˈlʌkʃəri/',      ru:'роскошь',        note:''},
+  {word:'luxurious',  ipa:'/lʌɡˈʒʊəriəs/',  ru:'роскошный',      note:''},
+  {word:'palm',       ipa:'/pɑːm/',           ru:'ладонь, пальма', note:'буква L не читается'},
+  {word:'calm',       ipa:'/kɑːm/',           ru:'спокойный',      note:'буква L не читается'},
+];
 
-let fnS5Timer = null;
-let fnS5TimeLeft = 30;
-let fnS5Running = false;
+let fnFcIdx = 0;
+let fnFcFlipped = false;
 
 function fnShowS5(){
-  const p = FN_PROMPTS[fnTheme]||FN_PROMPTS.travel;
-  document.getElementById('fnS5En').textContent = p.en;
-  document.getElementById('fnS5Ru').textContent = p.ru;
-  document.getElementById('fnS5PromptState').style.display = 'block';
-  document.getElementById('fnS5SuccessState').style.display = 'none';
-  document.getElementById('fnS5StartBtn').style.display = 'inline-block';
-  document.getElementById('fnS5DoneBtn').style.display = 'none';
-  fnS5TimeLeft = 30;
-  fnS5Running = false;
-  clearInterval(fnS5Timer);
-  document.getElementById('fnS5TimerNum').textContent = '30';
+  fnFcIdx = 0;
+  fnFcRender();
   fnShowScreen('fn-s5');
 }
 
-function fnS5Start(){
-  if(fnS5Running) return;
-  fnS5Running = true;
-  document.getElementById('fnS5StartBtn').style.display = 'none';
-  document.getElementById('fnS5DoneBtn').style.display = 'inline-block';
-  fnS5Timer = setInterval(()=>{
-    fnS5TimeLeft--;
-    document.getElementById('fnS5TimerNum').textContent = fnS5TimeLeft;
-    if(fnS5TimeLeft<=0){ clearInterval(fnS5Timer); fnS5Done(); }
-  },1000);
+function fnFcRender(){
+  const fc = FLASHCARDS[fnFcIdx];
+  const isLast = fnFcIdx === FLASHCARDS.length - 1;
+  fnFcFlipped = false;
+
+  document.getElementById('fnFcProgress').innerHTML =
+    FLASHCARDS.map((_,i)=>`<div class="fn-vid-pip${i<fnFcIdx?' done':i===fnFcIdx?' active':''}"></div>`).join('');
+
+  const card = document.getElementById('fnFcCard');
+  card.classList.remove('flipped');
+  document.getElementById('fnFcFront').innerHTML =
+    `<div class="fn-fc-word">${fc.word}</div>
+     <div class="fn-fc-tap">нажми чтобы перевернуть</div>`;
+  document.getElementById('fnFcBack').innerHTML =
+    `<div class="fn-fc-ipa">${fc.ipa}</div>
+     <div class="fn-fc-ru">${fc.ru}</div>
+     ${fc.note ? `<div class="fn-fc-note">${fc.note}</div>` : ''}`;
+
+  const btn = document.getElementById('fnFcNextBtn');
+  btn.style.display = 'none';
+  btn.textContent = isLast ? 'Готово →' : 'Следующее →';
+  btn.onclick = isLast ? ()=>fnShowScreen('fn-s7') : fnFcNext;
 }
 
-function fnS5Done(){
-  clearInterval(fnS5Timer);
-  fnS5Running = false;
-  document.getElementById('fnS5PromptState').style.display = 'none';
-  const th = themes[fnTheme]||themes.travel;
-  document.getElementById('fnS5WinMsg').textContent =
-    `Готово! Ты только что сказал свою первую фразу по-английски на тему «${th.label}». Это и есть начало.`;
-  document.getElementById('fnS5SuccessState').style.display = 'block';
+function fnFcFlip(){
+  const card = document.getElementById('fnFcCard');
+  card.classList.toggle('flipped');
+  fnFcFlipped = !fnFcFlipped;
+  if(fnFcFlipped) document.getElementById('fnFcNextBtn').style.display = 'inline-block';
 }
 
-function fnShowS6(){
-  const th = themes[fnTheme]||themes.travel;
-  const lv = fnLevel||{code:'B1'};
-  document.getElementById('fnS6Tag').textContent = `Уровень ${lv.code} · Тема: ${th.label}`;
-  document.getElementById('fnS6FeatTheme').textContent = `10 занятий по теме «${th.label}»`;
-  const lvCode = ['B1','B2','C1'].includes(lv.code) ? lv.code : 'B1';
-  document.getElementById('fnS6Body').textContent = (FN_S6_BODY[fnTheme]||FN_S6_BODY.travel)[lvCode]||'';
-  document.getElementById('fnS7Body').textContent =
-    `Подпишись на канал — каждую неделю короткий урок по теме «${th.label}». Бесплатно, без спама, только практика.`;
-  fnShowScreen('fn-s6');
+function fnFcNext(){
+  if(fnFcIdx < FLASHCARDS.length-1){ fnFcIdx++; fnFcRender(); }
 }
 
 function skipToA1(){
