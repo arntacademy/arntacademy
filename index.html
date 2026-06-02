@@ -1062,7 +1062,6 @@ function adShowResults(){
 
   const lvl=LEVELS.find(l=>l.code===code)||LEVELS[0];
   userLevel=lvl;
-  const correct=adAnswers.filter(a=>a.correct).length;
   document.getElementById('resLevel').textContent=lvl.code;
   document.getElementById('resName').textContent=lvl.name;
   document.getElementById('resScore').textContent=correct+' из '+AD_MAX+' правильных ответов';
