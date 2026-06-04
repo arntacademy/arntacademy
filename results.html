@@ -387,19 +387,19 @@ const FUNNEL_VIDEOS = [
   {
     title:'Clock',
     desc:'Интересная конструкция',
-    videos:['https://www.youtube.com/embed/871QP9eKakw'],
+    videos:['https://player.vimeo.com/video/1198404036'],
     examples:[],
   },
   {
     title:'Folk',
     desc:'Фишка произношения',
-    videos:['https://www.youtube.com/embed/jmuF__a7i5c'],
+    videos:['https://player.vimeo.com/video/1198405877'],
     examples:[],
   },
   {
     title:'Poignant & Luxury',
     desc:'Фишка произношения',
-    videos:['https://www.youtube.com/embed/GSod4T51ssQ','https://www.youtube.com/embed/pIRpXtxW6HQ'],
+    videos:['https://player.vimeo.com/video/1198406581','https://player.vimeo.com/video/1198406854'],
     note:'В этом шаге два видео. <strong>Poignant</strong> — слово посложнее, <strong>Luxury</strong> — попроще. Выбирайте сами, что хотите изучить сегодня — или смотрите оба.',
     examples:[],
   },
@@ -592,7 +592,7 @@ function scrollToTop(cb){
 
 function fnShowScreen(id){
   scrollToTop(function(){
-    // Убиваем YouTube iframes при уходе с S4 — иначе грузятся в фоне
+    // Убиваем iframes при уходе с S4 — иначе грузятся в фоне
     if(id !== 'fn-s4'){
       var w = document.getElementById('fnVidWrap');
       if(w) w.innerHTML = '';
@@ -645,7 +645,7 @@ function fnRenderVideo(){
   else { noteEl.style.display = 'none'; }
 
   const itemHtml = src => src
-    ? `<div class="fn-vid-item"><iframe src="${src}?rel=0&modestbranding=1" loading="lazy" allowfullscreen allow="autoplay"></iframe></div>`
+    ? `<div class="fn-vid-item"><iframe src="${src}?title=0&byline=0&portrait=0&dnt=1" loading="lazy" allowfullscreen allow="autoplay"></iframe></div>`
     : `<div class="fn-vid-item"><div class="fn-vid-placeholder">
         <div class="fn-vid-play"><svg width="16" height="16" viewBox="0 0 16 16" fill="var(--cream)"><polygon points="4,2 14,8 4,14"/></svg></div>
         <span class="fn-vid-ph-label">Видео будет здесь</span>
