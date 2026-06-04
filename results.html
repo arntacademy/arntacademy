@@ -215,7 +215,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
           <div class="level-point" data-lvl="C1"><div class="lp-dot"></div><div class="lp-code">C1</div><div class="lp-name">Продвинутый</div></div>
         </div>
       </div>
-      <button class="btn-plan" onclick="fnShowS4()">Давай прокачаем →</button>
+      <button class="btn-plan" onclick="fnNext('s2')">Давай прокачаем →</button>
     </div>
   </div>
 
@@ -239,7 +239,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
         </div>
       </div>
       <p class="fn-park-body" id="fnParkBody"></p>
-      <button class="btn-plan" onclick="fnShowS4()">Давай прокачаем →</button>
+      <button class="btn-plan" onclick="fnNext('s2')">Давай прокачаем →</button>
     </div>
   </div>
 
@@ -312,6 +312,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
         </div>
       </div>
       <button class="btn-plan" id="fnFcNextBtn" style="display:none;background:var(--cream);color:var(--brown);">Следующее →</button>
+    </div>
+  </div>
+
+  <!-- S2: Тизер урока -->
+  <div class="fn-screen" id="fn-s2">
+    <div style="max-width:520px;margin:0 auto;text-align:center;">
+      <p class="fn-step-tag">Программа готова</p>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,46px);font-weight:400;line-height:1.1;color:var(--cream);margin-bottom:40px;">Давай прокачаем<br><em>твой уровень</em></h2>
+      <p class="fn-s2-intro">Тебя ждут 3 шага — каждый с фишкой произношения или полезной конструкцией.</p>
+      <p class="fn-s2-task">Твоя задача — смотреть и пробовать применить. К каждому шагу будут примеры и задание на говорение.</p>
+      <button class="btn-plan" style="background:var(--cream);color:var(--brown);" onclick="fnShowS4()">Начать урок →</button>
     </div>
   </div>
 
@@ -558,6 +569,7 @@ let fnVidIdx = 0;
 
 const FN_BG = {
   'fn-s1':'var(--brown)','fn-s1b':'var(--brown)',
+  'fn-s2':'var(--green)',
   'fn-s3':'var(--green)',
   'fn-s4':'var(--white)',
   'fn-s5':'var(--brown)',
